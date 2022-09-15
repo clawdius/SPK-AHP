@@ -15,8 +15,6 @@ passport.use(
 
         db.query(query, credential, function(req, res) {
 
-            console.log(res)
-
             if (res.length == 1) {
                 var user = {
                     username: res[0].USERNAME,
