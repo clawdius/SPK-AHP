@@ -1,6 +1,11 @@
 const express = require('express');
+const session = require('express-session');
+const SQLiteSession = require('connect-sqlite3')(session)
+
 const app = express();
 const path = require('path');
+
+const passport = require('passport')
 
 //Start Server di port 8000
 app.listen(8000);
@@ -19,8 +24,21 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+//Setting Session
+app.use(session({
+    secret: 'YaAllahSeoyoungCantikBanget',
+    store: new SQLiteSession({ db: 'user_session.db' }),
+    cookie: { maxAge: 12 * 60 * 60 * 1000 },
+    resave: false,
+    saveUninitialized: false
+}));
+
+//Setting Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Database Connection
-require('./config-db')
+require('./config-app/config-db')
 
 //Routers
 app.use(require('./routers/router-default'))

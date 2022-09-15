@@ -4,93 +4,13 @@
 /*==============================================================*/
 
 
-alter table AKTIVITAS_REKRUTMEN 
-   drop foreign key FK_AKTIVITA_DAFTAR_AK_MASTER_R;
-
-alter table AKTIVITAS_REKRUTMEN 
-   drop foreign key FK_AKTIVITA_MENDAFTAR_MASTER_C;
-
-alter table BOBOT_KRITERIA 
-   drop foreign key FK_BOBOT_KR_DETAIL_KR_MASTER_K;
-
-alter table BOBOT_KRITERIA 
-   drop foreign key FK_BOBOT_KR_MEMILIKI__MASTER_R;
-
-alter table MASTER_KARYAWAN 
-   drop foreign key FK_MASTER_K_MENJABAT_MASTER_B;
-
-alter table MASTER_REKRUTMEN 
-   drop foreign key FK_MASTER_R_MENGADAKA_MASTER_B;
-
-alter table MASTER_REKRUTMEN 
-   drop foreign key FK_MASTER_R_OPERATOR_MASTER_K;
-
-alter table MASTER_REKRUTMEN 
-   drop foreign key FK_MASTER_R_PERMOHON_MASTER_K;
-
-alter table NILAI_CALON_KARYAWAN 
-   drop foreign key FK_NILAI_CA_MEMILIKI__AKTIVITA;
-
-alter table NILAI_CALON_KARYAWAN 
-   drop foreign key FK_NILAI_CA_NAMA_KRIT_MASTER_K;
-
-
-alter table AKTIVITAS_REKRUTMEN 
-   drop foreign key FK_AKTIVITA_DAFTAR_AK_MASTER_R;
-
-alter table AKTIVITAS_REKRUTMEN 
-   drop foreign key FK_AKTIVITA_MENDAFTAR_MASTER_C;
-
-drop table if exists AKTIVITAS_REKRUTMEN;
-
-
-alter table BOBOT_KRITERIA 
-   drop foreign key FK_BOBOT_KR_MEMILIKI__MASTER_R;
-
-alter table BOBOT_KRITERIA 
-   drop foreign key FK_BOBOT_KR_DETAIL_KR_MASTER_K;
-
-drop table if exists BOBOT_KRITERIA;
-
-drop table if exists MASTER_BAGIAN;
-
-drop table if exists MASTER_CALON_KARYAWAN;
-
-
-alter table MASTER_KARYAWAN 
-   drop foreign key FK_MASTER_K_MENJABAT_MASTER_B;
-
-drop table if exists MASTER_KARYAWAN;
-
-drop table if exists MASTER_KRITERIA;
-
-
-alter table MASTER_REKRUTMEN 
-   drop foreign key FK_MASTER_R_MENGADAKA_MASTER_B;
-
-alter table MASTER_REKRUTMEN 
-   drop foreign key FK_MASTER_R_OPERATOR_MASTER_K;
-
-alter table MASTER_REKRUTMEN 
-   drop foreign key FK_MASTER_R_PERMOHON_MASTER_K;
-
-drop table if exists MASTER_REKRUTMEN;
-
-
-alter table NILAI_CALON_KARYAWAN 
-   drop foreign key FK_NILAI_CA_MEMILIKI__AKTIVITA;
-
-alter table NILAI_CALON_KARYAWAN 
-   drop foreign key FK_NILAI_CA_NAMA_KRIT_MASTER_K;
-
-drop table if exists NILAI_CALON_KARYAWAN;
 
 /*==============================================================*/
 /* Table: AKTIVITAS_REKRUTMEN                                   */
 /*==============================================================*/
 create table AKTIVITAS_REKRUTMEN
 (
-   ID_AKTIVITAS         int not null  comment '',
+   ID_AKTIVITAS         int not null AUTO_INCREMENT comment '',
    ID_REKRUTMEN         varchar(20) not null  comment '',
    ID_CALON             int not null  comment '',
    TGL_DAFTAR           date not null  comment '',
@@ -113,7 +33,7 @@ create table BOBOT_KRITERIA
 /*==============================================================*/
 create table MASTER_BAGIAN
 (
-   ID_BAGIAN            int not null  comment '',
+   ID_BAGIAN            int not null AUTO_INCREMENT comment '',
    NAMA_BAGIAN          varchar(50) not null  comment '',
    primary key (ID_BAGIAN)
 );
@@ -123,7 +43,7 @@ create table MASTER_BAGIAN
 /*==============================================================*/
 create table MASTER_CALON_KARYAWAN
 (
-   ID_CALON             int not null  comment '',
+   ID_CALON             int not null AUTO_INCREMENT comment '',
    NAMA_CALON           varchar(255) not null  comment '',
    EMAIL                varchar(50) not null  comment '',
    PASSWORD             varchar(15) not null  comment '',
@@ -147,10 +67,11 @@ create table MASTER_CALON_KARYAWAN
 /*==============================================================*/
 create table MASTER_KARYAWAN
 (
-   ID_KARYAWAN          int not null  comment '',
+   ID_KARYAWAN          int not null AUTO_INCREMENT comment '',
    ID_BAGIAN            int not null  comment '',
    NAMA_KARYAWAN        varchar(255) not null  comment '',
    USERNAME             varchar(15) not null  comment '',
+   PASSWORD             varchar(15) not null  comment '',
    primary key (ID_KARYAWAN)
 );
 
@@ -159,7 +80,7 @@ create table MASTER_KARYAWAN
 /*==============================================================*/
 create table MASTER_KRITERIA
 (
-   ID_KRITERIA          int not null  comment '',
+   ID_KRITERIA          int not null AUTO_INCREMENT comment '',
    NAMA_KRITERIA        varchar(100) not null  comment '',
    KETERANGAN_KRITERIA  varchar(255)  comment '',
    primary key (ID_KRITERIA)
@@ -170,7 +91,7 @@ create table MASTER_KRITERIA
 /*==============================================================*/
 create table MASTER_REKRUTMEN
 (
-   ID_REKRUTMEN         varchar(20) not null  comment '',
+   ID_REKRUTMEN         varchar(20) not null comment '',
    ID_BAGIAN            int not null  comment '',
    ID_KARYAWAN          int  comment '',
    MAS_ID_KARYAWAN      int not null  comment '',
