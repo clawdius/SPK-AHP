@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('./config-db')
-const passport = require('passport')
+const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 //Validator
@@ -46,7 +46,7 @@ function authChecker(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.redirect('/login?error=noLogin');
+        res.redirect('/login?message=noLogin');
     }
 }
 

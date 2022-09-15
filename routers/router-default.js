@@ -19,7 +19,7 @@ router.route('/login')
     .get(function(req, res) {
         if (!req.isAuthenticated()) {
             res.render('login/hal_login', {
-                message: ''
+                message: req.query.message == 'noLogin' ? 'Silahkan Login Dahulu' : req.query.message == 'wrongCred' ? 'User Tidak Ditemukan' : ''
             })
         } else {
             res.redirect('/home')
@@ -27,7 +27,7 @@ router.route('/login')
     })
     .post(passport.authenticate('local', {
         successRedirect: '/home',
-        failureRedirect: '/login'
+        failureRedirect: '/login?message=wrongCred'
     }));
 
 router.route('/logout')
