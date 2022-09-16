@@ -1,0 +1,37 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4">Sidebar</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <% if(user.idBagian == 1){ %>
+            <li>
+                <a href="/home" class="nav-link <% if(sidebar == 'home'){ %> active <% } else { %> link-dark <% } %> mb-2">
+                    <i class="bi bi-house-fill me-2"></i> Home
+                </a>
+            </li>
+            <li>
+                <a href="/dashboard" class="nav-link <% if(sidebar == 'dashboard'){ %> active <% } else { %> link-dark <% } %> mb-2">
+                    <i class="bi bi-archive-fill me-2"></i> Dashboard
+                </a>
+            </li>
+            <% } else if(user.idBagian != 1) { %>
+                <li>
+                    <a href="/entrybobot" class="nav-link <% if(sidebar == 'entrybobot'){ %> active <% } else { %> link-dark <% } %>">
+                        <i class="bi bi-bar-chart-fill me-2"></i> Entry Bobot
+                    </a>
+                </li>
+                <% } %>
+    </ul>
+    <hr>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle me-2" style="font-size: 1.75em"></i>
+            <strong><%= user.nama %></strong>
+        </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+            <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+        </ul>
+    </div>
+</div>

@@ -18,6 +18,7 @@ passport.use(
             if (res.length == 1) {
                 var user = {
                     username: res[0].USERNAME,
+                    nama: res[0].NAMA_KARYAWAN,
                     idKaryawan: res[0].ID_KARYAWAN,
                     idBagian: res[0].ID_BAGIAN
                 }

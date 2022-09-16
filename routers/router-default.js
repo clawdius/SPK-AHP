@@ -43,7 +43,30 @@ router.group(auth.authChecker, router => {
 
     router.route('/home')
         .get(function(req, res) {
-            res.send(req.user);
+            if (req.user.idBagian == 1) {
+                res.render('home/rekrutmen/home', {
+                    user: req.user,
+                    sidebar: 'home'
+                });
+            } else {
+                res.redirect('/entrybobot');
+            }
+        });
+
+    router.route('/dashboard')
+        .get(function(req, res) {
+            res.render('home/rekrutmen/dashboard', {
+                user: req.user,
+                sidebar: 'dashboard'
+            });
+        });
+
+    router.route('/entrybobot')
+        .get(function(req, res) {
+            res.render('home/hrd/entrybobot', {
+                user: req.user,
+                sidebar: 'entrybobot'
+            });
         });
 
 })
