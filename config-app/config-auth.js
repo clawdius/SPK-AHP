@@ -41,6 +41,7 @@ passport.deserializeUser(function(user, done) {
     return done(null, user)
 });
 
+//Pengecekan Login apa belum
 function authChecker(req, res, next) {
     if (req.isAuthenticated()) {
         next();
@@ -49,6 +50,18 @@ function authChecker(req, res, next) {
     }
 }
 
+//Pengecekan role
+function roleCheck(allowed) {
+    return function(req, res, next) {
+        if (allowed.includes(req.user.idBagian)) {
+            next();
+        } else {
+            res.redirect('/login')
+        }
+    }
+}
+
 module.exports = {
-    authChecker
+    authChecker,
+    roleCheck
 }

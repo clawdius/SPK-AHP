@@ -1,3 +1,5 @@
 node_modules/
 user_session.db
 
+assets/asset-app/*.jpg
+

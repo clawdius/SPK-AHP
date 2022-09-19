@@ -1,11 +1,16 @@
-const e = require('express');
 const express = require('express');
+const app = express();
 const passport = require('passport');
 const router = express.Router();
 
+const fs = require('fs')
+
+const uploader = require('../config-app/config-uploader')
 const auth = require('../config-app/config-auth')
 
-const controller = require('../controller/controller-login')
+//Controller yang dipakai
+const controller = require('../controller/controller-login');
+const controller_register = require('../controller/controller-register');
 
 //Group Router
 require('express-router-group');
@@ -22,11 +27,18 @@ router.route('/login')
                 message: req.query.message == 'noLogin' ? 'Silahkan Login Dahulu' : req.query.message == 'wrongCred' ? 'User Tidak Ditemukan' : ''
             })
         } else {
-            res.redirect('/pembukalowongan')
+            switch (req.user.idBagian) {
+                case 1:
+                    res.redirect('/bukalowongan');
+                    break;
+                default:
+                    res.redirect('/entrybobot');
+                    break;
+            }
         }
     })
     .post(passport.authenticate('local', {
-        successRedirect: '/pembukalowongan',
+        successRedirect: '/login',
         failureRedirect: '/login?message=wrongCred'
     }));
 
@@ -34,51 +46,25 @@ router.route('/logout')
     .get(function(req, res) {
         req.logout(function() {
             req.session.destroy(function(err) {
-                res.redirect('/')
+                res.redirect('/');
             })
         })
     })
 
-router.group(auth.authChecker, router => {
+router.route('/logincalon')
+    .get(function(req, res) {
+        res.render('hal_aplikasi/masuk_calon/hal_masuk_calon');
+    });
 
-    router.route('/pembukalowongan')
-        .get(function(req, res) {
-            if (req.user.idBagian == 1) {
-                res.render('hal_aplikasi/pembukalowongan/hal_pembukalowongan', {
-                    user: req.user,
-                    sidebar: 'pembukalowongan'
-                });
-            } else {
-                res.redirect('/entrybobot');
-            }
-        });
-
-    router.route('/peserta')
-        .get(function(req, res) {
-            res.render('hal_aplikasi/peserta/hal_peserta', {
-                user: req.user,
-                sidebar: 'peserta'
-            });
-        });
-    
-    router.route('/laporan')
-        .get(function(req, res) {
-            res.render('hal_aplikasi/laporan/hal_laporan', {
-                user: req.user,
-                sidebar: 'laporan'
-            });
-        });
-
-    router.route('/entrybobot')
-        .get(function(req, res) {
-            res.render('hal_aplikasi/entrybobot/hal_entrybobot', {
-                user: req.user,
-                sidebar: 'entrybobot'
-            });
-        });
-
-})
-
-
+router.route('/registercalon')
+    .get(function(req, res) {
+        res.render('hal_aplikasi/isi_dataCalon/hal_isi_dataCalon', {
+            tgl_max: controller_register.findToday()
+        })
+    })
+    .post(uploader.single('foto_ktp'), async function(req, res) {
+        await controller_register.daftarBaru(req.body);
+        res.redirect('/login');
+    });
 
 module.exports = router;

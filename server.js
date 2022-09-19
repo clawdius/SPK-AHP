@@ -42,7 +42,9 @@ app.use(passport.session());
 require('./config-app/config-db')
 
 //Routers
-app.use(require('./routers/router-default'))
+app.use(require('./routers/router-default'));
+app.use(require('./routers/router-rekrutmen'));
+app.use(require('./routers/router-bagian'));
 
 //404
 app.use(function(req, res) {
