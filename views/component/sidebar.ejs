@@ -7,13 +7,18 @@
     <ul class="nav nav-pills flex-column mb-auto">
         <% if(user.idBagian == 1){ %>
             <li>
-                <a href="/home" class="nav-link <% if(sidebar == 'home'){ %> active <% } else { %> link-dark <% } %> mb-2">
-                    <i class="bi bi-house-fill me-2"></i> Home
+                <a href="/pembukalowongan" class="nav-link <% if(sidebar == 'pembukalowongan'){ %> active <% } else { %> link-dark <% } %> mb-2">
+                    <i class="bi bi-briefcase-fill me-2"></i> Pembukaan Lowongan
                 </a>
             </li>
             <li>
-                <a href="/dashboard" class="nav-link <% if(sidebar == 'dashboard'){ %> active <% } else { %> link-dark <% } %> mb-2">
-                    <i class="bi bi-archive-fill me-2"></i> Dashboard
+                <a href="/peserta" class="nav-link <% if(sidebar == 'peserta'){ %> active <% } else { %> link-dark <% } %> mb-2">
+                    <i class="bi bi-people-fill me-2"></i> Peserta Tes
+                </a>
+            </li>
+            <li>
+                <a href="/laporan" class="nav-link <% if(sidebar == 'laporan'){ %> active <% } else { %> link-dark <% } %> mb-2">
+                    <i class="bi bi-clipboard-check-fill me-2"></i> Laporan
                 </a>
             </li>
             <% } else if(user.idBagian != 1) { %>

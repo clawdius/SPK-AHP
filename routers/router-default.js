@@ -22,11 +22,11 @@ router.route('/login')
                 message: req.query.message == 'noLogin' ? 'Silahkan Login Dahulu' : req.query.message == 'wrongCred' ? 'User Tidak Ditemukan' : ''
             })
         } else {
-            res.redirect('/home')
+            res.redirect('/pembukalowongan')
         }
     })
     .post(passport.authenticate('local', {
-        successRedirect: '/home',
+        successRedirect: '/pembukalowongan',
         failureRedirect: '/login?message=wrongCred'
     }));
 
@@ -41,29 +41,37 @@ router.route('/logout')
 
 router.group(auth.authChecker, router => {
 
-    router.route('/home')
+    router.route('/pembukalowongan')
         .get(function(req, res) {
             if (req.user.idBagian == 1) {
-                res.render('home/rekrutmen/home', {
+                res.render('hal_aplikasi/pembukalowongan/hal_pembukalowongan', {
                     user: req.user,
-                    sidebar: 'home'
+                    sidebar: 'pembukalowongan'
                 });
             } else {
                 res.redirect('/entrybobot');
             }
         });
 
-    router.route('/dashboard')
+    router.route('/peserta')
         .get(function(req, res) {
-            res.render('home/rekrutmen/dashboard', {
+            res.render('hal_aplikasi/peserta/hal_peserta', {
                 user: req.user,
-                sidebar: 'dashboard'
+                sidebar: 'peserta'
+            });
+        });
+    
+    router.route('/laporan')
+        .get(function(req, res) {
+            res.render('hal_aplikasi/laporan/hal_laporan', {
+                user: req.user,
+                sidebar: 'laporan'
             });
         });
 
     router.route('/entrybobot')
         .get(function(req, res) {
-            res.render('home/hrd/entrybobot', {
+            res.render('hal_aplikasi/entrybobot/hal_entrybobot', {
                 user: req.user,
                 sidebar: 'entrybobot'
             });
