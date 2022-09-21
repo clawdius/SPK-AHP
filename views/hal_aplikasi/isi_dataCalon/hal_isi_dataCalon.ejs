@@ -113,6 +113,9 @@
     </section>
 </body>
 <script>
+    let emailCheck;
+    let nikCheck;
+
     function chkSekolah(element) {
         document.getElementById('div_sekolahCalon').style.display = "";
         document.getElementById('div_jurusanCalon').style.display = "";
@@ -143,9 +146,6 @@
             element.value = element.max;
         }
     }
-
-    let emailCheck;
-    let nikCheck;
 
     function cekNIK(element) {
         if (element.value) {
