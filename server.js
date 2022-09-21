@@ -45,6 +45,7 @@ require('./config-app/config-db')
 app.use(require('./routers/router-default'));
 app.use(require('./routers/router-rekrutmen'));
 app.use(require('./routers/router-bagian'));
+app.use(require('./routers/router-calonkry'));
 
 //404
 app.use(function(req, res) {

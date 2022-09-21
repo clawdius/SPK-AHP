@@ -59,11 +59,13 @@ router.route('/logincalon')
 router.route('/registercalon')
     .get(function(req, res) {
         res.render('hal_aplikasi/isi_dataCalon/hal_isi_dataCalon', {
-            tgl_max: controller_register.findToday()
+            tgl_max: controller_register.findToday(),
+            thn_max: controller_register.findYear()
         })
     })
     .post(uploader.single('foto_ktp'), async function(req, res) {
-        await controller_register.daftarBaru(req.body);
+        insertedId = await controller_register.daftarBaru(req.body);
+        console.log(insertedId);
         res.redirect('/login');
     });
 

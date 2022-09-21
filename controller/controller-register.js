@@ -1,12 +1,17 @@
 const db = require('../config-app/config-db')
 require('express')
 
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+
 function findToday() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
     return yyyy + '-' + mm + '-' + dd;
+}
+
+function findYear() {
+    return yyyy;
 }
 
 async function daftarBaru(data) {
@@ -33,10 +38,13 @@ async function daftarBaru(data) {
 
     let res = await db.promise().query(query, dataRefactored)
 
-    return res[0];
+    //console.log(res[0]['insertId']);
+
+    return res[0]['insertId'];
 }
 
 module.exports = {
     findToday,
-    daftarBaru
+    daftarBaru,
+    findYear
 }
