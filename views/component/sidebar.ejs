@@ -21,13 +21,19 @@
                     <i class="bi bi-clipboard-check-fill me-2"></i> Laporan
                 </a>
             </li>
-            <% } else if(user.idBagian != 1) { %>
+            <% } else if(user.idBagian != 1 && user.idBagian != null) { %>
                 <li>
                     <a href="/entrybobot" class="nav-link <% if(sidebar == 'entrybobot'){ %> active <% } else { %> link-dark <% } %>">
                         <i class="bi bi-bar-chart-fill me-2"></i> Entry Bobot
                     </a>
                 </li>
-                <% } %>
+                <% } else if (!user.idBagian){%>
+                    <li>
+                        <a href="/home" class="nav-link <% if(sidebar == 'home'){ %> active <% } else { %> link-dark <% } %>">
+                            <i class="bi bi-house-door-fill me-2"></i> Home
+                        </a>
+                    </li>
+                    <%}%>
     </ul>
     <hr>
     <div class="dropdown">

@@ -43,8 +43,26 @@ async function daftarBaru(data) {
     return res[0]['insertId'];
 }
 
+async function checkNIK(NIK) {
+    let query = "SELECT FILE_NIK FROM MASTER_CALON_KARYAWAN WHERE FILE_NIK = ?"
+
+    let res = await db.promise().query(query, NIK)
+
+    return res[0][0] ? res[0][0] : { FILE_NIK: null };
+}
+
+async function checkEmail(email) {
+    let query = "SELECT EMAIL FROM MASTER_CALON_KARYAWAN WHERE EMAIL = ?"
+
+    let res = await db.promise().query(query, email)
+
+    return res[0][0] ? res[0][0] : { EMAIL: null };
+}
+
 module.exports = {
     findToday,
     daftarBaru,
-    findYear
+    findYear,
+    checkNIK,
+    checkEmail
 }

@@ -30,7 +30,7 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">NIK Calon Karyawan</label>
                                     <div class="d-flex flex-row w-100">
-                                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control me-2" name="NIK" required>
+                                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); cekNIK(this);" class="form-control me-2" name="NIK" required>
                                         <input class="form-control" name="foto_ktp" type="file" id="formFile" required>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                 </div>
 
                                 <div class="form-outline mb-4" id="div_sekolahCalon" style="display: none;">
-                                    <label class="form-label ms-1" for="form2Example17">Nama Sekolah</label>
+                                    <label class="form-label ms-1" for="form2Example17" id="namaIns">Nama Sekolah</label>
                                     <input type="text" name="sekolahCalon" class="form-control me-2" required>
                                 </div>
 
@@ -92,7 +92,7 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">Email Calon Karyawan</label>
-                                    <input type="email" name="emailCalon" class="form-control" placeholder="john@domain.com" required>
+                                    <input type="email" oninput="cekEMAIL(this)" name="emailCalon" class="form-control" placeholder="john@domain.com" required>
                                 </div>
 
                                 <div class="form-outline mb-4">
@@ -101,8 +101,8 @@
                                 </div>
 
                                 <div class="pt-1 mb-4 d-flex align-items-center">
-                                    <button class="btn btn-dark btn-lg btn-block" type="submit">Daftar</button>
-                                    <p class="ms-4 mb-0" style="color: #080808; display: none;">Terdapat akun yang memiliki NIK/Email yang sama, <a href="/registercalon" style="color: #393f81;">Masuk disini</a></p>
+                                    <button class="btn btn-dark btn-lg btn-block" id="btnDaftar" type="submit">Daftar</button>
+                                    <p class="ms-4 mb-0" id="btnLogin" style="color: #080808; display: none;">Terdapat akun yang memiliki NIK/Email yang sama, <a href="/registercalon" style="color: #393f81;">Masuk disini</a></p>
                                 </div>
                             </form>
                         </div>
@@ -113,18 +113,23 @@
     </section>
 </body>
 <script>
-
-    function chkSekolah(element){
+    function chkSekolah(element) {
         document.getElementById('div_sekolahCalon').style.display = "";
         document.getElementById('div_jurusanCalon').style.display = "";
         let jns_sekolah = element.options[element.selectedIndex].getAttribute('data-val');
-        if(jns_sekolah == 0){
+        if (jns_sekolah == 0) {
+
+            document.getElementById('namaIns').innerHTML = 'Nama Sekolah'
+
             document.getElementById('div_fakultasCalon').style.display = "none";
             document.getElementById("fakultasCalon").required = false;
 
             document.getElementById('div_ipkCalon').style.display = "none";
             document.getElementById("ipkCalon").required = false;
         } else {
+
+            document.getElementById('namaIns').innerHTML = 'Nama Universitas'
+
             document.getElementById('div_fakultasCalon').style.display = "";
             document.getElementById("fakultasCalon").required = true;
 
@@ -133,10 +138,70 @@
         }
     }
 
-    function set_max(element){
-        if(parseInt(element.value) > element.max){
+    function set_max(element) {
+        if (parseInt(element.value) > element.max) {
             element.value = element.max;
         }
     }
+
+    let emailCheck;
+    let nikCheck;
+
+    function cekNIK(element) {
+        if (element.value) {
+            const url = "/check/NIK";
+            const nik = element.value;
+
+            $.ajax({
+                url: url,
+                data: {
+                    'nik': nik
+                },
+                success: function(data) {
+                    if (data.FILE_NIK != null) {
+                        nikCheck = data.FILE_NIK;
+                    } else {
+                        nikCheck = null;
+                    }
+                    hideElement();
+                },
+                method: 'post'
+            });
+        }
+    }
+
+    function cekEMAIL(element) {
+        if (element.value) {
+            const url = "/check/EMAIL";
+            const email = element.value;
+
+            $.ajax({
+                url: url,
+                data: {
+                    'email': email
+                },
+                success: function(data) {
+                    if (data.EMAIL != null) {
+                        emailCheck = data.EMAIL;
+                    } else {
+                        emailCheck = null;
+                    }
+                    hideElement();
+                },
+                method: 'post'
+            });
+        }
+    }
+
+    function hideElement() {
+        if (emailCheck != null || nikCheck != null) {
+            document.getElementById('btnDaftar').style.display = "none";
+            document.getElementById('btnLogin').style.display = "";
+        } else {
+            document.getElementById('btnDaftar').style.display = "";
+            document.getElementById('btnLogin').style.display = "none";
+        }
+    }
 </script>
+
 </html>

@@ -4,7 +4,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 //Validator
-passport.use(
+passport.use('karyawan-local',
     new LocalStrategy({
         usernameField: 'id_pengguna',
         passwordField: 'password_pengguna',
@@ -21,6 +21,35 @@ passport.use(
                     nama: res[0].NAMA_KARYAWAN,
                     idKaryawan: res[0].ID_KARYAWAN,
                     idBagian: res[0].ID_BAGIAN
+                }
+
+                done(null, user);
+            } else {
+                done(null, false)
+            }
+
+        })
+
+    })
+);
+
+passport.use('calon-local',
+    new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+    }, function(username, password, done) {
+
+        let query = "SELECT * FROM MASTER_CALON_KARYAWAN WHERE EMAIL = ? AND PASSWORD = ?";
+        const credential = [username, password]
+
+        db.query(query, credential, function(req, res) {
+
+
+            if (res.length == 1) {
+                var user = {
+                    email: res[0].EMAIL,
+                    nama: res[0].NAMA_CALON,
+                    idCalon: res[0].ID_CALON
                 }
 
                 done(null, user);
