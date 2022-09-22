@@ -3,15 +3,13 @@
 /* Created on:     15/09/2022 21:30:01                          */
 /*==============================================================*/
 
-
-
 /*==============================================================*/
 /* Table: AKTIVITAS_REKRUTMEN                                   */
 /*==============================================================*/
 create table AKTIVITAS_REKRUTMEN
 (
    ID_AKTIVITAS         int not null AUTO_INCREMENT comment '',
-   ID_REKRUTMEN         varchar(20) not null  comment '',
+   ID_REKRUTMEN         int not null  comment '',
    ID_CALON             int not null  comment '',
    TGL_DAFTAR           date not null  comment '',
    primary key (ID_AKTIVITAS)
@@ -22,7 +20,7 @@ create table AKTIVITAS_REKRUTMEN
 /*==============================================================*/
 create table BOBOT_KRITERIA
 (
-   ID_REKRUTMEN         varchar(20) not null  comment '',
+   ID_REKRUTMEN         int not null  comment '',
    ID_KRITERIA          int not null  comment '',
    BOBOT                int not null  comment '',
    primary key (ID_REKRUTMEN, ID_KRITERIA)
@@ -91,10 +89,10 @@ create table MASTER_KRITERIA
 /*==============================================================*/
 create table MASTER_REKRUTMEN
 (
-   ID_REKRUTMEN         varchar(20) not null comment '',
+   ID_REKRUTMEN         int not null AUTO_INCREMENT comment '',
    ID_BAGIAN            int not null  comment '',
    ID_KARYAWAN          int  comment '',
-   MAS_ID_KARYAWAN      int not null  comment '',
+   OPERATOR	      		int not null  comment '',
    TGL_MULAI            date not null  comment '',
    TGL_SELESAI          date not null  comment '',
    TGL_TES              date not null  comment '',
@@ -134,7 +132,7 @@ alter table MASTER_REKRUTMEN add constraint FK_MASTER_R_MENGADAKA_MASTER_B forei
 alter table MASTER_REKRUTMEN add constraint FK_MASTER_R_OPERATOR_MASTER_K foreign key (ID_KARYAWAN)
       references MASTER_KARYAWAN (ID_KARYAWAN) on delete restrict on update restrict;
 
-alter table MASTER_REKRUTMEN add constraint FK_MASTER_R_PERMOHON_MASTER_K foreign key (MAS_ID_KARYAWAN)
+alter table MASTER_REKRUTMEN add constraint FK_MASTER_R_PERMOHON_MASTER_K foreign key (OPERATOR)
       references MASTER_KARYAWAN (ID_KARYAWAN) on delete restrict on update restrict;
 
 alter table NILAI_CALON_KARYAWAN add constraint FK_NILAI_CA_MEMILIKI__AKTIVITA foreign key (ID_AKTIVITAS)

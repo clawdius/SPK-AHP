@@ -4,7 +4,8 @@ const router = express.Router();
 
 const auth = require('../config-app/config-auth')
 
-const controller = require('../controller/controller-login')
+const controller_rekrutmen = require('../controller/controller-rekrutmen');
+const controller_global = require('../controller/controller-global');
 
 //List Router yang boleh dipake rekrutmen
 router.group([auth.authChecker], async router => {
@@ -20,11 +21,27 @@ router.group([auth.authChecker], async router => {
     }
 
     router.route('/bukalowongan')
-        .get(auth.roleCheck(await allowed()), function(req, res) {
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
             res.render('hal_aplikasi/pembukalowongan/hal_pembukalowongan', {
                 user: req.user,
+                daftarBagian: await controller_rekrutmen.daftarBagian(),
                 sidebar: 'bukalowongan'
             });
+        });
+
+    router.route('/bukalowongan/tambah/:IDBAGIAN')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            res.render('hal_aplikasi/pembukalowongan/tambahlowongan/hal_tambahlowongan', {
+                user: req.user,
+                daftarKar: await controller_rekrutmen.karyawanBagian(req.params.IDBAGIAN),
+                detailBagian: await controller_rekrutmen.detailBagian(req.params.IDBAGIAN),
+                dateNow: controller_global.findToday(),
+                sidebar: 'bukalowongan'
+            });
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            await controller_rekrutmen.tambahRekrutmen(req.body);
+            res.redirect('/bukalowongan');
         });
 
     router.route('/peserta')

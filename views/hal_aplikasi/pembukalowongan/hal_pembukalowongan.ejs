@@ -1,5 +1,42 @@
 <%- include('../../component/head') %>
 
-    <h1>Halo Dashboard</h1>
+    <div class="d-flex flex-column h-100">
+        <div class="card h-100">
+            <div class="card-header">
+                Status Lowongan
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover" data-pagination="true" data-search="true" data-toggle="table" data-locale="id-ID" data-pagination-parts='[pageInfo, pageList]' data-buttons="table-buttons">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-sortable="true">No</th>
+                            <th scope="col" data-sortable="true">Nama Bagian</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let no = 1; for(data of daftarBagian){ %>
+                            <tr>
+                                <td>
+                                    <%= no %>
+                                </td>
+                                <td>
+                                    <%= data.NAMA_BAGIAN %>
+                                </td>
+                                <td>
+                                    N/A
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" href="/bukalowongan/tambah/<%= data.ID_BAGIAN %>"> <span><i class="bi bi-unlock-fill me-2"></i></span>Buka Lowongan</a>
+                                </td>
+                            </tr>
+                            <% no++; } %>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
 
     <%- include('../../component/footer') %>

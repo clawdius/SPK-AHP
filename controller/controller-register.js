@@ -1,19 +1,6 @@
 const db = require('../config-app/config-db')
 require('express')
 
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0');
-var yyyy = today.getFullYear();
-
-function findToday() {
-    return yyyy + '-' + mm + '-' + dd;
-}
-
-function findYear() {
-    return yyyy;
-}
-
 async function daftarBaru(data) {
 
     let dataRefactored = [
@@ -28,8 +15,8 @@ async function daftarBaru(data) {
         data.jurusanCalon,
         data.ipkCalon,
         data.lulusCalon,
-        data.emailCalon,
-        data.passwordCalon
+        data.email,
+        data.password
     ]
 
     let query = "INSERT INTO MASTER_CALON_KARYAWAN " +
@@ -60,9 +47,7 @@ async function checkEmail(email) {
 }
 
 module.exports = {
-    findToday,
     daftarBaru,
-    findYear,
     checkNIK,
     checkEmail
 }

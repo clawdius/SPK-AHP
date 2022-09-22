@@ -1,0 +1,83 @@
+<%- include('../../../component/head') %>
+
+    <div class="d-flex flex-column h-100">
+        <div class="card h-100">
+            <div class="card-header">
+                Buka lowongan Bagian
+                <%= detailBagian.NAMA_BAGIAN %>
+            </div>
+            <div class="card-body">
+                <form class="col-6" method="post">
+                    <div class="row">
+                        <input type="hidden" name="idBagian" value="<%= detailBagian.ID_BAGIAN %>">
+                        <div class="form-outline mb-4">
+                            <label class="form-label ms-1" for="form2Example17">Tanggal pendaftaran dibuka</label>
+                            <input type="date" class="form-control" min="<%= dateNow %>" onchange="setdateMax(this); setdateMinMax();" id="tanggalPend1" name="tanggalPend1" required>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label class="form-label ms-1" for="form2Example17">Tanggal pendaftaran ditutup</label>
+                            <input type="date" class="form-control" onchange="setdateMinMax();" id="tanggalPend2" name="tanggalPend2" disabled required>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label class="form-label ms-1" for="form2Example17">Tanggal tes</label>
+                            <input type="date" class="form-control" id="tanggalTes" name="tanggalTes" disabled required>
+                        </div>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="form2Example17">Pemohon</label>
+                        <select class="form-select" name="karyawanDaftar" id="karyawanDaftar">
+                            <option value="" style="display: none;" selected>Pilih karyawan</option>
+                            <% for(data of daftarKar){ %>
+                                <option value="<%= data.ID_KARYAWAN %>"><%= data.NAMA_KARYAWAN %></option>
+                                <%}%>
+                        </select>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <div class="row">
+                            <label class="form-label ms-1" for="form2Example17">Operator</label>
+                            <div class="col-6">
+                                <input type="text" class="form-control" name="operator" value="<%= user.nama %>" disabled required>
+                                <input type="hidden" name="operatorId" value="<%= user.idKaryawan %>" required>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <input type="submit" class="btn btn-primary w-50" value="Buka" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setdateMinMax() {
+            let val1 = document.getElementById('tanggalPend1').value;
+            let val2 = document.getElementById('tanggalPend2').value;
+
+            var endDate = new Date(val2);
+            endDate.setDate(endDate.getDate() + 1);
+
+            var endDateFormatted = endDate.getFullYear() + "-" +
+                ((endDate.getMonth() + 1) < 10 ? ("0" + (endDate.getMonth() + 1)) : (endDate.getMonth() + 1)) + "-" +
+                (endDate.getDate() < 10 ? ("0" + endDate.getDate()) : endDate.getDate());
+
+            if (val1 != '' && val2 != '') {
+                document.getElementById('tanggalTes').min = endDateFormatted;
+                document.getElementById('tanggalTes').disabled = false;
+            } else {
+                document.getElementById('tanggalTes').disabled = true;
+            }
+        }
+
+        function setdateMax(element) {
+            document.getElementById('tanggalPend2').min = element.value;
+            console.log(element.value);
+            if (element.value == '') {
+                document.getElementById('tanggalPend2').disabled = true;
+            } else {
+                document.getElementById('tanggalPend2').disabled = false;
+            }
+        }
+    </script>
+
+    <%- include('../../../component/footer') %>

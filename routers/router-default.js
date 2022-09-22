@@ -9,8 +9,8 @@ const uploader = require('../config-app/config-uploader')
 const auth = require('../config-app/config-auth')
 
 //Controller yang dipakai
-const controller_login = require('../controller/controller-login');
 const controller_register = require('../controller/controller-register');
+const controller_global = require('../controller/controller-global');
 
 //Group Router
 require('express-router-group');
@@ -90,13 +90,13 @@ router.route('/logincalon')
 router.route('/registercalon')
     .get(function(req, res) {
         res.render('hal_aplikasi/isi_dataCalon/hal_isi_dataCalon', {
-            tgl_max: controller_register.findToday(),
-            thn_max: controller_register.findYear()
+            tgl_max: controller_global.findToday(),
+            thn_max: controller_global.findYear()
         })
     })
     .post(uploader.single('foto_ktp'), async function(req, res) {
         insertedId = await controller_register.daftarBaru(req.body);
-        passport.authenticate('calon-local-autoLogin')(req, res, function () {
+        passport.authenticate('calon-local')(req, res, function() {
             res.redirect('/logincalon');
         });
     });

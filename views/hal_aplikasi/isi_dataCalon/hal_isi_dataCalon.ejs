@@ -91,12 +91,12 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">Email Calon Karyawan</label>
-                                    <input type="email" oninput="cekEMAIL(this)" name="emailCalon" class="form-control" placeholder="john@domain.com" required>
+                                    <input type="email" oninput="cekEMAIL(this)" name="email" class="form-control" placeholder="john@domain.com" required>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example27">Password</label>
-                                    <input type="text" name="passwordCalon" id="form2Example27" class="form-control" required>
+                                    <input type="text" name="password" id="form2Example27" class="form-control" required>
                                 </div>
 
                                 <div class="pt-1 mb-4 d-flex align-items-center">
@@ -115,10 +115,9 @@
     let emailCheck;
     let nikCheck;
 
-    function fileCheck(element){
+    function fileCheck(element) {
         var ext = element.value.match(/\.(.+)$/)[1];
-        switch(ext)
-        {
+        switch (ext) {
             case 'jpg':
             case 'bmp':
             case 'png':
@@ -126,7 +125,7 @@
                 break;
             default:
                 alert('File format tidak didukung');
-                element.value='';
+                element.value = '';
         }
     }
 

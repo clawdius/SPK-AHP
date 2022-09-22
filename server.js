@@ -14,7 +14,9 @@ app.listen(8000);
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap-icons/font')));
+app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap-table/dist')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap-table/dist')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
 //Set View Engine
