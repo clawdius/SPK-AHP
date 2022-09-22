@@ -96,7 +96,9 @@ router.route('/registercalon')
     })
     .post(uploader.single('foto_ktp'), async function(req, res) {
         insertedId = await controller_register.daftarBaru(req.body);
-        res.redirect('/logincalon');
+        passport.authenticate('calon-local-autoLogin')(req, res, function () {
+            res.redirect('/home');
+        });
     });
 
 router.route('/check/NIK')
