@@ -96,7 +96,7 @@ create table MASTER_REKRUTMEN
    TGL_MULAI            date not null  comment '',
    TGL_SELESAI          date not null  comment '',
    TGL_TES              date not null  comment '',
-   STAT_PENGISIAN_BOBOT varchar(1) not null  comment '',
+   STAT_REKRUTMEN		varchar(1) not null  comment '',
    primary key (ID_REKRUTMEN)
 );
 
