@@ -21,7 +21,6 @@
                         <div class="card-body p-4 p-lg-5 text-black">
 
                             <form method='post' enctype="multipart/form-data">
-
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">Nama Calon Karyawan</label>
                                     <input type="text" class="form-control" name="namaCalon" required>
@@ -30,8 +29,8 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">NIK Calon Karyawan</label>
                                     <div class="d-flex flex-row w-100">
-                                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); cekNIK(this);" class="form-control me-2" name="NIK" required>
-                                        <input class="form-control" name="foto_ktp" type="file" id="formFile" required>
+                                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); cekNIK(this);" class="form-control me-2" name="NIK" maxlength="16" pattern="[0-9]{16}" title="Panjang nomor NIK harus 16" required>
+                                        <input class="form-control" name="foto_ktp" type="file" onchange="fileCheck(this);" id="formFile" accept="image/png, image/jpeg" required>
                                     </div>
                                 </div>
 
@@ -101,8 +100,8 @@
                                 </div>
 
                                 <div class="pt-1 mb-4 d-flex align-items-center">
-                                    <button class="btn btn-dark btn-lg btn-block" id="btnDaftar" type="submit">Daftar</button>
-                                    <p class="ms-4 mb-0" id="btnLogin" style="color: #080808; display: none;">Terdapat akun yang memiliki NIK/Email yang sama, <a href="/registercalon" style="color: #393f81;">Masuk disini</a></p>
+                                    <input class="btn btn-dark btn-lg btn-block" id="btnDaftar" type="submit" value="Daftar">
+                                    <p class="mb-0" id="btnLogin" style="color: #080808; display: none;">Terdapat akun yang memiliki NIK/Email yang sama, <a href="/registercalon" style="color: #393f81;">Masuk disini</a></p>
                                 </div>
                             </form>
                         </div>
@@ -115,6 +114,21 @@
 <script>
     let emailCheck;
     let nikCheck;
+
+    function fileCheck(element){
+        var ext = element.value.match(/\.(.+)$/)[1];
+        switch(ext)
+        {
+            case 'jpg':
+            case 'bmp':
+            case 'png':
+            case 'tif':
+                break;
+            default:
+                alert('File format tidak didukung');
+                element.value='';
+        }
+    }
 
     function chkSekolah(element) {
         document.getElementById('div_sekolahCalon').style.display = "";
