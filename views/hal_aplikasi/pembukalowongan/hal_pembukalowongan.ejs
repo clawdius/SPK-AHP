@@ -2,16 +2,13 @@
 
     <div class="d-flex flex-column h-100">
         <div class="card h-100">
-            <div class="card-header">
-                Status Lowongan
-            </div>
+            <h3 class="card-header">Status Lowongan</h3>
             <div class="card-body">
                 <table class="table table-striped table-hover" data-pagination="true" data-search="true" data-toggle="table" data-locale="id-ID" data-pagination-parts='[pageInfo, pageList]' data-buttons="table-buttons">
                     <thead>
                         <tr>
                             <th scope="col" data-sortable="true">No</th>
                             <th scope="col" data-sortable="true">Nama Bagian</th>
-                            <th scope="col">Status</th>
                             <th scope="col" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -25,10 +22,11 @@
                                     <%= data.NAMA_BAGIAN %>
                                 </td>
                                 <td>
-                                    N/A
-                                </td>
-                                <td>
-                                    <a class="btn btn-primary" href="/bukalowongan/tambah/<%= data.ID_BAGIAN %>"> <span><i class="bi bi-unlock-fill me-2"></i></span>Buka Lowongan</a>
+                                    <% if(data.STATUS != 1){ %>
+                                        <a class="btn btn-primary" href="/bukalowongan/tambah/<%= data.ID_BAGIAN %>"> <span><i class="bi bi-unlock-fill me-2"></i></span>Buka Lowongan</a>
+                                    <% } else { %>
+                                        <a class="btn btn-secondary" style="cursor: not-allowed;"href="#" disabled> <span><i class="bi bi-lock-fill me-2"></i></span>Lowongan Aktif</a>
+                                    <% } %>
                                 </td>
                             </tr>
                             <% no++; } %>
