@@ -33,7 +33,7 @@ router.route('/login')
                         res.redirect('/bukalowongan');
                         break;
                     default:
-                        res.redirect('/entrybobot');
+                        res.redirect('/entrykriteria');
                         break;
                 }
             } else {
@@ -74,7 +74,7 @@ router.route('/logincalon')
                         res.redirect('/bukalowongan');
                         break;
                     default:
-                        res.redirect('/entrybobot');
+                        res.redirect('/entrykriteria');
                         break;
                 }
             } else {

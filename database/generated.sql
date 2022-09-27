@@ -22,7 +22,7 @@ create table BOBOT_KRITERIA
 (
    ID_REKRUTMEN         int not null  comment '',
    ID_KRITERIA          int not null  comment '',
-   BOBOT                int not null  comment '',
+   BOBOT                int null default 0 comment '',
    primary key (ID_REKRUTMEN, ID_KRITERIA)
 );
 

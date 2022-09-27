@@ -1,0 +1,67 @@
+<%- include('../../component/head') %>
+
+    <div class="d-flex flex-column h-100">
+        <div class="card mb-3">
+            <h3 class="card-header">Daftar Kriteria Tersedia</h3>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-9">
+                            <select class="form-select me-3 col-6" name="idKriteria" id="idKriteria" required>
+                                <option value="" style="display: none;" selected>Pilih Kriteria</option>
+                                <% for(data of mKriteria){ %>
+                                    <option value="<%= data.ID_KRITERIA %>"><%= data.NAMA_KRITERIA %></option>
+                                    <% } %>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <input type="submit" class="btn btn-success w-100" value="Tambahkan">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card h-100">
+            <h3 class="card-header">Kriteria Terpakai</h3>
+            <div class="card-body">
+                <table class="table table-striped table-hover" data-pagination="true" data-search="true" data-toggle="table" data-locale="id-ID" data-pagination-parts='[pageInfo, pageList]' data-buttons="table-buttons">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-sortable="true">No</th>
+                            <th scope="col" data-sortable="true">Nama Kriteria</th>
+                            <th scope="col" data-sortable="true">Keterangan</th>
+                            <th scope="col" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let no = 1; for(data of bKriteria){ %>
+                            <tr>
+                                <td>
+                                    <%= no %>
+                                </td>
+                                <td>
+                                    <%= data.NAMA_KRITERIA %>
+                                </td>
+                                <td>
+                                    <%= data.KETERANGAN_KRITERIA %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="hapusData(<%= data.ID_KRITERIA %>)"><span><i class="bi bi-trash-fill me-2"></i></span>Hapus</button>
+                                </td>
+                            </tr>
+                            <% no++ } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function hapusData(value) {
+            let conf = confirm('Apakah anda yakin ingin menghapus kriteria ini?');
+            if (conf) {
+                window.location = '/entrykriteria/hapus/' + value
+            };
+        }
+    </script>
+
+    <%- include('../../component/footer') %>

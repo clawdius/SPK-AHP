@@ -24,15 +24,14 @@
                                 <td>
                                     <% if(data.STATUS != 1){ %>
                                         <a class="btn btn-primary" href="/bukalowongan/tambah/<%= data.ID_BAGIAN %>"> <span><i class="bi bi-unlock-fill me-2"></i></span>Buka Lowongan</a>
-                                    <% } else { %>
-                                        <a class="btn btn-secondary" style="cursor: not-allowed;"href="#" disabled> <span><i class="bi bi-lock-fill me-2"></i></span>Lowongan Aktif</a>
-                                    <% } %>
+                                        <% } else { %>
+                                            <a class="btn btn-secondary" style="cursor: not-allowed;" href="#" disabled> <span><i class="bi bi-lock-fill me-2"></i></span>Lowongan Aktif</a>
+                                            <% } %>
                                 </td>
                             </tr>
                             <% no++; } %>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>

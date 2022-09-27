@@ -23,6 +23,11 @@
             </li>
             <% } else if(user.idBagian != 1 && user.idBagian != null) { %>
                 <li>
+                    <a href="/entrykriteria" class="nav-link <% if(sidebar == 'entrykriteria'){ %> active <% } else { %> link-dark <% } %>">
+                        <i class="bi bi-card-checklist me-2"></i> Entry Kriteria
+                    </a>
+                </li>
+                <li>
                     <a href="/entrybobot" class="nav-link <% if(sidebar == 'entrybobot'){ %> active <% } else { %> link-dark <% } %>">
                         <i class="bi bi-bar-chart-fill me-2"></i> Entry Bobot
                     </a>
