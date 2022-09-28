@@ -55,11 +55,21 @@ async function deleteKriteriaBagian(idKrit, idKar) {
     return res[0];
 }
 
+async function tambahKriteria(data){
+    let query = "INSERT INTO MASTER_KRITERIA(NAMA_KRITERIA, KETERANGAN_KRITERIA) "+
+    " VALUES (?,?)";
+
+    let res = await db.promise().query(query, [data.namaKriteria, data.keteranganKriteria]);
+
+    return res[0];
+}
+
 
 module.exports = {
     getMasterKriteria,
     getBagianKriteria,
     addKriteriaBagian,
     getActiveRekrutmen,
-    deleteKriteriaBagian
+    deleteKriteriaBagian,
+    tambahKriteria
 }

@@ -57,17 +57,37 @@ router.group([auth.authChecker], async router => {
                     sidebar: 'entrykriteria'
                 });
             }
-
         })
         .post(auth.roleCheck(await allowed()), async function(req, res) {
             await controller_bagian.addKriteriaBagian(req.body, req.user.idKaryawan);
             res.redirect('/entrykriteria');
         })
 
+    router.route('/tambahkriteria')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            try {
+                let check = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+                
+                res.render('hal_aplikasi/tambahkriteria/hal_tambahkriteria', {
+                    user: req.user,
+                    sidebar: 'entrykriteria'
+                });
+            } catch (error) {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                    user: req.user,
+                    sidebar: 'entrykriteria'
+                });
+            }
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res){
+            await controller_bagian.tambahKriteria(req.body);
+            res.redirect('/entrykriteria')
+        })
+
     router.route('/entrykriteria/hapus/:id')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
             await controller_bagian.deleteKriteriaBagian(req.params.id, req.user.idKaryawan);
-            res.redirect('/entrykriteria')
+            res.redirect('/entrykriteria');
         })
 
 })

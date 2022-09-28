@@ -2,13 +2,19 @@
 
     <div class="d-flex flex-column h-100">
         <div class="card mb-3">
-            <h3 class="card-header">Daftar Kriteria Tersedia</h3>
+            <div class="card-header d-flex justify-content-between">
+                <h3 style="margin: 0;">Kriteria Tersedia</h3>
+                <div>
+                    <button type="button" class="btn btn-primary me-2" disabled>Tambah Kriteria Terpakai</button>
+                    <button type="button" class="btn btn-outline-warning" onclick="window.location.href = 'tambahkriteria'">Tambah Kategori Kriteria</button>
+                </div>
+            </div>
             <div class="card-body">
                 <form method="post">
                     <div class="row">
                         <div class="col-9">
                             <select class="form-select me-3 col-6" name="idKriteria" id="idKriteria" required>
-                                <option value="" style="display: none;" selected>Pilih Kriteria</option>
+                                <option value="" style="display: none;" selected>Pilih kategori kriteria</option>
                                 <% for(data of mKriteria){ %>
                                     <option value="<%= data.ID_KRITERIA %>"><%= data.NAMA_KRITERIA %></option>
                                     <% } %>
@@ -46,7 +52,7 @@
                                     <%= data.KETERANGAN_KRITERIA %>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger" onclick="hapusData(<%= data.ID_KRITERIA %>)"><span><i class="bi bi-trash-fill me-2"></i></span>Hapus</button>
+                                    <button class="btn btn-danger" onclick="hapusData(<%= data.ID_KRITERIA %>);"><span><i class="bi bi-trash-fill me-2"></i></span>Hapus</button>
                                 </td>
                             </tr>
                             <% no++ } %>

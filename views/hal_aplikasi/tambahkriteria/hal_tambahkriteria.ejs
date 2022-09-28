@@ -1,0 +1,28 @@
+<%- include('../../component/head') %>
+
+    <div class="d-flex flex-column h-100">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between">
+                <h3 style="margin: 0;">Tambah Kategori Kriteria</h3>
+                <div>
+                    <button type="button" class="btn btn-outline-primary me-2" onclick="window.location.href = 'entrykriteria'">Tambah Kriteria Terpakai</button>
+                    <button type="button" class="btn btn-warning" disabled>Tambah Kategori Kriteria</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form class="col-6" method="post">
+                    <label for="namaKriteria" class="form-label mb-2">Nama Kriteria</label>
+                    <input type="text" class="form-control mb-4" name="namaKriteria" required>
+
+                    <label for="keteranganKriteria" class="form-label mb-2">Keterangan Kriteria</label>
+                    <input type="text" class="form-control mb-4" name="keteranganKriteria" required>
+
+                    <div class="d-flex justify-content-end">                        
+                        <input type="submit" class="btn btn-success w-25" value="Tambahkan" required>  
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../component/footer') %>
