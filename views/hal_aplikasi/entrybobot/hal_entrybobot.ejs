@@ -1,5 +1,54 @@
 <%- include('../../component/head') %>
 
-    <h1>Halo Home</h1>
+    <div class="card h-100">
+        <form method="post" onsubmit="konfirmasi(event)">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 style="margin: 0;">Entry Bobot Per-Kriteria</h3>
+                <input type="submit" class="btn btn-success w-25" value="Tambahkan" required <% if( status!=0 ) { %> disabled
+                <% } %>>
+            </div>
+            <div class="card-body">
+                <% let no = 1; for(data of bKriteria) {%>
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><%= no %></span>
+                                </div>
+                                <input type="text" class="form-control" value="<%= data.NAMA_KRITERIA %>" disabled>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <select name="bobotKriteria[]" class="form-select" required <% if( status!=0 ) { %> disabled <% } %>>
+                                    <option value="" style="display: none;" <% if(data.BOBOT == 0) { %> selected <% } %>>Pilih Bobot</option>
+                                    <option value="1" <% if(data.BOBOT == 1) { %> selected <% } %>>1</option>
+                                    <option value="2" <% if(data.BOBOT == 2) { %> selected <% } %>>2</option>
+                                    <option value="3" <% if(data.BOBOT == 3) { %> selected <% } %>>3</option>
+                                    <option value="4" <% if(data.BOBOT == 4) { %> selected <% } %>>4</option>
+                                    <option value="5" <% if(data.BOBOT == 5) { %> selected <% } %>>5</option>
+                                    <option value="6" <% if(data.BOBOT == 6) { %> selected <% } %>>6</option>
+                                    <option value="7" <% if(data.BOBOT == 7) { %> selected <% } %>>7</option>
+                                    <option value="8" <% if(data.BOBOT == 8) { %> selected <% } %>>8</option>
+                                    <option value="9" <% if(data.BOBOT == 9) { %> selected <% } %>>9</option>
+                                </select>
+                            <input type="hidden" name="idKriteria[]" value="<%= data.ID_KRITERIA %>">
+                        </div>
+                    </div>
+                    <% no++; } %>
+            </div>
+        </form>
+    </div>
+    <script>
+        function konfirmasi(e) {
+            alert('Peringatan: bobot yang telah diatur tidak dapat diganti.');
+            let conf = confirm('Apakah anda yakin dengan dengan perubahan ini?');
+            if (conf) {
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
+        }
+    </script>
 
     <%- include('../../component/footer') %>

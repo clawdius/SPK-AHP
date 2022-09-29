@@ -25,10 +25,12 @@ router.group([auth.authChecker], async router => {
         .get(auth.roleCheck(await allowed()), async function(req, res) {
 
             try {
-                let check = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
 
                 res.render('hal_aplikasi/entrybobot/hal_entrybobot', {
                     user: req.user,
+                    bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
+                    status: await controller_bagian.getStatusRekrutmen(req.user.idKaryawan),
                     sidebar: 'entrybobot'
                 });
             } catch (error) {
@@ -38,17 +40,25 @@ router.group([auth.authChecker], async router => {
                 });
             }
 
-        });
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+
+            await controller_bagian.updateBobot(req.body, req.user.idKaryawan);
+            res.redirect('/entrybobot');
+
+        })
 
     router.route('/entrykriteria')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
+
             try {
-                let check = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
 
                 res.render('hal_aplikasi/entrykriteria/hal_entrykriteria', {
                     user: req.user,
                     mKriteria: await controller_bagian.getMasterKriteria(req.user.idKaryawan),
                     bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
+                    status: await controller_bagian.getStatusRekrutmen(req.user.idKaryawan),
                     sidebar: 'entrykriteria'
                 });
             } catch (error) {
@@ -66,8 +76,8 @@ router.group([auth.authChecker], async router => {
     router.route('/tambahkriteria')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
             try {
-                let check = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
-                
+                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+
                 res.render('hal_aplikasi/tambahkriteria/hal_tambahkriteria', {
                     user: req.user,
                     sidebar: 'entrykriteria'
@@ -79,7 +89,7 @@ router.group([auth.authChecker], async router => {
                 });
             }
         })
-        .post(auth.roleCheck(await allowed()), async function(req, res){
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
             await controller_bagian.tambahKriteria(req.body);
             res.redirect('/entrykriteria')
         })

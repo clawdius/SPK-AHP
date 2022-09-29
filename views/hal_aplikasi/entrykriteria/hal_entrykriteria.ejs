@@ -21,7 +21,8 @@
                             </select>
                         </div>
                         <div class="col-3">
-                            <input type="submit" class="btn btn-success w-100" value="Tambahkan">
+                            <input type="submit" class="btn btn-success w-100" <% if( status!=0 ) { %> disabled
+                            <% } %> value="Tambahkan">
                         </div>
                     </div>
                 </form>
@@ -52,7 +53,8 @@
                                     <%= data.KETERANGAN_KRITERIA %>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger" onclick="hapusData(<%= data.ID_KRITERIA %>);"><span><i class="bi bi-trash-fill me-2"></i></span>Hapus</button>
+                                    <button class="btn btn-danger" onclick="hapusData(<%= data.ID_KRITERIA %>);" <% if( status!=0 ) { %> disabled <% } %>>
+                                        <span><i class="bi bi-trash-fill me-2"></i></span>Hapus</button>
                                 </td>
                             </tr>
                             <% no++ } %>

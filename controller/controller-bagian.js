@@ -6,11 +6,25 @@ async function getActiveRekrutmen(idKar) {
         "WHERE ID_BAGIAN IN" +
         "(SELECT ID_BAGIAN FROM MASTER_KARYAWAN " +
         "WHERE ID_KARYAWAN = ?) " +
-        "AND STAT_REKRUTMEN = 0"
+        "AND STAT_REKRUTMEN IN (0, 1)"
 
     let periode = await db.promise().query(qPeriode, idKar);
 
     return periode[0][0].ID_REKRUTMEN;
+}
+
+async function getStatusRekrutmen(idKar) {
+    let qPeriode = "SELECT STAT_REKRUTMEN " +
+        "FROM MASTER_REKRUTMEN " +
+        "WHERE ID_BAGIAN IN " +
+        "(SELECT ID_BAGIAN FROM MASTER_KARYAWAN " +
+        "WHERE ID_KARYAWAN = ?) "
+
+    console.log(idKar)
+
+    let res = await db.promise().query(qPeriode, idKar);
+
+    return res[0][0].STAT_REKRUTMEN;
 }
 
 async function getMasterKriteria(idKar) {
@@ -55,15 +69,34 @@ async function deleteKriteriaBagian(idKrit, idKar) {
     return res[0];
 }
 
-async function tambahKriteria(data){
-    let query = "INSERT INTO MASTER_KRITERIA(NAMA_KRITERIA, KETERANGAN_KRITERIA) "+
-    " VALUES (?,?)";
+async function tambahKriteria(data) {
+    let query = "INSERT INTO MASTER_KRITERIA(NAMA_KRITERIA, KETERANGAN_KRITERIA) " +
+        " VALUES (?,?)";
 
     let res = await db.promise().query(query, [data.namaKriteria, data.keteranganKriteria]);
 
     return res[0];
 }
 
+async function updateBobot(data, idKar) {
+
+    let rekActive = await getActiveRekrutmen(idKar);
+
+    let query = "UPDATE BOBOT_KRITERIA SET BOBOT = ? " +
+        "WHERE ID_KRITERIA = ? AND ID_REKRUTMEN = ?"
+
+    for (i = 0; i < data.idKriteria.length; i++) {
+        await db.promise().query(query, [data.bobotKriteria[i], data.idKriteria[i], rekActive]);
+    };
+
+    let ubahStatusQ = "UPDATE MASTER_REKRUTMEN SET STAT_REKRUTMEN = 1 " +
+        "WHERE ID_REKRUTMEN = ?";
+
+    await db.promise().query(ubahStatusQ, rekActive);
+
+    return true;
+
+}
 
 module.exports = {
     getMasterKriteria,
@@ -71,5 +104,7 @@ module.exports = {
     addKriteriaBagian,
     getActiveRekrutmen,
     deleteKriteriaBagian,
-    tambahKriteria
+    tambahKriteria,
+    updateBobot,
+    getStatusRekrutmen
 }
