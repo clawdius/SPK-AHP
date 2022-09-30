@@ -18,6 +18,40 @@ async function karyawanBagian(IDBAGIAN) {
     return res[0];
 }
 
+async function calonKaryawan() {
+    let query = "SELECT * FROM MASTER_CALON_KARYAWAN";
+    let res = await db.promise().query(query);
+    return res[0];
+}
+
+async function detailCalonKaryawan(IDCALON) {
+    let query = "SELECT * FROM MASTER_CALON_KARYAWAN " +
+        "WHERE ID_CALON = ?";
+    let res = await db.promise().query(query, IDCALON);
+    return res[0][0];
+}
+
+async function changeStatusCalonKaryawan(IDCALON, STATUS) {
+
+    let status;
+
+    switch (STATUS) {
+        case 'pending':
+            status = 1
+            break;
+        case 'accept':
+            status = 2
+            break;
+    }
+
+    let query = "UPDATE MASTER_CALON_KARYAWAN SET STAT_KELENGKAPAN = ? " +
+        "WHERE ID_CALON = ?"
+
+    let res = await db.promise().query(query, [status, IDCALON])
+
+    return res[0];
+}
+
 async function tambahRekrutmen(data) {
 
     let dataRefactored = [
@@ -42,5 +76,8 @@ module.exports = {
     daftarBagian,
     detailBagian,
     karyawanBagian,
-    tambahRekrutmen
+    tambahRekrutmen,
+    calonKaryawan,
+    detailCalonKaryawan,
+    changeStatusCalonKaryawan
 }

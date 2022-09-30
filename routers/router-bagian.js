@@ -21,33 +21,6 @@ router.group([auth.authChecker], async router => {
         return allow.flat();
     }
 
-    router.route('/entrybobot')
-        .get(auth.roleCheck(await allowed()), async function(req, res) {
-
-            try {
-                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
-
-                res.render('hal_aplikasi/entrybobot/hal_entrybobot', {
-                    user: req.user,
-                    bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
-                    status: await controller_bagian.getStatusRekrutmen(req.user.idKaryawan),
-                    sidebar: 'entrybobot'
-                });
-            } catch (error) {
-                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
-                    user: req.user,
-                    sidebar: 'entrybobot'
-                });
-            }
-
-        })
-        .post(auth.roleCheck(await allowed()), async function(req, res) {
-
-            await controller_bagian.updateBobot(req.body, req.user.idKaryawan);
-            res.redirect('/entrybobot');
-
-        })
-
     router.route('/entrykriteria')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
 
@@ -98,6 +71,52 @@ router.group([auth.authChecker], async router => {
         .get(auth.roleCheck(await allowed()), async function(req, res) {
             await controller_bagian.deleteKriteriaBagian(req.params.id, req.user.idKaryawan);
             res.redirect('/entrykriteria');
+        })
+
+    router.route('/entrybobot')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+
+            try {
+                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+
+                res.render('hal_aplikasi/entrybobot/hal_entrybobot', {
+                    user: req.user,
+                    bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
+                    status: await controller_bagian.getStatusRekrutmen(req.user.idKaryawan),
+                    sidebar: 'entrybobot'
+                });
+            } catch (error) {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                    user: req.user,
+                    sidebar: 'entrybobot'
+                });
+            }
+
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+
+            await controller_bagian.updateBobot(req.body, req.user.idKaryawan);
+            res.redirect('/entrybobot');
+
+        })
+
+    router.route('/entrynilai')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+
+            try {
+                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+
+                res.render('hal_aplikasi/entrynilai/hal_entrynilai', {
+                    user: req.user,
+                    sidebar: 'entrynilai'
+                });
+            } catch (error) {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                    user: req.user,
+                    sidebar: 'entrynilai'
+                });
+            }
+
         })
 
 })

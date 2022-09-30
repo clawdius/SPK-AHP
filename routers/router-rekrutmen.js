@@ -45,12 +45,28 @@ router.group([auth.authChecker], async router => {
         });
 
     router.route('/peserta')
-        .get(auth.roleCheck(await allowed()), function(req, res) {
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
             res.render('hal_aplikasi/peserta/hal_peserta', {
                 user: req.user,
+                calonKar: await controller_rekrutmen.calonKaryawan(),
                 sidebar: 'peserta'
             });
         });
+
+    router.route('/peserta/review/:idCalon')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            res.render('hal_aplikasi/peserta/reviewpeserta/hal_reviewpeserta', {
+                user: req.user,
+                sidebar: 'peserta',
+                calonKar: await controller_rekrutmen.detailCalonKaryawan(req.params.idCalon)
+            })
+        })
+
+    router.route('/peserta/review/:idCalon/:action')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            await controller_rekrutmen.changeStatusCalonKaryawan(req.params.idCalon, req.params.action)
+            res.redirect('/peserta');
+        })
 
     router.route('/laporan')
         .get(auth.roleCheck(await allowed()), function(req, res) {

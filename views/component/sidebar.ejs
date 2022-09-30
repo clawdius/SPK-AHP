@@ -13,7 +13,7 @@
             </li>
             <li>
                 <a href="/peserta" class="nav-link <% if(sidebar == 'peserta'){ %> active <% } else { %> link-dark <% } %> mb-2">
-                    <i class="bi bi-people-fill me-2"></i> Peserta Tes
+                    <i class="bi bi-people-fill me-2"></i> Calon Karyawan
                 </a>
             </li>
             <li>
@@ -30,6 +30,11 @@
                 <li>
                     <a href="/entrybobot" class="nav-link <% if(sidebar == 'entrybobot'){ %> active <% } else { %> link-dark <% } %>">
                         <i class="bi bi-bar-chart-fill me-2"></i> Entry Bobot
+                    </a>
+                </li>
+                <li>
+                    <a href="/entrynilai" class="nav-link <% if(sidebar == 'entrynilai'){ %> active <% } else { %> link-dark <% } %>">
+                        <i class="bi bi-clipboard-check-fill me-2"></i> Entry Nilai
                     </a>
                 </li>
                 <% } else if (!user.idBagian){%>

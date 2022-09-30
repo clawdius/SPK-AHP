@@ -19,8 +19,7 @@
                 <div class="card" style="border-radius: 1rem">
                     <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
-
-                            <form method='post' enctype="multipart/form-data">
+                            <form method='post' id="formData" enctype="multipart/form-data" onsubmit="preventData(event)">
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">Nama Calon Karyawan</label>
                                     <input type="text" class="form-control" name="namaCalon" required>
@@ -114,6 +113,8 @@
 <script>
     let emailCheck;
     let nikCheck;
+
+    let submitAble = 0;
 
     function fileCheck(element) {
         var ext = element.value.match(/\.(.+)$/)[1];
@@ -210,9 +211,20 @@
         if (emailCheck != null || nikCheck != null) {
             document.getElementById('btnDaftar').style.display = "none";
             document.getElementById('btnLogin').style.display = "";
+            submitAble = 0;
         } else {
             document.getElementById('btnDaftar').style.display = "";
             document.getElementById('btnLogin').style.display = "none";
+            submitAble = 1;
+        }
+    }
+
+    function preventData(e) {
+        if (submitAble == 0) {
+            e.preventDefault();
+            return false;
+        } else {
+            return true;
         }
     }
 </script>

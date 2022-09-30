@@ -1,0 +1,114 @@
+<%- include('../../../component/head') %>
+
+    <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 style="margin: 0;">Data Calon Karyawan</h3>
+            <div class="d-flex justify-content-end w-50">
+                <button type="button" class="btn btn-danger w-25 me-2" onclick="window.location.href = '<%=calonKar.ID_CALON%>/pending'" <%if(calonKar.STAT_KELENGKAPAN=='1' || calonKar.STAT_KELENGKAPAN=='2' ){%>disabled<%}%>>Revisi</button>
+                <button type="button" class="btn btn-warning w-25" onclick="window.location.href = '<%=calonKar.ID_CALON%>/accept'" <%if(calonKar.STAT_KELENGKAPAN=='2' ){%>disabled<%}%>>Accept</button>
+            </div>
+        </div>
+        <div class="card-body" style="overflow-y: auto; max-height: 100%;">
+            <div class="form-outline mb-4">
+                <label class="form-label ms-1" for="form2Example17">Nama Calon Karyawan</label>
+                <input type="text" class="form-control" name="namaCalon" disabled value="<%= calonKar.NAMA_CALON %>">
+            </div>
+            <div class="form-outline row d-flex align-items-end mb-4">
+                <div class="col-9">
+                    <label class="form-label ms-1" for="form2Example17">NIK Calon Karyawan</label>
+                    <input type="text" class="form-control me-2" name="NIK" disabled value="<%= calonKar.FILE_NIK %>">
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Tampilkan Foto KTP</button>
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label ms-1" for="form2Example17">Jenis Kelamin</label>
+                <div class="d-flex flex-row">
+                    <select name="kelaminCalon" id="jen_kelamin" class="form-select" disabled>
+                            <option value="" style="display:none;" selected>Pilih Jenis Kelamin</option>
+                            <option value="1" <% if(calonKar.JENIS_KEL == 1){ %> selected <% } %>>Laki Laki</option>
+                            <option value="0" <% if(calonKar.JENIS_KEL == 0){ %> selected <% } %>>Perempuan</option>
+                        </select>
+                </div>
+            </div>
+
+            <div class="form-outline mb-4 row">
+                <div class="col-6">
+                    <label class="form-label ms-1" for="form2Example17">Tempat Tgl. Lahir</label>
+                    <input type="text" name="tempatCalon" class="form-control me-2" disabled value="<%= calonKar.TEM_LAHIR %>">
+                </div>
+                <div class="col-6">
+                    <label class="form-label ms-1" for="form2Example17" id="namaIns">Tanggal Lahir</label>
+                    <input type="date" name="tanggalCalon" class="form-control" disabled value="<%= calonKar.TGL_LAHIR %>">
+                </div>
+            </div>
+
+            <div class="form-outline row mb-4">
+                <div class="col-6">
+                    <label class="form-label ms-1" for="form2Example17">Jenjang Pendidikan</label>
+                    <select name="pendidikanCalon" class="form-select" disabled>
+                        <option value="Sekolah Menengah" data-val="0" <% if(calonKar.JENJANG_PEND == "Sekolah Menengah"){%> selected <%} %>>SMA/SMK</option>
+                        <option value="Kuliah" data-val="1" <% if(calonKar.JENJANG_PEND == "Kuliah"){%> selected <%} %>>Kuliah</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label ms-1" for="form2Example17" id="namaIns">Nama Sekolah</label>
+                    <input type="text" name="sekolahCalon" class="form-control me-2" value="<%= calonKar.NAMA_SEK %>" disabled>
+                </div>
+            </div>
+
+            <% if(calonKar.JENJANG_PEND == "Kuliah"){%>
+                <div class="form-outline mb-4" id="div_fakultasCalon">
+                    <label class="form-label ms-1" for="form2Example17">Nama Fakultas</label>
+                    <input type="text" id="fakultasCalon" name="fakultasCalon" class="form-control me-2" disabled value="<%= calonKar.FAKULTAS %>">
+                </div>
+                <%} %>
+
+                    <div class="form-outline row mb-4" id="div_jurusanCalon">
+                        <div class="col-6">
+                            <label class="form-label ms-1" for="form2Example17">Nama Jurusan</label>
+                            <input type="text" name="jurusanCalon" class="form-control me-2" disabled value="<%= calonKar.JURUSAN_STUDI %>">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label ms-1" for="form2Example17">Tahun Lulus</label>
+                            <input type="number" min="1900" name="lulusCalon" class="form-control" disabled value="<%= calonKar.THN_LULUS %>">
+                        </div>
+                    </div>
+
+                    <% if(calonKar.JENJANG_PEND == "Kuliah"){%>
+                        <div class="form-outline mb-4" id="div_ipkCalon">
+                            <label class="form-label ms-1" for="form2Example17">Indeks Prestasi Kumulatif (IPK)</label>
+                            <div class="d-flex flex-row">
+                                <input type="number" step="0.01" min="2" max="4" name="ipkCalon" id="ipkCalon" class="form-control me-2" value="<%=calonKar.IPK%>" disabled>
+                            </div>
+                        </div>
+                        <%} %>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label ms-1" for="form2Example17">Email Calon Karyawan</label>
+                                <input type="email" name="email" class="form-control" value="<%= calonKar.EMAIL %>" disabled>
+                            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Foto KTP Calon Karyawan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/asset-app/KTP-<%= calonKar.FILE_NIK %>.jpg" style="width: 100%; height: 50%;" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../../component/footer') %>
