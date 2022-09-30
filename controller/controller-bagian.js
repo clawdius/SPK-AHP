@@ -20,8 +20,6 @@ async function getStatusRekrutmen(idKar) {
         "(SELECT ID_BAGIAN FROM MASTER_KARYAWAN " +
         "WHERE ID_KARYAWAN = ?) "
 
-    console.log(idKar)
-
     let res = await db.promise().query(qPeriode, idKar);
 
     return res[0][0].STAT_REKRUTMEN;
