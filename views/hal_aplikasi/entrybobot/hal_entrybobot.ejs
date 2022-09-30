@@ -4,8 +4,7 @@
         <form method="post" onsubmit="konfirmasi(event)">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 style="margin: 0;">Entry Bobot Per-Kriteria</h3>
-                <input type="submit" class="btn btn-success w-25" value="Tambahkan" required <% if( status!=0 ) { %> disabled
-                <% } %>>
+                <input type="submit" class="btn btn-success w-25" value="Tambahkan" required>
             </div>
             <div class="card-body">
                 <% let no = 1; for(data of bKriteria) {%>
@@ -19,7 +18,7 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <select name="bobotKriteria[]" class="form-select" required <% if( status!=0 ) { %> disabled <% } %>>
+                            <select name="bobotKriteria[]" class="form-select" required>
                                     <option value="" style="display: none;" <% if(data.BOBOT == 0) { %> selected <% } %>>Pilih Bobot</option>
                                     <option value="1" <% if(data.BOBOT == 1) { %> selected <% } %>>1</option>
                                     <option value="2" <% if(data.BOBOT == 2) { %> selected <% } %>>2</option>
