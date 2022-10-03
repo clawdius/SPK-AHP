@@ -111,4 +111,9 @@ router.route('/check/EMAIL')
         res.json(await controller_register.checkEmail(req.body.email))
     })
 
+router.route('/check/NIKedit')
+    .post(async function(req, res) {
+        res.json(await controller_register.checkNIKedit(req.body))
+    })
+
 module.exports = router;

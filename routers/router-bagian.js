@@ -4,7 +4,6 @@ const router = express.Router();
 
 const auth = require('../config-app/config-auth')
 
-const controller = require('../controller/controller-login')
 const controller_bagian = require('../controller/controller-bagian')
 
 //List Router yang boleh dipake bagian

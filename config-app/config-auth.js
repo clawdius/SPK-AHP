@@ -43,15 +43,13 @@ passport.use('calon-local',
         const credential = [username, password]
 
         db.query(query, credential, function(req, res) {
-
-
             if (res.length == 1) {
                 var user = {
                     email: res[0].EMAIL,
                     nama: res[0].NAMA_CALON,
-                    idCalon: res[0].ID_CALON
+                    idCalon: res[0].ID_CALON,
+                    status: res[0].STAT_KELENGKAPAN
                 }
-
                 done(null, user);
             } else {
                 done(null, false)

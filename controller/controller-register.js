@@ -25,8 +25,6 @@ async function daftarBaru(data) {
 
     let res = await db.promise().query(query, dataRefactored)
 
-    //console.log(res[0]['insertId']);
-
     return res[0]['insertId'];
 }
 
@@ -36,6 +34,17 @@ async function checkNIK(NIK) {
     let res = await db.promise().query(query, NIK)
 
     return res[0][0] ? res[0][0] : { FILE_NIK: null };
+}
+
+async function checkNIKedit(value) {
+
+    if (value.nik == value.nikSekarang) {
+        return { FILE_NIK: null };
+    } else {
+        let query = "SELECT FILE_NIK FROM MASTER_CALON_KARYAWAN WHERE FILE_NIK = ?"
+        let res = await db.promise().query(query, value.nik);
+        return res[0][0];
+    }
 }
 
 async function checkEmail(email) {
@@ -49,5 +58,6 @@ async function checkEmail(email) {
 module.exports = {
     daftarBaru,
     checkNIK,
-    checkEmail
+    checkEmail,
+    checkNIKedit
 }

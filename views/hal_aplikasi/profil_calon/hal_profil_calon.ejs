@@ -1,0 +1,205 @@
+<%- include('../../component/head') %>
+
+    <div class="card h-100" style="overflow-y: auto; max-height: 100%;">
+        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+            <div class="card-body p-4 p-lg-5 text-black">
+                <form method='post' id="formData" enctype="multipart/form-data" onsubmit="preventData(event)">
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="form2Example17">Nama Calon Karyawan</label>
+                        <input type="text" class="form-control" value="<%= detail.NAMA_CALON %>" name="namaCalon" required>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="form2Example17">NIK Calon Karyawan</label>
+                        <div class="d-flex flex-row w-100">
+                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); cekNIK(this);" class="form-control me-2" id="NIK" name="NIK" maxlength="16" pattern="[0-9]{16}" title="Panjang nomor NIK harus 16" value="<%= detail.FILE_NIK %>"
+                                required>
+                            <input class="form-control me-2" name="foto_ktp" type="file" onchange="fileCheck(this);" accept="image/png, image/jpeg" required>
+                            <button type="button" class="btn btn-success w-50" data-bs-toggle="modal" data-bs-target="#exampleModal">Tampilkan Foto</button>
+                            <input type="hidden" name="NIKLama" value="<%= detail.FILE_NIK %>">
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="form2Example17">Jenis Kelamin</label>
+                        <div class="d-flex flex-row">
+                            <select name="kelaminCalon" id="jen_kelamin" class="form-select" required>
+                                <option value="1" <% if(detail.JENIS_KEL == 1){ %> selected <% } %>>Laki Laki</option>
+                                <option value="0" <% if(detail.JENIS_KEL == 0){ %> selected <% } %>>Perempuan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="form2Example17">Tempat Tgl. Lahir</label>
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-row w-100">
+                                <input type="text" name="tempatCalon" value="<%= detail.TEM_LAHIR %>" class="form-control me-2" required>
+                                <input type="date" max="<%= tgl_max %>" value="<%= detail.TGL_LAHIR %>" name="tanggalCalon" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="form2Example17">Jenjang Pendidikan</label>
+                        <select name="pendidikanCalon" id="pendidikanCalon" onchange="chkSekolah(this)" class="form-select" required>
+                            <option value="Sekolah Menengah" data-val="0" <% if(detail.JENJANG_PEND == "Sekolah Menengah"){%> selected <%}%>>SMA/SMK</option>
+                            <option value="Kuliah" data-val="1" <% if(detail.JENJANG_PEND == "Kuliah"){%> selected <%}%>>Kuliah</option>
+                        </select>
+                    </div>
+
+                    <div class="form-outline mb-4" id="div_sekolahCalon" style="display: none;">
+                        <label class="form-label ms-1" for="form2Example17" id="namaIns">Nama Sekolah</label>
+                        <input type="text" name="sekolahCalon" value="<%= detail.NAMA_SEK %>" class="form-control me-2" required>
+                    </div>
+
+                    <div class="form-outline mb-4" id="div_fakultasCalon" style="display: none;">
+                        <label class="form-label ms-1" for="form2Example17">Nama Fakultas</label>
+                        <input type="text" id="fakultasCalon" name="fakultasCalon" value="<%= detail.FAKULTAS %>" class="form-control me-2">
+                    </div>
+
+                    <div class="form-outline mb-4" id="div_jurusanCalon" style="display: none;">
+                        <label class="form-label ms-1" for="form2Example17">Nama Jurusan</label>
+                        <div class="d-flex flex-row">
+                            <input type="text" name="jurusanCalon" class="form-control me-2" required value="<%= detail.JURUSAN_STUDI %>">
+                            <input type="number" min="1900" max="<%= thn_max %>" oninput="set_max(this)" name="lulusCalon" class="form-control" placeholder="Tahun lulus" value="<%= detail.THN_LULUS %>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4" id="div_ipkCalon" style="display: none;">
+                        <label class="form-label ms-1" for="form2Example17">Indeks Prestasi Kumulatif (IPK)</label>
+                        <div class="d-flex flex-row">
+                            <input type="number" <% if(detail.JENJANG_PEND=='Kuliah' ){ %> step="0.01" min="2"
+                            <% }%> max="4" oninput="set_max(this)" name="ipkCalon" id="ipkCalon" class="form-control me-2" value=
+                                <%= detail.IPK %>>
+                        </div>
+                    </div>
+                    <div class="pt-1 mb-4 d-flex align-items-center">
+                        <input class="btn btn-success btn-lg btn-block" id="btnDaftar" type="submit" value="Ubah Data">
+                        <p class="mb-0" id="btnLogin" style="color: #080808; display: none;">Terdapat akun yang memiliki NIK/Email yang sama.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Foto KTP Calon Karyawan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/asset-app/KTP-<%= detail.FILE_NIK %>.jpg" style="width: 100%; height: 50%;" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        chkSekolah(document.getElementById('pendidikanCalon'));
+        cekNIK(document.getElementById('NIK'));
+
+
+        let nikCheck;
+
+        let submitAble = 0;
+
+        function fileCheck(element) {
+            var ext = element.value.match(/\.(.+)$/)[1];
+            switch (ext) {
+                case 'jpg':
+                case 'bmp':
+                case 'png':
+                case 'tif':
+                    break;
+                default:
+                    alert('File format tidak didukung');
+                    element.value = '';
+            }
+        }
+
+        function chkSekolah(element) {
+            document.getElementById('div_sekolahCalon').style.display = "";
+            document.getElementById('div_jurusanCalon').style.display = "";
+            let jns_sekolah = element.options[element.selectedIndex].getAttribute('data-val');
+            if (jns_sekolah == 0) {
+
+                document.getElementById('namaIns').innerHTML = 'Nama Sekolah'
+
+                document.getElementById('div_fakultasCalon').style.display = "none";
+                document.getElementById("fakultasCalon").required = false;
+
+                document.getElementById('div_ipkCalon').style.display = "none";
+                document.getElementById("ipkCalon").required = false;
+            } else {
+
+                document.getElementById('namaIns').innerHTML = 'Nama Universitas'
+
+                document.getElementById('div_fakultasCalon').style.display = "";
+                document.getElementById("fakultasCalon").required = true;
+
+                document.getElementById('div_ipkCalon').style.display = "";
+                document.getElementById("ipkCalon").required = true;
+            }
+        }
+
+        function set_max(element) {
+            if (parseInt(element.value) > element.max) {
+                element.value = element.max;
+            }
+        }
+
+        function cekNIK(element) {
+            if (element.value) {
+                const url = "/check/NIKedit";
+                const nik = element.value;
+                const nikSekarang = "<%= detail.FILE_NIK %>";
+
+                $.ajax({
+                    url: url,
+                    data: {
+                        'nik': nik,
+                        'nikSekarang': nikSekarang
+                    },
+                    success: function(data) {
+                        if (data.FILE_NIK != null) {
+                            nikCheck = data.FILE_NIK;
+                        } else {
+                            nikCheck = null;
+                        }
+                        hideElement();
+                    },
+                    method: 'post'
+                });
+            }
+        }
+
+        function hideElement() {
+            if (nikCheck != null) {
+                document.getElementById('btnDaftar').style.display = "none";
+                document.getElementById('btnLogin').style.display = "";
+                submitAble = 0;
+            } else {
+                document.getElementById('btnDaftar').style.display = "";
+                document.getElementById('btnLogin').style.display = "none";
+                submitAble = 1;
+            }
+        }
+
+        function preventData(e) {
+            if (submitAble == 0) {
+                e.preventDefault();
+                console.log(submitAble);
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+
+    <%- include('../../component/footer') %>

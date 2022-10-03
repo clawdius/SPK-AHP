@@ -1,0 +1,19 @@
+<%- include('../../component/head') %>
+
+    <div class="card h-100">
+        <h3 class="card-header">Status akun calon karyawan</h3>
+        <div class="card-body">
+            <% if(detail.STAT_KELENGKAPAN == 0){ %>
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <h3> <i class="bi bi-clipboard-check-fill me-2"></i> Akun anda dalam tahap review </h3>
+                </div>
+                <%}%>
+                    <% if(detail.STAT_KELENGKAPAN == 1){ %>
+                        <div class="d-flex justify-content-center align-items-center h-100">
+                            <h3> <i class="bi bi-exclamation-triangle-fill me-2"></i> Silahkan perbaiki informasi pada akun anda <span><a href="/profil" title="edit informasi akun" style="text-decoration: none;">disini</a></span>. </h3>
+                        </div>
+                        <%}%>
+        </div>
+    </div>
+
+    <%- include('../../component/footer') %>
