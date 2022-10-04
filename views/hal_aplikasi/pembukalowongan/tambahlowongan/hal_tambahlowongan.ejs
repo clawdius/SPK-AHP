@@ -54,17 +54,23 @@
             let val1 = document.getElementById('tanggalPend1').value;
             let val2 = document.getElementById('tanggalPend2').value;
 
-            
+
             // tambah 1 hari di tgl pendaftaran akhir
-            if(val2 != ''){
+            if (val2 != '') {
                 var endDate = new Date(val2);
                 endDate.setDate(endDate.getDate() + 1);
 
-                var ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate);
-                var mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(endDate);
-                var da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(endDate);
+                var ye = new Intl.DateTimeFormat('id', {
+                    year: 'numeric'
+                }).format(endDate);
+                var mo = new Intl.DateTimeFormat('id', {
+                    month: '2-digit'
+                }).format(endDate);
+                var da = new Intl.DateTimeFormat('id', {
+                    day: '2-digit'
+                }).format(endDate);
 
-                var endDateFormatted = ye+'-'+mo+'-'+da;
+                var endDateFormatted = ye + '-' + mo + '-' + da;
             }
 
             if (val1 != '' && val2 != '') {

@@ -90,6 +90,16 @@
                                 <label class="form-label ms-1" for="form2Example17">Email Calon Karyawan</label>
                                 <input type="email" name="email" class="form-control" value="<%= calonKar.EMAIL %>" disabled>
                             </div>
+
+                            <form method="POST" id="statMBR">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label ms-1" for="form2Example17">Status MBR (Masyarakat Berpenghasilan Rendah)</label>
+                                    <select name="statusMBR" onchange="submitMBR(this);" class="form-select" required>
+                                        <option value="0" <% if(calonKar.STAT_MBR == 0){%> selected <%}%>>Non MBR</option>
+                                        <option value="1" <% if(calonKar.STAT_MBR == 1){ %> selected <% } %>>MBR</option>
+                                    </select>
+                                </div>
+                            </form>
         </div>
     </div>
 
@@ -110,5 +120,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function submitMBR(element) {
+            document.getElementById("statMBR").submit();
+        }
+    </script>
 
     <%- include('../../../component/footer') %>

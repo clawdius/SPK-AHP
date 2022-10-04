@@ -60,12 +60,15 @@ router.group([auth.authChecker], async router => {
                 sidebar: 'peserta',
                 calonKar: await controller_rekrutmen.detailCalonKaryawan(req.params.idCalon)
             })
+        }).post(auth.roleCheck(await allowed()), async function(req, res) {
+            await controller_rekrutmen.changeMBR(req.params.idCalon, req.body.statusMBR);
+            res.redirect('/peserta/review/' + req.params.idCalon)
         })
 
     router.route('/peserta/review/:idCalon/:action')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
-            await controller_rekrutmen.changeStatusCalonKaryawan(req.params.idCalon, req.params.action)
-            res.redirect('/peserta');
+            await controller_rekrutmen.changeStatusCalonKaryawan(req.params.idCalon, req.params.action),
+                res.redirect('/peserta');
         })
 
     router.route('/laporan')

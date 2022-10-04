@@ -52,6 +52,13 @@ async function changeStatusCalonKaryawan(IDCALON, STATUS) {
     return res[0];
 }
 
+async function changeMBR(IDCALON, MBR) {
+    let query = "UPDATE MASTER_CALON_KARYAWAN SET STAT_MBR = ? " +
+        "WHERE ID_CALON = ?"
+
+    let res = await db.promise().query(query, [MBR, IDCALON])
+}
+
 async function tambahRekrutmen(data) {
 
     let dataRefactored = [
@@ -79,5 +86,6 @@ module.exports = {
     tambahRekrutmen,
     calonKaryawan,
     detailCalonKaryawan,
-    changeStatusCalonKaryawan
+    changeStatusCalonKaryawan,
+    changeMBR
 }

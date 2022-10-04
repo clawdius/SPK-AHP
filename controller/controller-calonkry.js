@@ -50,7 +50,44 @@ async function updateDataCalon(data, IDCALON) {
     return res[0]
 }
 
+async function getAvailableLowongan() {
+
+    let query = "SELECT * FROM MASTER_REKRUTMEN MR " +
+        "JOIN MASTER_BAGIAN MB ON MR.ID_BAGIAN = MB.ID_BAGIAN " +
+        "WHERE STAT_REKRUTMEN = 1";
+
+    let res = await db.promise().query(query)
+
+    return res[0];
+}
+
+async function allowedLowongan(IDCALON) {
+    let query = "SELECT * FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_REKRUTMEN MR ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
+        "WHERE AR.ID_CALON = ? AND MR.STAT_REKRUTMEN = 1 "
+
+    let res = await db.promise().query(query, IDCALON)
+
+    if (res[0].length > 0) {
+        return 'no';
+    } else {
+        return 'allowed';
+    }
+}
+
+async function selectLowongan(IDCALON, IDREKRUT) {
+    let query = "INSERT INTO AKTIVITAS_REKRUTMEN(ID_REKRUTMEN, ID_CALON, TGL_DAFTAR) " +
+        "VALUES(?, ?, curdate())"
+
+    let res = await db.promise().query(query, [IDREKRUT, IDCALON])
+
+    return res[0];
+}
+
 module.exports = {
     getDetailCalon,
-    updateDataCalon
+    updateDataCalon,
+    getAvailableLowongan,
+    selectLowongan,
+    allowedLowongan
 }

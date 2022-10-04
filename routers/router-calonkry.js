@@ -9,12 +9,30 @@ const controller_global = require('../controller/controller-global')
 
 router.route('/home')
     .get(async function(req, res) {
-        res.render('hal_aplikasi/home_calon/hal_home_calon', {
-            user: req.user,
-            sidebar: 'home',
-            detail: await controller_calonkry.getDetailCalon(req.user.idCalon)
-        });
+
+        let detailCal = await controller_calonkry.getDetailCalon(req.user.idCalon);
+
+        if (detailCal.STAT_KELENGKAPAN == 2) {
+            res.render('hal_aplikasi/home_calon/hal_home_acc', {
+                user: req.user,
+                sidebar: 'home',
+                available: await controller_calonkry.getAvailableLowongan(),
+                allow: await controller_calonkry.allowedLowongan(req.user.idCalon)
+            })
+        } else {
+            res.render('hal_aplikasi/home_calon/hal_home_calon', {
+                user: req.user,
+                sidebar: 'home',
+                detail: detailCal
+            });
+        }
     });
+
+router.route('/pilihlowongan/:idRekrut')
+    .get(async function(req, res) {
+        await controller_calonkry.selectLowongan(req.user.idCalon, req.params.idRekrut);
+        res.redirect('/home');
+    })
 
 router.route('/profil')
     .get(async function(req, res) {
