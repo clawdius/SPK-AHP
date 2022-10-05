@@ -91,6 +91,14 @@
                                 <input type="email" name="email" class="form-control" value="<%= calonKar.EMAIL %>" disabled>
                             </div>
 
+                            <div class="form-outline mb-4">
+                                <label class="form-label ms-1" for="noTelp">No. Telp</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">+62</span>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="noTelp" class="form-control" placeholder="8123**********" maxlength="13" pattern="[1-9][0-9]{9,12}" value="<%= calonKar.NO_TELP.substring(3) %>" title="Format nomor telfon tidak sesuai" required disabled>
+                                  </div>
+                            </div>
+
                             <form method="POST" id="statMBR">
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">Status MBR (Masyarakat Berpenghasilan Rendah)</label>

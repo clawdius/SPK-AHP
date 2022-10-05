@@ -28,6 +28,7 @@ async function updateDataCalon(data, IDCALON) {
         data.jurusanCalon,
         data.ipkCalon,
         data.lulusCalon,
+        '+62'+data.noTelp,
     ];
 
     let query = "UPDATE MASTER_CALON_KARYAWAN SET " +
@@ -42,7 +43,8 @@ async function updateDataCalon(data, IDCALON) {
         "JURUSAN_STUDI = ?, " +
         "IPK = ?, " +
         "THN_LULUS = ?, " +
-        "STAT_KELENGKAPAN = 0 " +
+        "STAT_KELENGKAPAN = 0, " +
+        "NO_TELP = ? " +
         "WHERE ID_CALON = " + IDCALON
 
     let res = await db.promise().query(query, dataRefactored)
@@ -67,7 +69,7 @@ async function getSelectedJob(IDCALON){
     "WHERE ar.ID_CALON = ? AND mr.STAT_REKRUTMEN = 1";
 
     let res = await db.promise().query(query, IDCALON);
-    return res[0][0];
+    return res[0][0] ? res[0][0] : { ID_REKRUTMEN: null };
 }
 
 async function allowedLowongan(IDCALON) {

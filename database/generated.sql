@@ -44,6 +44,7 @@ create table MASTER_CALON_KARYAWAN
    ID_CALON             int not null AUTO_INCREMENT comment '',
    NAMA_CALON           varchar(255) not null  comment '',
    EMAIL                varchar(50) not null  comment '',
+   NO_TELP              varchar(17) comment '',
    PASSWORD             varchar(15) not null  comment '',
    FILE_NIK             varchar(255) not null  comment '',
    JENIS_KEL            int not null  comment '',

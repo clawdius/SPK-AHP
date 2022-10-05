@@ -16,12 +16,13 @@ async function daftarBaru(data) {
         data.ipkCalon,
         data.lulusCalon,
         data.email,
-        data.password
+        data.password,
+        '+62'+data.noTelp
     ]
 
     let query = "INSERT INTO MASTER_CALON_KARYAWAN " +
-        "(NAMA_CALON, FILE_NIK, JENIS_KEL, TEM_LAHIR, TGL_LAHIR, JENJANG_PEND, NAMA_SEK, FAKULTAS, JURUSAN_STUDI, IPK, THN_LULUS, STAT_MBR, STAT_KELENGKAPAN, EMAIL, PASSWORD) " +
-        "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?)"
+        "(NAMA_CALON, FILE_NIK, JENIS_KEL, TEM_LAHIR, TGL_LAHIR, JENJANG_PEND, NAMA_SEK, FAKULTAS, JURUSAN_STUDI, IPK, THN_LULUS, STAT_MBR, STAT_KELENGKAPAN, EMAIL, PASSWORD, NO_TELP) " +
+        "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)"
 
     let res = await db.promise().query(query, dataRefactored)
 

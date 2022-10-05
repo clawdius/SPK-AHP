@@ -73,6 +73,15 @@
                                 <%= detail.IPK %>>
                         </div>
                     </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="noTelp">No. Telp</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroup-sizing-default">+62</span>
+                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="noTelp" class="form-control" placeholder="8123**********" maxlength="13" pattern="[1-9][0-9]{9,12}" value="<%= detail.NO_TELP.substring(3) %>" title="Format nomor telfon tidak sesuai" required>
+                          </div>
+                    </div>
+
                     <div class="pt-1 mb-4 d-flex align-items-center">
                         <input class="btn btn-success btn-lg btn-block" id="btnDaftar" type="submit" value="Ubah Data">
                         <p class="mb-0" id="btnLogin" style="color: #080808; display: none;">Terdapat akun yang memiliki NIK/Email yang sama.</p>
