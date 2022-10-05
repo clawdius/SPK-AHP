@@ -21,9 +21,20 @@
                             <td>
                                 <%= data.NAMA_CALON %>
                             </td>
-                            <td>
-                                <%= data.STAT_KELENGKAPAN %>
-                            </td>
+                            <% if(data.STAT_KELENGKAPAN == 0){ %>
+                                <td>
+                                    Menunggu review
+                                </td>
+                            <%} else if(data.STAT_KELENGKAPAN == 1){ %>
+                                <td>
+                                    Terdapat revisi
+                                </td>
+                            <%} else {%>
+                                <td>
+                                    Diterima
+                                </td>
+                            <%}%>
+                            
                             <td>
                                 <button class="btn btn-success" onclick="window.location = '/peserta/review/<%= data.ID_CALON %>'"><span><i class="bi bi-search me-2"></i></span>Review Akun</button>
                             </td>

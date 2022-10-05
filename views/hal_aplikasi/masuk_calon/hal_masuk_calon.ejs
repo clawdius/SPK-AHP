@@ -44,6 +44,16 @@
                                             <label class="form-label ms-2" for="form2Example27">Password</label>
                                         </div>
 
+                                        <% if(message != ''){ %> 
+                                        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-3" role="alert">
+                                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                            <div>
+                                                <%= message %>
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        <%}%>
+
                                         <div class="pt-1 mb-4">
                                             <button class="btn btn-dark btn-lg btn-block" type="submit">Masuk</button>
                                         </div>

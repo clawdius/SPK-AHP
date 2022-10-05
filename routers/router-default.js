@@ -66,7 +66,9 @@ router.route('/logout')
 router.route('/logincalon')
     .get(function(req, res) {
         if (!req.isAuthenticated()) {
-            res.render('hal_aplikasi/masuk_calon/hal_masuk_calon');
+            res.render('hal_aplikasi/masuk_calon/hal_masuk_calon', {
+                message: req.query.message == 'noLogin' ? 'Silahkan Login Dahulu' : req.query.message == 'wrongCred' ? 'User Tidak Ditemukan' : ''
+            });
         } else {
             if (req.user.idBagian) {
                 switch (req.user.idBagian) {
