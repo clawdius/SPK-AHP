@@ -37,8 +37,13 @@
                                     <button class="btn btn-success" onclick="pilihLowongan(<%= data.ID_REKRUTMEN %>);">
                                         <span><i class="bi bi-check2 me-2"></i></span>Pilih</button>
                                     <% } else {%>
-                                        <button class="btn btn-danger" disabled>
-                                            <span><i class="bi bi-lock-fill"></i></span></button>
+                                        <% if(selectedJob.ID_REKRUTMEN == data.ID_REKRUTMEN){ %>
+                                            <button class="btn btn-success w-100" disabled>
+                                                <span><i class="bi bi-check2 me-2"></i>Terpilih</span></button>
+                                        <%} else {%>
+                                            <button class="btn btn-danger w-100" disabled>
+                                                <span><i class="bi bi-lock-fill"></i></span></button>
+                                        <%}%>
                                         <% } %>
                             </td>
                         </tr>

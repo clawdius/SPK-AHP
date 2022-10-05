@@ -94,7 +94,7 @@
                             <form method="POST" id="statMBR">
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="form2Example17">Status MBR (Masyarakat Berpenghasilan Rendah)</label>
-                                    <select name="statusMBR" onchange="submitMBR(this);" class="form-select" required>
+                                    <select name="statusMBR" onchange="submitMBR(this);" class="form-select" required <%if(calonKar.STAT_KELENGKAPAN=='2' ){%>disabled<%}%>>
                                         <option value="0" <% if(calonKar.STAT_MBR == 0){%> selected <%}%>>Non MBR</option>
                                         <option value="1" <% if(calonKar.STAT_MBR == 1){ %> selected <% } %>>MBR</option>
                                     </select>

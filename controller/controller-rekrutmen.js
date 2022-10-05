@@ -1,7 +1,7 @@
 const db = require('../config-app/config-db')
 
 async function daftarBagian() {
-    let query = "SELECT *, CASE WHEN ID_BAGIAN IN (SELECT mb.ID_BAGIAN FROM master_bagian mb JOIN master_rekrutmen mr ON mb.ID_BAGIAN = mr.ID_BAGIAN WHERE mr.STAT_REKRUTMEN IN (1, 0)) THEN 1 ELSE 0 END AS STATUS FROM master_bagian";
+    let query = "SELECT *, CASE WHEN ID_BAGIAN IN (SELECT mb.ID_BAGIAN FROM master_bagian mb JOIN master_rekrutmen mr ON mb.ID_BAGIAN = mr.ID_BAGIAN WHERE mr.STAT_REKRUTMEN IN (1, 0)) THEN 1 ELSE 0 END AS STATUS FROM master_bagian WHERE ID_BAGIAN != 1";
     let res = await db.promise().query(query)
     return res[0];
 }

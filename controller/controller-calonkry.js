@@ -61,6 +61,15 @@ async function getAvailableLowongan() {
     return res[0];
 }
 
+async function getSelectedJob(IDCALON){
+    let query = "SELECT ar.*, mr.STAT_REKRUTMEN FROM aktivitas_rekrutmen ar "+
+    "JOIN master_rekrutmen mr ON mr.ID_REKRUTMEN=ar.ID_REKRUTMEN "+
+    "WHERE ar.ID_CALON = ? AND mr.STAT_REKRUTMEN = 1";
+
+    let res = await db.promise().query(query, IDCALON);
+    return res[0][0];
+}
+
 async function allowedLowongan(IDCALON) {
     let query = "SELECT * FROM AKTIVITAS_REKRUTMEN AR " +
         "JOIN MASTER_REKRUTMEN MR ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
@@ -89,5 +98,6 @@ module.exports = {
     updateDataCalon,
     getAvailableLowongan,
     selectLowongan,
-    allowedLowongan
+    allowedLowongan,
+    getSelectedJob
 }

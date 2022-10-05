@@ -17,6 +17,7 @@ router.route('/home')
                 user: req.user,
                 sidebar: 'home',
                 available: await controller_calonkry.getAvailableLowongan(),
+                selectedJob: await controller_calonkry.getSelectedJob(req.user.idCalon),
                 allow: await controller_calonkry.allowedLowongan(req.user.idCalon)
             })
         } else {
