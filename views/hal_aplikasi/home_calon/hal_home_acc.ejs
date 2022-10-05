@@ -1,5 +1,4 @@
 <%- include('../../component/head') %>
-
     <div class="card h-100">
         <h3 class="card-header">Pilih lowongan yang tersedia</h3>
         <div class="card-body">
@@ -15,7 +14,7 @@
                 </thead>
                 <tbody>
                     <% let no = 1; for(data of available){ %>
-                        <tr>
+                        <tr <% if(selectedJob.ID_REKRUTMEN == data.ID_REKRUTMEN){ %>style="font-weight: 600;"<%}%>>
                             <td>
                                 <%= no %>
                             </td>
@@ -34,14 +33,14 @@
                             </td>
                             <td>
                                 <% if(allow == 'allowed'){ %>
-                                    <button class="btn btn-success" onclick="pilihLowongan(<%= data.ID_REKRUTMEN %>);">
+                                    <button class="btn btn-success w-100" onclick="pilihLowongan(<%= data.ID_REKRUTMEN %>);">
                                         <span><i class="bi bi-check2 me-2"></i></span>Pilih</button>
                                     <% } else {%>
                                         <% if(selectedJob.ID_REKRUTMEN == data.ID_REKRUTMEN){ %>
-                                            <button class="btn btn-success w-100" disabled>
-                                                <span><i class="bi bi-check2 me-2"></i>Terpilih</span></button>
+                                            <button class="btn btn-danger w-100" onclick="batalpilihLowongan(<%= selectedJob.ID_AKTIVITAS %>);">
+                                                <span><i class="bi bi-trash-fill me-2"></i>Batal Pilih</span></button>
                                         <%} else {%>
-                                            <button class="btn btn-danger w-100" disabled>
+                                            <button class="btn btn-secondary w-100" disabled>
                                                 <span><i class="bi bi-lock-fill"></i></span></button>
                                         <%}%>
                                         <% } %>
@@ -54,25 +53,17 @@
     </div>
 
     <script>
-        function setdate(value) {
-            var date = new Date(value);
-
-            options = {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-            };
-
-            var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
-
-            return DateFormatted;
-        }
-
         function pilihLowongan(value) {
             let conf = confirm('Apakah anda yakin ingin memilih lowongan ini?');
             if (conf) {
                 window.location = '/pilihlowongan/' + value
+            };
+        }
+
+        function batalpilihLowongan(value){
+            let conf = confirm('Apakah anda yakin ingin membatalkan pengajuan pada lowongan ini?');
+            if (conf) {
+                window.location = '/batalpilihlowongan/' + value
             };
         }
     </script>

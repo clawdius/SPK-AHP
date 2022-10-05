@@ -13,6 +13,23 @@
     <script src="/js/jquery.min.js"></script>
 </head>
 
+<script>
+    function setdate(value) {
+            var date = new Date(value);
+
+            options = {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+            };
+
+            var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
+
+            return DateFormatted;
+        }
+</script>
+
 <body class="vw-100 vh-100" style="margin: 0; padding: 0">
 
     <div class="row w-100 h-100">

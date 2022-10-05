@@ -35,6 +35,12 @@ router.route('/pilihlowongan/:idRekrut')
         res.redirect('/home');
     })
 
+router.route('/batalpilihlowongan/:idAktivitas')
+    .get(async function(req, res) {
+        await controller_calonkry.cancelLowongan(req.user.idCalon, req.params.idAktivitas);
+        res.redirect('/home');
+    })
+
 router.route('/profil')
     .get(async function(req, res) {
         res.render('hal_aplikasi/profil_calon/hal_profil_calon', {

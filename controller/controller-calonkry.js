@@ -93,11 +93,18 @@ async function selectLowongan(IDCALON, IDREKRUT) {
     return res[0];
 }
 
+async function cancelLowongan(IDCALON, IDAKTIVITAS) {
+    let query = "DELETE FROM AKTIVITAS_REKRUTMEN WHERE ID_CALON = ? AND ID_AKTIVITAS = ?";
+    let res = await db.promise().query(query, [IDCALON, IDAKTIVITAS]);
+    return res[0];
+}
+
 module.exports = {
     getDetailCalon,
     updateDataCalon,
     getAvailableLowongan,
     selectLowongan,
     allowedLowongan,
-    getSelectedJob
+    getSelectedJob,
+    cancelLowongan
 }
