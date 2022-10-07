@@ -105,10 +105,26 @@ router.group([auth.authChecker], async router => {
             try {
                 await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
 
-                res.render('hal_aplikasi/entrynilai/hal_entrynilai', {
-                    user: req.user,
-                    sidebar: 'entrynilai'
-                });
+                if (await controller_bagian.finishedSubmit(req.user.idBagian) == 'allowed') {
+                    res.render('hal_aplikasi/entrynilai/hal_entrynilai', {
+                        user: req.user,
+                        sidebar: 'entrynilai',
+                        calonKar: await controller_bagian.getListCalonKar(req.user.idBagian),
+                        bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
+                        stat: await controller_bagian.finishedSubmit(req.user.idBagian),
+                        listNilai: [{ 'NILAI': null }]
+                    });
+                } else {
+                    res.render('hal_aplikasi/entrynilai/hal_entrynilai', {
+                        user: req.user,
+                        sidebar: 'entrynilai',
+                        calonKar: await controller_bagian.getListCalonKar(req.user.idBagian),
+                        bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
+                        listNilai: await controller_bagian.getListNilai(req.user.idBagian),
+                        stat: await controller_bagian.finishedSubmit(req.user.idBagian)
+                    });
+                }
+
             } catch (error) {
                 res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
                     user: req.user,
@@ -116,6 +132,14 @@ router.group([auth.authChecker], async router => {
                 });
             }
 
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            try {
+                await controller_bagian.submitNilai(req.body)
+                res.redirect('/entrynilai')
+            } catch (e) {
+                res.redirect('/entrynilai')
+            }
         })
 
 })

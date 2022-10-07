@@ -96,6 +96,67 @@ async function updateBobot(data, idKar) {
 
 }
 
+async function getListCalonKar(idBag) {
+    let query = "SELECT AR.*, MCK.NAMA_CALON AS NAMA FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_REKRUTMEN MR " +
+        "ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
+        "JOIN MASTER_CALON_KARYAWAN MCK " +
+        "ON AR.ID_CALON = MCK.ID_CALON " +
+        "WHERE MR.ID_BAGIAN = ? " +
+        "AND MR.STAT_REKRUTMEN = 1";
+
+    let res = await db.promise().query(query, idBag);
+
+    return res[0];
+}
+
+async function finishedSubmit(idBag) {
+    let query = "SELECT NCK.NILAI FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_REKRUTMEN MR " +
+        "ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
+        "JOIN MASTER_CALON_KARYAWAN MCK " +
+        "ON AR.ID_CALON = MCK.ID_CALON " +
+        "LEFT JOIN NILAI_CALON_KARYAWAN NCK " +
+        "ON AR.ID_AKTIVITAS = NCK.ID_AKTIVITAS " +
+        "WHERE MR.ID_BAGIAN = ? " +
+        "AND MR.STAT_REKRUTMEN = 1 " +
+        "LIMIT 1 ";
+
+    let res = await db.promise().query(query, idBag)
+
+    return res[0][0].NILAI == null ? 'allowed' : 'no';
+}
+
+async function getListNilai(idBag) {
+    let query = "SELECT AR.*, MCK.NAMA_CALON, NCK.* FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_REKRUTMEN MR " +
+        "ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
+        "JOIN MASTER_CALON_KARYAWAN MCK " +
+        "ON AR.ID_CALON = MCK.ID_CALON " +
+        "LEFT JOIN NILAI_CALON_KARYAWAN NCK " +
+        "ON AR.ID_AKTIVITAS = NCK.ID_AKTIVITAS " +
+        "WHERE MR.ID_BAGIAN = ? " +
+        "AND MR.STAT_REKRUTMEN = 1";
+
+    let res = await db.promise().query(query, idBag);
+
+    return res[0];
+}
+
+async function submitNilai(data) {
+    let dataRefactored = [];
+
+    for (i = 0; i < data.idkrit.length; i++) {
+        dataRefactored.push([data.idAktivitas[i], data.idkrit[i], data.nilaikrit[i]])
+    };
+
+    let query = "INSERT INTO NILAI_CALON_KARYAWAN VALUES ?";
+
+    let res = await db.promise().query(query, [dataRefactored]);
+
+    return res;
+}
+
 module.exports = {
     getMasterKriteria,
     getBagianKriteria,
@@ -104,5 +165,9 @@ module.exports = {
     deleteKriteriaBagian,
     tambahKriteria,
     updateBobot,
-    getStatusRekrutmen
+    getStatusRekrutmen,
+    getListCalonKar,
+    submitNilai,
+    finishedSubmit,
+    getListNilai
 }

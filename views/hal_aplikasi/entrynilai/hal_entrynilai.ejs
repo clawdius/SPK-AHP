@@ -1,12 +1,55 @@
 <%- include('../../component/head') %>
 
-    <div class="card h-100">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3>Entry nilai per calon karyawan</h3>
-        </div>
-        <div class="card-body">
 
-        </div>
+    <div class="card h-100">
+        <form method="POST">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 style="margin: 0;">Entry nilai per calon karyawan</h3>
+                <input type="submit" class="btn btn-success" value="Submit Nilai">
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover" data-pagination="true" data-search="true" data-toggle="table" data-locale="id-ID" data-pagination-parts='[pageInfo, pageList]' data-buttons="table-buttons">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-sortable="true" data-width="56">No</th>
+                            <th scope="col" data-sortable="true" data-width="100">Nama Calon Karyawan</th>
+                            <% for(kriteria of bKriteria){ %>
+                                <th scope="col" data-sortable="true" class="text-center">
+                                    <%= kriteria.NAMA_KRITERIA %>
+                                </th>
+                                <% } %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let i = 1, j = 1; for(karyawan of calonKar){ %>
+                            <tr>
+                                <td>
+                                    <%= i %>
+                                </td>
+                                <td>
+                                    <%= karyawan.NAMA %>
+                                </td>
+                                <% for(kriteria of bKriteria) { %>
+                                    <td>
+                                        <% console.log(listNilai[j-1].NILAI) %>
+                                            <input type="hidden" name="idkrit[]" value="<%= kriteria.ID_KRITERIA %>">
+                                            <input type="number" name="nilaikrit[]" class="form-control" min="0" placeholder="0" value="<%= listNilai[j-1].NILAI %>" <% if(stat !='allowed' ){%> disabled
+                                            <%}%> required>
+                                                <input type="hidden" name="idAktivitas[]" value="<%= karyawan.ID_AKTIVITAS %>">
+                                    </td>
+
+                                    <% 
+                                        if(stat != 'allowed'){
+                                        j++;
+                                    }} %>
+                            </tr>
+                            <% i++; %>
+                                <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
     </div>
 
 
