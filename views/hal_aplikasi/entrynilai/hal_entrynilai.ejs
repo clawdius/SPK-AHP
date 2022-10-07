@@ -31,11 +31,10 @@
                                 </td>
                                 <% for(kriteria of bKriteria) { %>
                                     <td>
-                                        <% console.log(listNilai[j-1].NILAI) %>
-                                            <input type="hidden" name="idkrit[]" value="<%= kriteria.ID_KRITERIA %>">
-                                            <input type="number" name="nilaikrit[]" class="form-control" min="0" placeholder="0" value="<%= listNilai[j-1].NILAI %>" <% if(stat !='allowed' ){%> disabled
-                                            <%}%> required>
-                                                <input type="hidden" name="idAktivitas[]" value="<%= karyawan.ID_AKTIVITAS %>">
+                                        <input type="hidden" name="idkrit[]" value="<%= kriteria.ID_KRITERIA %>">
+                                        <input type="number" name="nilaikrit[]" class="form-control" min="0" placeholder="0" value="<%= listNilai[j-1].NILAI %>" <% if(stat !='allowed' ){%> disabled
+                                        <%}%> required>
+                                            <input type="hidden" name="idAktivitas[]" value="<%= karyawan.ID_AKTIVITAS %>">
                                     </td>
 
                                     <% 
