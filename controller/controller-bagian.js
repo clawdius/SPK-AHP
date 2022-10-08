@@ -157,6 +157,18 @@ async function submitNilai(data) {
     return res;
 }
 
+async function updateNilai(data){
+
+    let query = "UPDATE nilai_calon_karyawan SET NILAI = ? " +
+        "WHERE ID_KRITERIA = ? AND ID_AKTIVITAS = ?";
+
+    for (i = 0; i < data.idkrit.length; i++){
+        res = await db.promise().query(query, [data.nilaikrit[i], data.idkrit[i], data.idAktivitas[i]]);
+    }
+    
+    return true;
+}
+
 module.exports = {
     getMasterKriteria,
     getBagianKriteria,
@@ -169,5 +181,6 @@ module.exports = {
     getListCalonKar,
     submitNilai,
     finishedSubmit,
-    getListNilai
+    getListNilai,
+    updateNilai
 }

@@ -99,9 +99,16 @@ router.group([auth.authChecker], async router => {
 
         })
 
+    router.route('/rekomendasi')
+        .get(auth.roleCheck(await allowed()), async function(req, res){
+            res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
+                user: req.user,
+                sidebar: 'rekomendasi'
+            })
+        })
+
     router.route('/entrynilai')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
-
             try {
                 await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
 
@@ -140,6 +147,12 @@ router.group([auth.authChecker], async router => {
             } catch (e) {
                 res.redirect('/entrynilai')
             }
+        })
+
+    router.route('/entrynilai/updatenilai')
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            await controller_bagian.updateNilai(req.body);
+            res.redirect('/entrynilai');
         })
 
 })
