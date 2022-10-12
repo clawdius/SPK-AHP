@@ -28,7 +28,7 @@ async function updateDataCalon(data, IDCALON) {
         data.jurusanCalon,
         data.ipkCalon,
         data.lulusCalon,
-        '+62'+data.noTelp,
+        '+62' + data.noTelp,
     ];
 
     let query = "UPDATE MASTER_CALON_KARYAWAN SET " +
@@ -56,17 +56,18 @@ async function getAvailableLowongan() {
 
     let query = "SELECT * FROM MASTER_REKRUTMEN MR " +
         "JOIN MASTER_BAGIAN MB ON MR.ID_BAGIAN = MB.ID_BAGIAN " +
-        "WHERE STAT_REKRUTMEN = 1";
+        "WHERE STAT_REKRUTMEN = 1 " +
+        "AND TGL_SELESAI >= now()";
 
     let res = await db.promise().query(query)
 
     return res[0];
 }
 
-async function getSelectedJob(IDCALON){
-    let query = "SELECT ar.*, mr.STAT_REKRUTMEN FROM aktivitas_rekrutmen ar "+
-    "JOIN master_rekrutmen mr ON mr.ID_REKRUTMEN=ar.ID_REKRUTMEN "+
-    "WHERE ar.ID_CALON = ? AND mr.STAT_REKRUTMEN = 1";
+async function getSelectedJob(IDCALON) {
+    let query = "SELECT ar.*, mr.STAT_REKRUTMEN FROM aktivitas_rekrutmen ar " +
+        "JOIN master_rekrutmen mr ON mr.ID_REKRUTMEN=ar.ID_REKRUTMEN " +
+        "WHERE ar.ID_CALON = ? AND mr.STAT_REKRUTMEN = 1";
 
     let res = await db.promise().query(query, IDCALON);
     return res[0][0] ? res[0][0] : { ID_REKRUTMEN: null };

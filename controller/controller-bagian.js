@@ -42,7 +42,7 @@ async function getBagianKriteria(idKar) {
         "ON BK.ID_KRITERIA = MK.ID_KRITERIA " +
         "WHERE BK.ID_REKRUTMEN = ?"
 
-    let res = await db.promise().query(query, [await getActiveRekrutmen(idKar)])
+    let res = await db.promise().query(query, [await getActiveRekrutmen(idKar)]);
 
     return res[0];
 }
@@ -157,15 +157,15 @@ async function submitNilai(data) {
     return res;
 }
 
-async function updateNilai(data){
+async function updateNilai(data) {
 
     let query = "UPDATE nilai_calon_karyawan SET NILAI = ? " +
         "WHERE ID_KRITERIA = ? AND ID_AKTIVITAS = ?";
 
-    for (i = 0; i < data.idkrit.length; i++){
+    for (i = 0; i < data.idkrit.length; i++) {
         res = await db.promise().query(query, [data.nilaikrit[i], data.idkrit[i], data.idAktivitas[i]]);
     }
-    
+
     return true;
 }
 

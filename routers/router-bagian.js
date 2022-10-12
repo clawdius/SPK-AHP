@@ -34,9 +34,10 @@ router.group([auth.authChecker], async router => {
                     sidebar: 'entrykriteria'
                 });
             } catch (error) {
-                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
                     user: req.user,
-                    sidebar: 'entrykriteria'
+                    sidebar: 'entrykriteria',
+                    message: 'Lowongan belum tersedia!'
                 });
             }
         })
@@ -55,9 +56,10 @@ router.group([auth.authChecker], async router => {
                     sidebar: 'entrykriteria'
                 });
             } catch (error) {
-                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
                     user: req.user,
-                    sidebar: 'entrykriteria'
+                    sidebar: 'entrykriteria',
+                    message: 'Lowongan belum tersedia!'
                 });
             }
         })
@@ -77,7 +79,8 @@ router.group([auth.authChecker], async router => {
 
             try {
                 await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
-
+                let check = await controller_bagian.getBagianKriteria(req.user.idKaryawan);
+                check[0].BOBOT;
                 res.render('hal_aplikasi/entrybobot/hal_entrybobot', {
                     user: req.user,
                     bKriteria: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
@@ -85,9 +88,10 @@ router.group([auth.authChecker], async router => {
                     sidebar: 'entrybobot'
                 });
             } catch (error) {
-                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
                     user: req.user,
-                    sidebar: 'entrybobot'
+                    sidebar: 'entrybobot',
+                    message: 'Silahkan pilih kriteria terlebih dahulu!'
                 });
             }
 
@@ -100,7 +104,7 @@ router.group([auth.authChecker], async router => {
         })
 
     router.route('/rekomendasi')
-        .get(auth.roleCheck(await allowed()), async function(req, res){
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
             res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
                 user: req.user,
                 sidebar: 'rekomendasi'
@@ -133,9 +137,10 @@ router.group([auth.authChecker], async router => {
                 }
 
             } catch (error) {
-                res.render('hal_aplikasi/blm_bukaLowongan/hal_blmbukaLowongan', {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
                     user: req.user,
-                    sidebar: 'entrynilai'
+                    sidebar: 'entrynilai',
+                    message: 'Belum ada pendaftar!'
                 });
             }
 

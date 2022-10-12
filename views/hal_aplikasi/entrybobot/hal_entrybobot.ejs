@@ -4,7 +4,7 @@
         <form method="post" onsubmit="konfirmasi(event)">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 style="margin: 0;">Entry Bobot Per-Kriteria</h3>
-                <input type="submit" class="btn btn-success w-25" value="Tambahkan" required>
+                <input type="submit" class="btn btn-success w-25" value="<%= bKriteria[0].BOBOT == 0? 'Tambahkan' : 'Update Bobot' %>" required>
             </div>
             <div class="card-body">
                 <% let no = 1; for(data of bKriteria) {%>
