@@ -37,7 +37,7 @@
                         <i class="bi bi-clipboard-check-fill me-2"></i> Entry Nilai
                     </a>
                 </li>
-                <li style="display: none;" id="rekomendasi">
+                <li>
                     <a href="/rekomendasi" class="nav-link <% if(sidebar == 'rekomendasi'){ %> active <% } else { %> link-dark <% } %> mb-2">
                         <i class="bi bi-award-fill me-2"></i> Rekomendasi
                     </a>
@@ -61,9 +61,3 @@
         </ul>
     </div>
 </div>
-
-<% if(sidebar == 'rekomendasi' ){%>
-    <script>
-        document.getElementById('rekomendasi').style.display = "";
-    </script>
-    <%}%>
