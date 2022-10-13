@@ -109,14 +109,12 @@ router.group([auth.authChecker], async router => {
             try {
                 let nilai = await controller_bagian.getListNilai(req.user.idBagian);
                 let bobot = await controller_bagian.getBagianKriteria(req.user.idKaryawan);
-                await controller_global.hitungRekomendasi(nilai, bobot);
+                let rekomendasi = await controller_global.hitungRekomendasi(nilai, bobot);
                 nilai[0].NILAI;
                 res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
                     user: req.user,
                     sidebar: 'rekomendasi',
-                    calonKar: await controller_bagian.getListCalonKar(req.user.idBagian),
-                    bKriteria: bobot,
-                    listNilai: nilai
+                    rekomendasi: rekomendasi
                 })
 
             } catch (error) {
