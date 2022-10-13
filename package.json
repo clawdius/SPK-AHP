@@ -26,6 +26,7 @@
         "express-router-group": "^0.1.4",
         "express-session": "^1.17.3",
         "jquery": "^3.6.1",
+        "mathjs": "^11.3.0",
         "multer": "^1.4.5-lts.1",
         "mysql2": "^2.3.3",
         "passport": "^0.6.0",

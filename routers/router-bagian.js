@@ -4,6 +4,7 @@ const router = express.Router();
 
 const auth = require('../config-app/config-auth')
 
+const controller_global = require('../controller/controller-global')
 const controller_bagian = require('../controller/controller-bagian')
 
 //List Router yang boleh dipake bagian
@@ -105,10 +106,26 @@ router.group([auth.authChecker], async router => {
 
     router.route('/rekomendasi')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
-            res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
-                user: req.user,
-                sidebar: 'rekomendasi'
-            })
+            try {
+                let nilai = await controller_bagian.getListNilai(req.user.idBagian);
+                let bobot = await controller_bagian.getBagianKriteria(req.user.idKaryawan);
+                await controller_global.hitungRekomendasi(nilai, bobot);
+                nilai[0].NILAI;
+                res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
+                    user: req.user,
+                    sidebar: 'rekomendasi',
+                    calonKar: await controller_bagian.getListCalonKar(req.user.idBagian),
+                    bKriteria: bobot,
+                    listNilai: nilai
+                })
+
+            } catch (error) {
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
+                    user: req.user,
+                    sidebar: 'rekomendasi',
+                    message: 'Nilai belum dimasukkan!'
+                });
+            }
         })
 
     router.route('/entrynilai')

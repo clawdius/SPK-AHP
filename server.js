@@ -18,6 +18,7 @@ app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap-tabl
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap-table/dist')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules/mathjs/lib/browser')));
 
 //Set View Engine
 app.set('view engine', 'ejs');
