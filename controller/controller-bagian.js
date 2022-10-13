@@ -103,7 +103,8 @@ async function getListCalonKar(idBag) {
         "JOIN MASTER_CALON_KARYAWAN MCK " +
         "ON AR.ID_CALON = MCK.ID_CALON " +
         "WHERE MR.ID_BAGIAN = ? " +
-        "AND MR.STAT_REKRUTMEN = 1";
+        "AND MR.STAT_REKRUTMEN = 1 " +
+        "ORDER BY MCK.NAMA_CALON";
 
     let res = await db.promise().query(query, idBag);
 
@@ -136,7 +137,8 @@ async function getListNilai(idBag) {
         "LEFT JOIN NILAI_CALON_KARYAWAN NCK " +
         "ON AR.ID_AKTIVITAS = NCK.ID_AKTIVITAS " +
         "WHERE MR.ID_BAGIAN = ? " +
-        "AND MR.STAT_REKRUTMEN = 1";
+        "AND MR.STAT_REKRUTMEN = 1 " +
+        "ORDER BY MCK.NAMA_CALON";
 
     let res = await db.promise().query(query, idBag);
 
