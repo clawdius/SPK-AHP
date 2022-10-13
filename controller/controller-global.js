@@ -21,6 +21,7 @@ function hitungRekomendasi(nilai, bobot){
     let pembagian_perbandingan = [];
     let rata_rata_kriteria = [];
     let lambda_max = 0;
+    let ci = 0;
 
     for (let i = 0; i < bobot.length; i++){
         id_kriteria.push(bobot[i].ID_KRITERIA);
@@ -113,15 +114,95 @@ function hitungRekomendasi(nilai, bobot){
     //end pembagian matrix (A4)
 
     //cari lambda max
-    lambda_max = 0;
     for (let i = 0; i < a4[0].length; i++) {
         lambda_max += a4[0][i];
     }
     lambda_max = +(lambda_max / a4[0].length).toFixed(2);
-    console.log(lambda_max);
+    console.log('Lbd_Max: '+lambda_max);
     //end cari lambda max
 
+    //cari CI
+    ci = +((lambda_max - id_kriteria.length) / (id_kriteria.length - 1)).toFixed(2);
+    console.log('CI: '+ci);
+    //end cari CI
+
+    //cari RI
+    let rc_table = [
+        0.00, 0.00, 
+        0.58, 0.89,
+        1.12, 1.26,
+        1.36, 1.41,
+        1.42, 1.49,
+        1.52, 1.54,
+        1.56, 1.58
+    ];
+    let ri = rc_table[(id_kriteria.length)-1];
+    console.log('RI: '+ri);
+    //end cari RI
+
+    //cari CR
+    cr = ci / ri;
+    console.log('CR: '+ci+'/'+ri+' = '+cr);
+    //end cari CR
+
+    //perhitungan nilai
+    let nilaiTemp = [];
+    let jmlnilaiTemp = [];
+    let kategoriTemp = [];
+    for (let i = 0; i < nilai.length; i++) {
+        nilaiTemp.push([nilai[i].ID_CALON, nilai[i].ID_KRITERIA, +(nilai[i].NILAI)]);
+        kategoriTemp.push(nilai[i].ID_KRITERIA);
+    }
+    console.log(nilaiTemp);
+
+    //cari kategori unik
+    kategoriTemp = uniq_fast(kategoriTemp);
+    //end cari kategori unik
+
+    //cari jumlah nilai per-kategori
+    for (let i = 0; i < kategoriTemp.length; i++) {
+        let jml = 0;
+        for (let j = 0; j < nilai.length; j++) {
+            if(nilai[j].ID_KRITERIA == kategoriTemp[i]){
+                jml = jml + (+nilai[j].NILAI);
+            }
+        }
+        jmlnilaiTemp.push([kategoriTemp[i], jml]);
+    }
+    console.log(jmlnilaiTemp);
+    //end cari jumlah nilai per-kategori
+
+    //cari nilai normalisasi
+    for (let i = 0; i < jmlnilaiTemp.length; i++) {
+        for (let j = 0; j < nilaiTemp.length; j++) {
+            if(jmlnilaiTemp[i][0] == nilaiTemp[j][1]){
+                nilaiTemp[j][2] = nilaiTemp[j][2] / jmlnilaiTemp[i][1]
+            }
+        }
+    }
+
+    console.log(nilaiTemp);
+
+    //end cari nilai normalisasi
+
+    //end perhitungan nilai
+
     return true;
+}
+
+function uniq_fast(a) {
+    var seen = {};
+    var out = [];
+    var len = a.length;
+    var j = 0;
+    for(var i = 0; i < len; i++) {
+         var item = a[i];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    return out;
 }
 
 module.exports = {
