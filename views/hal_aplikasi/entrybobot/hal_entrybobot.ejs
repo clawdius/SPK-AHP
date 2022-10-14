@@ -20,15 +20,15 @@
                         <div class="col-4">
                             <select name="bobotKriteria[]" class="form-select" required>
                                     <option value="" style="display: none;" <% if(data.BOBOT == 0) { %> selected <% } %>>Pilih Bobot</option>
-                                    <option value="1" <% if(data.BOBOT == 1) { %> selected <% } %>>1</option>
+                                    <option value="1" style='font-weight: 600' <% if(data.BOBOT == 1) { %> selected <% } %>>1 (Sangat Rendah)</option>
                                     <option value="2" <% if(data.BOBOT == 2) { %> selected <% } %>>2</option>
-                                    <option value="3" <% if(data.BOBOT == 3) { %> selected <% } %>>3</option>
+                                    <option value="3" style='font-weight: 600' <% if(data.BOBOT == 3) { %> selected <% } %>>3 (Rendah)</option>
                                     <option value="4" <% if(data.BOBOT == 4) { %> selected <% } %>>4</option>
-                                    <option value="5" <% if(data.BOBOT == 5) { %> selected <% } %>>5</option>
+                                    <option value="5" style='font-weight: 600' <% if(data.BOBOT == 5) { %> selected <% } %>>5 (Normal)</option>
                                     <option value="6" <% if(data.BOBOT == 6) { %> selected <% } %>>6</option>
-                                    <option value="7" <% if(data.BOBOT == 7) { %> selected <% } %>>7</option>
+                                    <option value="7" style='font-weight: 600' <% if(data.BOBOT == 7) { %> selected <% } %>>7 (Penting)</option>
                                     <option value="8" <% if(data.BOBOT == 8) { %> selected <% } %>>8</option>
-                                    <option value="9" <% if(data.BOBOT == 9) { %> selected <% } %>>9</option>
+                                    <option value="9" style='font-weight: 600' <% if(data.BOBOT == 9) { %> selected <% } %>>9 (Sangat Penting)</option>
                                 </select>
                             <input type="hidden" name="idKriteria[]" value="<%= data.ID_KRITERIA %>">
                         </div>
