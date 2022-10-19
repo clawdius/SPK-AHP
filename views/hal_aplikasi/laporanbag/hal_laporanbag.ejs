@@ -1,0 +1,40 @@
+<%- include('../../component/head') %>
+
+    <div class="card h-100">
+        <h3 class="card-header">Laporan riwayat rekrutmen</h3>
+        <div class="card-body">
+            <label for="riwayat" class="form-label">Riwayat rekrutmen</label>
+            <select name="riwayat" id="riwayat" class="form-select" onchange="hitungrekomendasi(this)">
+                <option value="" style="display: none;">Pilih riwayat rekrutmen</option>
+                <% let i = 0;for(data of listPer){ %>
+                <option class="optionPeriode" value="<%= data.ID_REKRUTMEN %>"></option>
+                <script>
+                    document.getElementsByClassName('optionPeriode')[<%= i %>].innerHTML = setdate("<%= data.TGL_MULAI %>")+' - '+setdate("<%= data.TGL_SELESAI %>");
+                </script>
+                    <%i++;}%>
+            </select>
+
+            <div id="ajax_table" class="mt-4">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function hitungrekomendasi(element) {
+            const url = "/laporanbag/getriwayat";
+            const idRek = element.value;
+
+            $.ajax({
+                url: url,
+                data: {
+                    'idRek': idRek
+                },
+                success: function(data) {
+                    $("#ajax_table").html(data);
+                },
+                method: 'post'
+            });
+        }
+    </script>
+
+    <%- include('../../component/footer') %>

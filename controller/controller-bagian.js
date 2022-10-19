@@ -171,6 +171,54 @@ async function updateNilai(data) {
     return true;
 }
 
+async function closePeriod(idRekrut) {
+
+    let query = "UPDATE MASTER_REKRUTMEN SET STAT_REKRUTMEN = 2 " +
+        "WHERE ID_REKRUTMEN = ?"
+
+    let res = await db.promise().query(query, idRekrut);
+
+    return res[0];
+
+}
+
+async function getListRekrutmen(idKar) {
+    let qRekrutmen = "SELECT * " +
+        "FROM MASTER_REKRUTMEN " +
+        "WHERE ID_BAGIAN IN" +
+        "(SELECT ID_BAGIAN FROM MASTER_KARYAWAN " +
+        "WHERE ID_KARYAWAN = ?) " +
+        "AND STAT_REKRUTMEN = 2";
+
+    let periode = await db.promise().query(qRekrutmen, idKar);
+
+    return periode[0];
+}
+
+async function getLaporanPeriode(idRekrut) {
+    let queryNilai =
+        "SELECT AR.*, MCK.NAMA_CALON, NCK.* FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_REKRUTMEN MR " +
+        "ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
+        "JOIN MASTER_CALON_KARYAWAN MCK " +
+        "ON AR.ID_CALON = MCK.ID_CALON " +
+        "LEFT JOIN NILAI_CALON_KARYAWAN NCK " +
+        "ON AR.ID_AKTIVITAS = NCK.ID_AKTIVITAS " +
+        "WHERE MR.ID_REKRUTMEN = ? " +
+        "ORDER BY MCK.NAMA_CALON";
+
+    let queryKriteria =
+        "SELECT * FROM BOBOT_KRITERIA BK " +
+        "JOIN MASTER_KRITERIA MK " +
+        "ON BK.ID_KRITERIA = MK.ID_KRITERIA " +
+        "WHERE BK.ID_REKRUTMEN = ?"
+
+    let resNilai = await db.promise().query(queryNilai, idRekrut);
+    let resKrit = await db.promise().query(queryKriteria, idRekrut);
+
+    return [resNilai[0], resKrit[0]];
+}
+
 module.exports = {
     getMasterKriteria,
     getBagianKriteria,
@@ -184,5 +232,8 @@ module.exports = {
     submitNilai,
     finishedSubmit,
     getListNilai,
-    updateNilai
+    updateNilai,
+    closePeriod,
+    getListRekrutmen,
+    getLaporanPeriode
 }

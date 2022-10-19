@@ -110,13 +110,19 @@ router.group([auth.authChecker], async router => {
                 let nilai = await controller_bagian.getListNilai(req.user.idBagian);
                 let bobot = await controller_bagian.getBagianKriteria(req.user.idKaryawan);
                 let rekomendasi = await controller_global.hitungRekomendasi(nilai, bobot);
-                nilai[0].NILAI;
-                res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
-                    user: req.user,
-                    sidebar: 'rekomendasi',
-                    rekomendasi: rekomendasi
-                })
-
+                if (nilai[0].NILAI == null) {
+                    res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
+                        user: req.user,
+                        sidebar: 'rekomendasi',
+                        message: 'Nilai belum dimasukkan!'
+                    });
+                } else {
+                    res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
+                        user: req.user,
+                        sidebar: 'rekomendasi',
+                        rekomendasi: rekomendasi
+                    });
+                };
             } catch (error) {
                 res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
                     user: req.user,
@@ -124,6 +130,15 @@ router.group([auth.authChecker], async router => {
                     message: 'Nilai belum dimasukkan!'
                 });
             }
+        })
+
+    router.route('/rekomendasi/tutup')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            let idRekrut = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+
+            await controller_bagian.closePeriod(idRekrut);
+
+            res.redirect('/laporanbag');
         })
 
     router.route('/entrynilai')
@@ -173,6 +188,24 @@ router.group([auth.authChecker], async router => {
         .post(auth.roleCheck(await allowed()), async function(req, res) {
             await controller_bagian.updateNilai(req.body);
             res.redirect('/entrynilai');
+        })
+
+    router.route('/laporanbag')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            res.render('hal_aplikasi/laporanbag/hal_laporanbag', {
+                user: req.user,
+                sidebar: 'laporan',
+                listPer: await controller_bagian.getListRekrutmen(req.user.idKaryawan)
+            })
+        });
+
+    router.route('/laporanbag/getriwayat')
+        .post(async function(req, res) {
+            let skorKriteria = await controller_bagian.getLaporanPeriode(req.body.idRek);
+
+            res.render('hal_aplikasi/laporanbag/ajax_table', {
+                rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1])
+            })
         })
 
 })

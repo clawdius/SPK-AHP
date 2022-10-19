@@ -18,7 +18,7 @@
             </li>
             <li>
                 <a href="/laporan" class="nav-link <% if(sidebar == 'laporan'){ %> active <% } else { %> link-dark <% } %> mb-2">
-                    <i class="bi bi-clipboard-check-fill me-2"></i> Laporan
+                    <i class="bi bi-envelope-paper-fill me-2"></i> Laporan
                 </a>
             </li>
             <% } else if(user.idBagian != 1 && user.idBagian != null) { %>
@@ -40,6 +40,11 @@
                 <li>
                     <a href="/rekomendasi" class="nav-link <% if(sidebar == 'rekomendasi'){ %> active <% } else { %> link-dark <% } %> mb-2">
                         <i class="bi bi-award-fill me-2"></i> Rekomendasi
+                    </a>
+                </li>
+                <li>
+                    <a href="/laporanbag" class="nav-link <% if(sidebar == 'laporan'){ %> active <% } else { %> link-dark <% } %> mb-2">
+                        <i class="bi bi-envelope-paper-fill me-2"></i> Laporan
                     </a>
                 </li>
                 <% } else if (!user.idBagian){%>
