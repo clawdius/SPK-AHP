@@ -6,7 +6,7 @@
             <th scope="col" data-sortable="true">Email</th>
             <th scope="col" data-sortable="true">No.Telp</th>
             <th scope="col" data-sortable="true">Nilai Total</th>
-            <th scope="col" data-sortable="true">Status MBR</th>
+            <th scope="col" data-sortable="true" class="text-center">Status MBR</th>
         </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
                 <td>
                     <%= +(rank[1][data.ID_CALON]) %>
                 </td>
-                <td>
+                <td class="table-<%= data.STAT_MBR == 0 ? 'success':'danger'%> text-center">
                     <%= (data.STAT_MBR == 0)? 'Tidak Berpenghasilan Kecil' : 'Berpenghasilan Kecil' %>
                 </td>
             </tr>

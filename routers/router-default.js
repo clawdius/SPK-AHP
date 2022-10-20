@@ -92,7 +92,7 @@ router.route('/logincalon')
 router.route('/registercalon')
     .get(function(req, res) {
         res.render('hal_aplikasi/isi_dataCalon/hal_isi_dataCalon', {
-            tgl_max: controller_global.findToday(),
+            tgl_max: controller_global.findMaxAge(),
             thn_max: controller_global.findYear()
         })
     })

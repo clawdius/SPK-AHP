@@ -10,6 +10,10 @@ function findToday() {
     return yyyy + '-' + mm + '-' + dd;
 }
 
+function findMaxAge() {
+    return (yyyy - 17) + '-12-31'
+}
+
 function findYear() {
     return yyyy;
 }
@@ -260,5 +264,6 @@ function uniq_fast(a) {
 module.exports = {
     findToday,
     findYear,
+    findMaxAge,
     hitungRekomendasi
 }
