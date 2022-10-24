@@ -1,7 +1,40 @@
 <%- include('../../component/head') %>
 
     <div class="card h-100">
+        <h3 class="card-header">Laporan Pendaftar Rekrutmen</h3>
+        <div class="card-body">
+            <label for="riwayat" class="form-label">Periode Rekrutmen</label>
+            <select name="riwayat" id="riwayat" class="form-select" onchange="getLaporan(this)">
+                <option value="" style="display: none;">Pilih Periode Rekrutmen</option>
+                <% let i = 0;for(data of listLap){ %>
+                <option class="optionPeriode" value="<%= data.ID_REKRUTMEN %>"></option>
+                <script>
+                    document.getElementsByClassName('optionPeriode')[<%= i %>].innerHTML = setdate("<%= data.TGL_MULAI %>")+' - '+setdate("<%= data.TGL_SELESAI %>") + ' (<%= data.NAMA_BAGIAN %>)';
+                </script>
+                    <% i++; } %>
+            </select>
 
+            <div id="ajax_table" class="mt-4">
+
+            </div>
+        </div>
     </div>
+    <script>
+        function getLaporan(element) {
+            const url = "/laporan/getlaporan";
+            const idLap = element.value;
+
+            $.ajax({
+                url: url,
+                data: {
+                    'idLap': idLap
+                },
+                success: function(data) {
+                    $("#ajax_table").html(data);
+                },
+                method: 'post'
+            });
+        }
+    </script>
 
     <%- include('../../component/footer') %>

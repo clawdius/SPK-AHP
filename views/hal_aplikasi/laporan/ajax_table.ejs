@@ -6,12 +6,11 @@
             <th scope="col" data-sortable="true">Nama Calon Karyawan</th>
             <th scope="col">Email</th>
             <th scope="col">No.Telp</th>
-            <th scope="col" data-sortable="true">Nilai Total</th>
-            <th scope="col" data-sortable="true" class="text-center">Status MBR</th>
+            <th scope="col">Tanggal Daftar</th>
         </tr>
     </thead>
     <tbody>
-        <% let i = 0; for(data of rank[0]){ %>
+        <% let i = 0; for(data of listCalon){ %>
             <tr>
                 <td>
                     <%= i+1 %>
@@ -25,14 +24,13 @@
                 <td>
                     <%= data.NO_TELP %>
                 </td>
-                <td>
-                    <%= +(rank[1][data.ID_CALON]) %>
-                </td>
-                <td class="table-<%= data.STAT_MBR == 0 ? 'success':'danger'%> text-center">
-                    <%= (data.STAT_MBR == 0)? 'Tidak Berpenghasilan Kecil' : 'Berpenghasilan Kecil' %>
+                <td class="daftarFormatted">
+                    <script>
+                        document.getElementsByClassName('daftarFormatted')[<%= i %>].innerHTML = setdate("<%= data.TGL_DAFTAR%>");
+                    </script>
                 </td>
             </tr>
-            <%i++;}%>
+            <% i++;}%>
     </tbody>
 </table>
 <script src="/js/bootstrap-table.min.js"></script>

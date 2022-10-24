@@ -79,6 +79,27 @@ async function tambahRekrutmen(data) {
     return res[0];
 }
 
+async function getLaporanFinished() {
+    let query = "SELECT MR.*, MB.NAMA_BAGIAN FROM MASTER_REKRUTMEN MR " +
+        "JOIN MASTER_BAGIAN MB ON MR.ID_BAGIAN = MB.ID_BAGIAN " +
+        "WHERE STAT_REKRUTMEN = 2";
+
+    let res = await db.promise().query(query);
+
+    return res[0];
+}
+
+async function getDetailLaporan(idLap) {
+    let query = "SELECT * FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_CALON_KARYAWAN MCK ON AR.ID_CALON = MCK.ID_CALON " +
+        "WHERE AR.ID_REKRUTMEN = ?"
+
+    let res = await db.promise().query(query, idLap)
+
+    return res[0];
+}
+
+
 module.exports = {
     daftarBagian,
     detailBagian,
@@ -87,5 +108,7 @@ module.exports = {
     calonKaryawan,
     detailCalonKaryawan,
     changeStatusCalonKaryawan,
-    changeMBR
+    changeMBR,
+    getLaporanFinished,
+    getDetailLaporan
 }

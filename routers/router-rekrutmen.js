@@ -72,12 +72,20 @@ router.group([auth.authChecker], async router => {
         })
 
     router.route('/laporan')
-        .get(auth.roleCheck(await allowed()), function(req, res) {
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
             res.render('hal_aplikasi/laporan/hal_laporan', {
                 user: req.user,
-                sidebar: 'laporan'
+                sidebar: 'laporan',
+                listLap: await controller_rekrutmen.getLaporanFinished()
             });
         });
+
+    router.route('/laporan/getlaporan')
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            res.render('hal_aplikasi/laporan/ajax_table', {
+                listCalon: await controller_rekrutmen.getDetailLaporan(req.body.idLap)
+            })
+        })
 
 })
 
