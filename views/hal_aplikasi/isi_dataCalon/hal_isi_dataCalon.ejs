@@ -88,12 +88,18 @@
                                     </div>
                                 </div>
 
+                                <div class="form-outline mb-4" id="div_ijazahCalon" style="display: none;">
+                                    <label class="form-label ms-1" for="form2Example17">Ijazah</label>
+                                    <input class="form-control" name="foto_ijazah" type="file" onchange="fileCheck(this);" id="formFile" accept="image/png, image/jpeg" required>
+                                </div>
+
                                 <div class="form-outline mb-4">
                                     <label class="form-label ms-1" for="noTelp">No. Telp</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="inputGroup-sizing-default">+62</span>
-                                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="noTelp" class="form-control" placeholder="8123**********" maxlength="13" pattern="[1-9][0-9]{9,12}" title="Format nomor telfon tidak sesuai" required>
-                                      </div>
+                                        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="noTelp" class="form-control" placeholder="8123**********" maxlength="13" pattern="[1-9][0-9]{9,12}" title="Format nomor telfon tidak sesuai"
+                                            required>
+                                    </div>
                                 </div>
 
                                 <div class="form-outline mb-4">
@@ -141,6 +147,7 @@
     function chkSekolah(element) {
         document.getElementById('div_sekolahCalon').style.display = "";
         document.getElementById('div_jurusanCalon').style.display = "";
+        document.getElementById('div_ijazahCalon').style.display = "";
         let jns_sekolah = element.options[element.selectedIndex].getAttribute('data-val');
         if (jns_sekolah == 0) {
 

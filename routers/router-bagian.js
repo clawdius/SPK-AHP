@@ -69,6 +69,31 @@ router.group([auth.authChecker], async router => {
             res.redirect('/entrykriteria')
         })
 
+    router.route('/editkriteria/:id')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            try {
+                await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+
+                res.render('hal_aplikasi/editkriteria/hal_editkriteria', {
+                    user: req.user,
+                    sidebar: 'entrykriteria',
+                    kriteria: await controller_bagian.getKriteria(req.params.id)
+                });
+            } catch (error) {
+                console.log(error);
+                res.render('hal_aplikasi/blm_bukaLowongan/hal_error', {
+                    user: req.user,
+                    sidebar: 'entrykriteria',
+                    message: 'Lowongan belum tersedia!'
+                });
+            }
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            await controller_bagian.setKriteria(req.params.id, req.body.keteranganKriteria);
+
+            res.redirect('/entrykriteria');
+        })
+
     router.route('/entrykriteria/hapus/:id')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
             await controller_bagian.deleteKriteriaBagian(req.params.id, req.user.idKaryawan);
@@ -204,10 +229,19 @@ router.group([auth.authChecker], async router => {
             let skorKriteria = await controller_bagian.getLaporanPeriode(req.body.idRek);
 
             res.render('hal_aplikasi/laporanbag/ajax_table', {
-                rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1])
+                rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1]),
+                idRek: skorKriteria[2]
             })
         })
 
+    router.route('/laporanbag/getriwayat/print/:id')
+        .get(async function(req, res) {
+            let skorKriteria = await controller_bagian.getLaporanPeriode(req.params.id);
+
+            res.render('hal_aplikasi/laporanbag/print', {
+                rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1])
+            })
+        })
 })
 
 module.exports = router;

@@ -14,7 +14,7 @@
                             <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1'); cekNIK(this);" class="form-control me-2" id="NIK" name="NIK" maxlength="16" pattern="[0-9]{16}" title="Panjang nomor NIK harus 16" value="<%= detail.FILE_NIK %>"
                                 required>
                             <input class="form-control me-2" name="foto_ktp" type="file" onchange="fileCheck(this);" accept="image/png, image/jpeg" required>
-                            <button type="button" class="btn btn-success w-50" data-bs-toggle="modal" data-bs-target="#exampleModal">Tampilkan Foto</button>
+                            <button type="button" class="btn btn-success w-50" data-bs-toggle="modal" data-bs-target="#exampleModal">Foto KTP</button>
                             <input type="hidden" name="NIKLama" value="<%= detail.FILE_NIK %>">
                         </div>
                     </div>
@@ -74,12 +74,23 @@
                         </div>
                     </div>
 
+                    <div class="form-outline mb-4 col row" id="div_ijazahCalon" style="display: none;">
+                        <label class="form-label ms-1" for="form2Example17">Ijazah</label>
+                        <div class="col-8">
+                            <input class="form-control" name="foto_ijazah" type="file" onchange="fileCheck(this);" id="formFile" accept="image/png, image/jpeg" required>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#exampleModal_Ijazah">Foto Ijazah</button>
+                        </div>
+                    </div>
+
                     <div class="form-outline mb-4">
                         <label class="form-label ms-1" for="noTelp">No. Telp</label>
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">+62</span>
-                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="noTelp" class="form-control" placeholder="8123**********" maxlength="13" pattern="[1-9][0-9]{9,12}" value="<%= detail.NO_TELP.substring(3) %>" title="Format nomor telfon tidak sesuai" required>
-                          </div>
+                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="noTelp" class="form-control" placeholder="8123**********" maxlength="13" pattern="[1-9][0-9]{9,12}" value="<%= detail.NO_TELP.substring(3) %>"
+                                title="Format nomor telfon tidak sesuai" required>
+                        </div>
                     </div>
 
                     <div class="pt-1 mb-4 d-flex align-items-center">
@@ -91,7 +102,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal KTP -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -101,6 +112,25 @@
                 </div>
                 <div class="modal-body">
                     <img src="/assets/asset-app/KTP-<%= detail.FILE_NIK %>.jpg" style="width: 100%; height: 50%;" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Ijazah -->
+    <div class="modal fade" id="exampleModal_Ijazah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Foto Ijazah Karyawan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/asset-app/IJ-<%= detail.FILE_NIK %>.jpg" style="width: 100%; height: 50%;" alt="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Tutup</button>
@@ -135,6 +165,7 @@
         function chkSekolah(element) {
             document.getElementById('div_sekolahCalon').style.display = "";
             document.getElementById('div_jurusanCalon').style.display = "";
+            document.getElementById('div_ijazahCalon').style.display = "";
             let jns_sekolah = element.options[element.selectedIndex].getAttribute('data-val');
             if (jns_sekolah == 0) {
 

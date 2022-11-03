@@ -10,7 +10,7 @@ passport.use('karyawan-local',
         passwordField: 'password_pengguna',
     }, function(username, password, done) {
 
-        let query = "SELECT * FROM MASTER_KARYAWAN WHERE USERNAME = ? AND PASSWORD = ?";
+        let query = "SELECT K.*, B.NAMA_BAGIAN FROM MASTER_KARYAWAN K JOIN MASTER_BAGIAN B ON K.ID_BAGIAN = B.ID_BAGIAN WHERE K.USERNAME = ? AND K.PASSWORD = ?";
         const credential = [username, password]
 
         db.query(query, credential, function(req, res) {
@@ -20,7 +20,8 @@ passport.use('karyawan-local',
                     username: res[0].USERNAME,
                     nama: res[0].NAMA_KARYAWAN,
                     idKaryawan: res[0].ID_KARYAWAN,
-                    idBagian: res[0].ID_BAGIAN
+                    idBagian: res[0].ID_BAGIAN,
+                    namaBag: res[0].NAMA_BAGIAN
                 }
 
                 done(null, user);

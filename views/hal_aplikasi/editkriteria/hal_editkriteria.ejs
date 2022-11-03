@@ -1,0 +1,24 @@
+<%- include('../../component/head') %>
+
+    <div class="d-flex flex-column h-100">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between">
+                <h3 style="margin: 0;">Edit Kategori Kriteria</h3>
+            </div>
+            <div class="card-body">
+                <form class="col-6" method="post">
+                    <label for="namaKriteria" class="form-label mb-2">Nama Kriteria</label>
+                    <input type="text" class="form-control mb-4" name="namaKriteria" value="<%= kriteria.NAMA_KRITERIA %>" disabled required>
+
+                    <label for="keteranganKriteria" class="form-label mb-2">Keterangan Kriteria</label>
+                    <input type="text" class="form-control mb-4" name="keteranganKriteria" value="<%= kriteria.KETERANGAN_KRITERIA %>" required>
+
+                    <div class="d-flex justify-content-end">
+                        <input type="submit" class="btn btn-success w-25" value="Ubah" required>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../component/footer') %>

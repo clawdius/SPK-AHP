@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPK-AHP</title>
+    <title>SPK-AHP |
+        <%= user.namaBag %>
+    </title>
     <link rel="stylesheet" href="/assets/css/setting-default.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-icons.css">
@@ -16,19 +18,19 @@
 
 <script>
     function setdate(value) {
-            var date = new Date(value);
+        var date = new Date(value);
 
-            options = {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-            };
+        options = {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        };
 
-            var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
+        var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
 
-            return DateFormatted;
-        }
+        return DateFormatted;
+    }
 </script>
 
 <body class="vw-100 vh-100" style="margin: 0; padding: 0">

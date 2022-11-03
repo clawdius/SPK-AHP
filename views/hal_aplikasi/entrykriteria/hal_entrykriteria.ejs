@@ -55,6 +55,9 @@
                                 <td>
                                     <button class="btn btn-danger" onclick="hapusData(<%= data.ID_KRITERIA %>);" <% if( status!=0 ) { %> disabled <% } %>>
                                         <span><i class="bi bi-trash-fill me-2"></i></span>Hapus</button>
+                                    <button class="btn btn-secondary" onclick="editKet(<%= data.ID_KRITERIA %>);">
+                                        <span><i class="bi bi-pencil-square me-2"></i></span>
+                                        Edit Keterangan</button>
                                 </td>
                             </tr>
                             <% no++ } %>
@@ -69,6 +72,10 @@
             if (conf) {
                 window.location = '/entrykriteria/hapus/' + value
             };
+        }
+
+        function editKet(value) {
+            window.location = '/editkriteria/' + value;
         }
     </script>
 

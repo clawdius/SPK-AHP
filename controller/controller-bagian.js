@@ -76,6 +76,22 @@ async function tambahKriteria(data) {
     return res[0];
 }
 
+async function getKriteria(id) {
+    let query = "SELECT * FROM MASTER_KRITERIA WHERE ID_KRITERIA = ?";
+
+    let res = await db.promise().query(query, id);
+
+    return res[0][0];
+}
+
+async function setKriteria(id, data) {
+    let query = "UPDATE MASTER_KRITERIA SET KETERANGAN_KRITERIA = ? WHERE ID_KRITERIA = ?"
+
+    let res = await db.promise().query(query, [data, id])
+
+    return res[0];
+}
+
 async function updateBobot(data, idKar) {
 
     let rekActive = await getActiveRekrutmen(idKar);
@@ -216,7 +232,7 @@ async function getLaporanPeriode(idRekrut) {
     let resNilai = await db.promise().query(queryNilai, idRekrut);
     let resKrit = await db.promise().query(queryKriteria, idRekrut);
 
-    return [resNilai[0], resKrit[0]];
+    return [resNilai[0], resKrit[0], idRekrut];
 }
 
 module.exports = {
@@ -235,5 +251,7 @@ module.exports = {
     updateNilai,
     closePeriod,
     getListRekrutmen,
-    getLaporanPeriode
+    getLaporanPeriode,
+    getKriteria,
+    setKriteria
 }
