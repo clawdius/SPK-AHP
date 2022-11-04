@@ -6,6 +6,7 @@ const auth = require('../config-app/config-auth')
 
 const controller_rekrutmen = require('../controller/controller-rekrutmen');
 const controller_global = require('../controller/controller-global');
+const { re } = require('mathjs');
 
 //List Router yang boleh dipake rekrutmen
 router.group([auth.authChecker], async router => {
@@ -83,7 +84,15 @@ router.group([auth.authChecker], async router => {
     router.route('/laporan/getlaporan')
         .post(auth.roleCheck(await allowed()), async function(req, res) {
             res.render('hal_aplikasi/laporan/ajax_table', {
-                listCalon: await controller_rekrutmen.getDetailLaporan(req.body.idLap)
+                listCalon: await controller_rekrutmen.getDetailLaporan(req.body.idLap),
+                idLap: req.body.idLap
+            })
+        })
+
+    router.route('/laporan/getlaporan/print/:id')
+        .get(auth.roleCheck(await allowed()), async function(req, res) {
+            res.render('hal_aplikasi/laporan/print', {
+                listCalon: await controller_rekrutmen.getDetailLaporan(req.params.id)
             })
         })
 
