@@ -68,12 +68,13 @@ async function tambahRekrutmen(data) {
         data.tanggalPend1,
         data.tanggalPend2,
         data.tanggalTes,
+        data.posisi,
         0
     ];
 
     let query = "INSERT INTO MASTER_REKRUTMEN" +
-        "(ID_BAGIAN, ID_KARYAWAN, OPERATOR, TGL_MULAI, TGL_SELESAI, TGL_TES, STAT_REKRUTMEN) VALUES" +
-        "(?, ?, ?, ?, ?, ?, ?)"
+        "(ID_BAGIAN, ID_KARYAWAN, OPERATOR, TGL_MULAI, TGL_SELESAI, TGL_TES, POSISI, STAT_REKRUTMEN) VALUES" +
+        "(?, ?, ?, ?, ?, ?, ?, ?)"
     let res = await db.promise().query(query, dataRefactored)
 
     return res[0];

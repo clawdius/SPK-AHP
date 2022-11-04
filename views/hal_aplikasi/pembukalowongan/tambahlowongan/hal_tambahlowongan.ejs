@@ -11,6 +11,10 @@
                     <div class="row">
                         <input type="hidden" name="idBagian" value="<%= detailBagian.ID_BAGIAN %>">
                         <div class="form-outline mb-4">
+                            <label class="form-label ms-1" for="form2Example17">Posisi</label>
+                            <input type="text" class="form-control" name="posisi" required>
+                        </div>
+                        <div class="form-outline mb-4">
                             <label class="form-label ms-1" for="form2Example17">Tanggal pendaftaran dibuka</label>
                             <input type="date" class="form-control" min="<%= dateNow %>" onchange="setdateMax(this); setdateMinMax();" id="tanggalPend1" name="tanggalPend1" required>
                         </div>
