@@ -21,23 +21,31 @@
                             <td>
                                 <%= data.NAMA_CALON %>
                             </td>
-                            <% if(data.STAT_KELENGKAPAN == 0){ %>
-                                <td>
-                                    Menunggu review
+                            <% if(data.STAT_TES == 1) {%>
+                                <td class="table-success">
+                                    Sudah mengikuti tes
                                 </td>
-                            <%} else if(data.STAT_KELENGKAPAN == 1){ %>
-                                <td>
-                                    Terdapat revisi
-                                </td>
-                            <%} else {%>
-                                <td>
-                                    Diterima
-                                </td>
-                            <%}%>
-                            
-                            <td>
-                                <button class="btn btn-success" onclick="window.location = '/peserta/review/<%= data.ID_CALON %>'"><span><i class="bi bi-search me-2"></i></span>Review Akun</button>
-                            </td>
+                                <%} else if(data.STAT_KELENGKAPAN == 0){ %>
+                                    <td class="table-danger">
+                                        Menunggu review
+                                    </td>
+                                    <%} else if(data.STAT_KELENGKAPAN == 1){ %>
+                                        <td class="table-warning">
+                                            Terdapat revisi
+                                        </td>
+                                        <%} else {%>
+                                            <td class="table-primary">
+                                                Belum mengikuti tes
+                                            </td>
+                                            <%}%>
+                                                <td>
+                                                    <% if(data.STAT_TES != 1){ %>
+                                                        <button class="btn btn-success w-50" onclick="window.location = '/peserta/review/<%= data.ID_CALON %>'"><span><i class="bi bi-search me-2"></i></span>Review Akun</button>
+                                                        <% } else { %>
+                                                            <button class="btn btn-primary w-50" disabled><span><i class="bi bi-check-circle-fill me-2"></i></span>Disetujui</button>
+                                                            <% } %>
+                                                </td>
+
                         </tr>
                         <% no++; } %>
                 </tbody>

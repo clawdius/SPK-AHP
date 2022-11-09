@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
+const qr = require('qrcode');
 
 const auth = require('../config-app/config-auth')
 
@@ -91,8 +92,11 @@ router.group([auth.authChecker], async router => {
 
     router.route('/laporan/getlaporan/print/:id')
         .get(auth.roleCheck(await allowed()), async function(req, res) {
-            res.render('hal_aplikasi/laporan/print', {
-                listCalon: await controller_rekrutmen.getDetailLaporan(req.params.id)
+            qr.toDataURL(`${req.user.idKaryawan} | ${req.user.nama} | ${req.user.namaBag}`, async(err, src) => {
+                res.render('hal_aplikasi/laporan/print', {
+                    listCalon: await controller_rekrutmen.getDetailLaporan(req.params.id),
+                    src
+                })
             })
         })
 

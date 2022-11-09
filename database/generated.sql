@@ -58,6 +58,7 @@ create table MASTER_CALON_KARYAWAN
    THN_LULUS            int not null  comment '',
    STAT_MBR             varchar(1) not null  comment '',
    STAT_KELENGKAPAN     varchar(7) not null  comment '',
+   STAT_TES             int not null DEFAULT 0  comment '',
    primary key (ID_CALON)
 );
 
@@ -109,7 +110,7 @@ create table NILAI_CALON_KARYAWAN
 (
    ID_AKTIVITAS         int not null  comment '',
    ID_KRITERIA          int not null  comment '',
-   NILAI                numeric(5,2) not null  comment '',
+   NILAI                numeric(5,2) not null DEFAULT 0  comment '',
    primary key (ID_AKTIVITAS, ID_KRITERIA)
 );
 

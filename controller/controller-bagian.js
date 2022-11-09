@@ -139,7 +139,7 @@ async function finishedSubmit(idBag) {
         "AND MR.STAT_REKRUTMEN = 1 " +
         "LIMIT 1 ";
 
-    let res = await db.promise().query(query, idBag)
+    let res = await db.promise().query(query, idBag);
 
     return res[0][0].NILAI == null ? 'allowed' : 'no';
 }
@@ -161,7 +161,7 @@ async function getListNilai(idBag) {
     return res[0];
 }
 
-async function submitNilai(data) {
+async function submitNilai(data, idRekrut) {
     let dataRefactored = [];
 
     for (i = 0; i < data.idkrit.length; i++) {
@@ -169,6 +169,14 @@ async function submitNilai(data) {
     };
 
     let query = "INSERT INTO NILAI_CALON_KARYAWAN VALUES ?";
+
+    let queryUpdate = "UPDATE MASTER_CALON_KARYAWAN " +
+        "SET STAT_TES = 1 WHERE ID_CALON IN " +
+        "(SELECT ID_CALON " +
+        "FROM AKTIVITAS_REKRUTMEN  " +
+        "WHERE ID_REKRUTMEN = ?);";
+
+    await db.promise().query(queryUpdate, idRekrut);
 
     let res = await db.promise().query(query, [dataRefactored]);
 

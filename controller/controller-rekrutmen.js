@@ -19,7 +19,7 @@ async function karyawanBagian(IDBAGIAN) {
 }
 
 async function calonKaryawan() {
-    let query = "SELECT * FROM MASTER_CALON_KARYAWAN ORDER BY STAT_KELENGKAPAN ASC, NAMA_CALON ASC";
+    let query = "SELECT * FROM MASTER_CALON_KARYAWAN ORDER BY STAT_KELENGKAPAN ASC, STAT_TES ASC, NAMA_CALON ASC;";
     let res = await db.promise().query(query);
     return res[0];
 }

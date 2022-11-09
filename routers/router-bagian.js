@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
+const qr = require('qrcode');
 
 const auth = require('../config-app/config-auth')
 
@@ -202,10 +203,11 @@ router.group([auth.authChecker], async router => {
         })
         .post(auth.roleCheck(await allowed()), async function(req, res) {
             try {
-                await controller_bagian.submitNilai(req.body)
-                res.redirect('/entrynilai')
+                let idRekrut = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+                await controller_bagian.submitNilai(req.body, idRekrut);
+                res.redirect('/entrynilai');
             } catch (e) {
-                res.redirect('/entrynilai')
+                res.redirect('/entrynilai');
             }
         })
 
@@ -238,8 +240,11 @@ router.group([auth.authChecker], async router => {
         .get(async function(req, res) {
             let skorKriteria = await controller_bagian.getLaporanPeriode(req.params.id);
 
-            res.render('hal_aplikasi/laporanbag/print', {
-                rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1])
+            qr.toDataURL(`${req.user.idKaryawan} | ${req.user.nama} | ${req.user.namaBag}`, async(err, src) => {
+                res.render('hal_aplikasi/laporanbag/print', {
+                    rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1]),
+                    src
+                })
             })
         })
 })
