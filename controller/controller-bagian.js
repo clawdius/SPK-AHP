@@ -18,7 +18,8 @@ async function getStatusRekrutmen(idKar) {
         "FROM MASTER_REKRUTMEN " +
         "WHERE ID_BAGIAN IN " +
         "(SELECT ID_BAGIAN FROM MASTER_KARYAWAN " +
-        "WHERE ID_KARYAWAN = ?) "
+        "WHERE ID_KARYAWAN = ?) " +
+        "AND STAT_REKRUTMEN IN (0, 1)"
 
     let res = await db.promise().query(qPeriode, idKar);
 
