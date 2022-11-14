@@ -94,6 +94,7 @@ router.group([auth.authChecker], async router => {
         .get(auth.roleCheck(await allowed()), async function(req, res) {
             qr.toDataURL(`${req.user.idKaryawan} | ${req.user.nama} | ${req.user.namaBag}`, async(err, src) => {
                 res.render('hal_aplikasi/laporan/print', {
+                    user: req.user,
                     listCalon: await controller_rekrutmen.getDetailLaporan(req.params.id),
                     src
                 })

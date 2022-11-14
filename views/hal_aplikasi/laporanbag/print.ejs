@@ -7,17 +7,36 @@
 
 <style type="text/css" media="print">
     @page {
-        size: landscape;
+        size: portrait;
     }
 </style>
 
+<script>
+    function setdateTTD(value) {
+        var date = new Date(value);
+
+        options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        };
+
+        var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
+
+        return DateFormatted;
+    }
+</script>
+
 <body style="padding: 36px;">
     <div style="min-height: 75%">
-        <table class="table table-striped table-hover" data-toggle="table" data-locale="id-ID">
+        <div class="mb-3 d-flex justify-content-center">
+            <img src="/assets/img/kop.jpg" style="width: 95%">
+        </div>
+        <table class="table table-striped table-hover table-bordered" data-locale="id-ID">
             <thead>
                 <tr>
                     <th scope="col" data-width="50">No</th>
-                    <th scope="col">Nama Calon Karyawan</th>
+                    <th scope="col">Nama Calon</th>
                     <th scope="col">Email</th>
                     <th scope="col">Nilai Total</th>
                     <th scope="col" class="text-center">Status MBR</th>
@@ -36,7 +55,7 @@
                             <%= data.EMAIL %>
                         </td>
                         <td>
-                            <%= +(rank[1][data.ID_CALON]) %>
+                            <%= +(rank[1][data.ID_CALON]).toFixed(2) %>
                         </td>
                         <td class="table-<%= data.STAT_MBR == 0 ? 'success':'danger'%> text-center">
                             <%= (data.STAT_MBR == 0)? 'Tidak Berpenghasilan Kecil' : 'Berpenghasilan Kecil' %>
@@ -46,7 +65,21 @@
             </tbody>
         </table>
     </div>
-    <img src="<%= src %>">
+    <div class="d-flex flex-column text-center" style="width: 35%">
+        <div>Surabaya,
+            <span id="now"></span>
+            <script defer>
+                let now = setdateTTD(new Date());
+                document.getElementById('now').innerHTML = now;
+            </script>
+        </div>
+        <div>
+            <img src="<%= src %>">
+        </div>
+        <div>
+            <%= user.nama %>
+        </div>
+    </div>
 </body>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>

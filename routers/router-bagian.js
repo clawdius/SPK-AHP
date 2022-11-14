@@ -242,6 +242,7 @@ router.group([auth.authChecker], async router => {
 
             qr.toDataURL(`${req.user.idKaryawan} | ${req.user.nama} | ${req.user.namaBag}`, async(err, src) => {
                 res.render('hal_aplikasi/laporanbag/print', {
+                    user: req.user,
                     rank: await controller_global.hitungRekomendasi(skorKriteria[0], skorKriteria[1]),
                     src
                 })

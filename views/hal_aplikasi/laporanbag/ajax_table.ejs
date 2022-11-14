@@ -22,7 +22,7 @@
                     <%= data.EMAIL %>
                 </td>
                 <td>
-                    <%= +(rank[1][data.ID_CALON]) %>
+                    <%= +(rank[1][data.ID_CALON]).toFixed(2) %>
                 </td>
                 <td class="table-<%= data.STAT_MBR == 0 ? 'success':'danger'%> text-center">
                     <%= (data.STAT_MBR == 0)? 'Tidak Berpenghasilan Kecil' : 'Berpenghasilan Kecil' %>
