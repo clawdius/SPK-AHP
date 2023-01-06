@@ -155,7 +155,7 @@ async function getListNilai(idBag) {
         "ON AR.ID_AKTIVITAS = NCK.ID_AKTIVITAS " +
         "WHERE MR.ID_BAGIAN = ? " +
         "AND MR.STAT_REKRUTMEN = 1 " +
-        "ORDER BY MCK.NAMA_CALON";
+        "ORDER BY MCK.NAMA_CALON, NCK.ID_KRITERIA";
 
     let res = await db.promise().query(query, idBag);
 
