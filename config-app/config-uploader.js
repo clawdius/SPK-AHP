@@ -7,6 +7,8 @@ const store = multer.diskStorage({
             cb(null, 'KTP-' + req.body.NIK + '.jpg')
         } else if (file.fieldname == 'foto_ijazah') {
             cb(null, 'IJ-' + req.body.NIK + '.jpg')
+        } else if (file.fieldname == 'cv') {
+            cb(null, 'CV-' + req.body.NIK + '.jpg')
         }
     },
     destination: function(req, file, cb) {

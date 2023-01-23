@@ -58,7 +58,7 @@ async function hitungRekomendasi(nilai, bobot) {
             }
         }
     }
-    console.log("Perbandingan", perbandingan);
+    // console.log("Perbandingan", perbandingan);
 
     //Penjumlahan hasil pembobotan per-kolom
     for (let i = 0; i < perbandingan.length; i++) {
@@ -68,7 +68,7 @@ async function hitungRekomendasi(nilai, bobot) {
         }
         penjumlahan_perbandingan.push([hasil]);
     }
-    console.log("Penjumlahan Perbandingan", penjumlahan_perbandingan);
+    // console.log("Penjumlahan Perbandingan", penjumlahan_perbandingan);
 
     //perhitungan normalisasi
     for (let i = 0; i < perbandingan.length; i++) {
@@ -80,7 +80,7 @@ async function hitungRekomendasi(nilai, bobot) {
             }
         }
     }
-    console.log("Pembagian perbandingan", pembagian_perbandingan);
+    // console.log("Pembagian perbandingan", pembagian_perbandingan);
 
     //rata-rata normalisasi
     for (let i = 0; i < pembagian_perbandingan.length; i++) {
@@ -95,7 +95,7 @@ async function hitungRekomendasi(nilai, bobot) {
             rata_rata_kriteria.push([hasil]);
         }
     }
-    console.log("Rata2 Kriteria", rata_rata_kriteria);
+    // console.log("Rata2 Kriteria", rata_rata_kriteria);
 
 
     //menyesuaikan format matrix mathjs
@@ -118,7 +118,7 @@ async function hitungRekomendasi(nilai, bobot) {
     for (let i = 0; i < a3[0].length; i++) {
         a3[0][i] = +(a3[0][i]).toFixed(2);
     }
-    console.log("A3", a3);
+    // console.log("A3", a3);
     //end perkalian matrix dengan mathjs
 
     //pembagian matrix (A4)
@@ -130,7 +130,7 @@ async function hitungRekomendasi(nilai, bobot) {
             a4.push([+(a3[0][i] / rata_rata_kriteria[0][i]).toFixed(2)]);
         }
     }
-    console.log("A4", a4);
+    // console.log("A4", a4);
     //end pembagian matrix (A4)
 
     //cari lambda max
@@ -138,12 +138,12 @@ async function hitungRekomendasi(nilai, bobot) {
         lambda_max += a4[0][i];
     }
     lambda_max = +(lambda_max / a4[0].length).toFixed(2);
-    console.log('Lbd_Max: ' + lambda_max);
+    // console.log('Lbd_Max: ' + lambda_max);
     //end cari lambda max
 
     //cari CI
     ci = +((lambda_max - id_kriteria.length) / (id_kriteria.length - 1)).toFixed(2);
-    console.log('CI: ' + ci);
+    // console.log('CI: ' + ci);
     //end cari CI
 
     //cari RI
@@ -157,23 +157,25 @@ async function hitungRekomendasi(nilai, bobot) {
         1.56, 1.58
     ];
     let ri = rc_table[(id_kriteria.length) - 1];
-    console.log('RI: ' + ri);
+    // console.log('RI: ' + ri);
     //end cari RI
 
     //cari CR
     cr = ci / ri;
-    console.log('CR: ' + ci + '/' + ri + ' = ' + cr);
+    // console.log('CR: ' + ci + '/' + ri + ' = ' + cr);
     //end cari CR
 
     //perhitungan nilai
     let nilaiTemp = [];
     let jmlnilaiTemp = [];
     let kategoriTemp = [];
+    let sebelum_normal = [];
     for (let i = 0; i < nilai.length; i++) {
         nilaiTemp.push([nilai[i].ID_CALON, nilai[i].ID_KRITERIA, +(nilai[i].NILAI)]);
+        sebelum_normal.push([nilai[i].ID_CALON, nilai[i].ID_KRITERIA, +(nilai[i].NILAI)]);
         kategoriTemp.push(nilai[i].ID_KRITERIA);
     }
-    console.log("Nilai Temp", nilaiTemp);
+    // console.log("Nilai Temp", nilaiTemp);
 
     //cari kategori unik
     kategoriTemp = uniq_fast(kategoriTemp);
@@ -189,7 +191,7 @@ async function hitungRekomendasi(nilai, bobot) {
         }
         jmlnilaiTemp.push([kategoriTemp[i], jml]);
     }
-    console.log("Juml Nilai Temp", jmlnilaiTemp);
+    // console.log("Juml Nilai Temp", jmlnilaiTemp);
     //end cari jumlah nilai per-kategori
 
     //cari nilai normalisasi
@@ -201,7 +203,7 @@ async function hitungRekomendasi(nilai, bobot) {
         }
     }
 
-    console.log("Nilai Temp Update", nilaiTemp);
+    // console.log("Nilai Temp Update", nilaiTemp);
     let normalisasi = nilaiTemp;
     //end cari nilai normalisasi
 
@@ -210,7 +212,7 @@ async function hitungRekomendasi(nilai, bobot) {
     for (let i = 0; i < id_kriteria.length; i++) {
         a2.push([id_kriteria[i], rata_rata_kriteria[0][i]]);
     }
-    console.log("A2", a2);
+    // console.log("A2", a2);
 
     let nilai_kali = [];
     for (let i = 0; i < nilaiTemp.length; i++) {
@@ -221,11 +223,10 @@ async function hitungRekomendasi(nilai, bobot) {
         }
     }
 
-    console.log("Nilai Kali", nilai_kali)
+    // console.log("Nilai Kali", nilai_kali)
     // console.log("User", user)
 
     let nilai_jumlah = {};
-
 
     for (i = 0; i < user.length; i++) {
         let jml = 0;
@@ -238,15 +239,15 @@ async function hitungRekomendasi(nilai, bobot) {
         // console.log(jml.toFixed(2));
         nilai_jumlah[user[i]] = +(jml.toFixed(2));
     }
-    console.log('Nilai Jumlah', nilai_jumlah);
-    
+    // console.log('Nilai Jumlah', nilai_jumlah);
+
     let sort = Object.entries(nilai_jumlah).sort((a, b) => b[1] - a[1]);
 
     let clean = []
     for (i = 0; i < sort.length; i++) {
         clean.push(sort[i][0]);
     }
-    console.log('Sorted', clean);
+    // console.log('Sorted', clean);
 
     let query = "SELECT * FROM MASTER_CALON_KARYAWAN " +
         "WHERE ID_CALON IN (?) " +
@@ -256,7 +257,7 @@ async function hitungRekomendasi(nilai, bobot) {
 
     //buat tampilan perhitungan
     proses.push({
-        'Perbandingan': perbandingan, 
+        'Perbandingan': perbandingan,
         'penjumlahan_Perbandingan': penjumlahan_perbandingan,
         'pembagian_Perbandingan': pembagian_perbandingan,
         'rata2_Kriteria': rata_rata_kriteria,
@@ -268,7 +269,7 @@ async function hitungRekomendasi(nilai, bobot) {
         'CI': ci,
         'RI': ri,
         'CR': cr,
-        'nilai_Temp': nilaiTemp,
+        'nilai_Temp': sebelum_normal,
         'juml_nilai_Temp': jmlnilaiTemp,
         'normalisasi_Nilai': normalisasi,
         'nilai_Kali_A2': nilai_kali,

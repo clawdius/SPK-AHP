@@ -56,6 +56,7 @@ create table MASTER_CALON_KARYAWAN
    JURUSAN_STUDI        varchar(100)  comment '',
    IPK                  numeric(5,2)  comment '',
    THN_LULUS            int not null  comment '',
+   PENG_KERJA           TEXT DEFAULT '-',
    STAT_MBR             varchar(1) not null  comment '',
    STAT_KELENGKAPAN     varchar(7) not null  comment '',
    STAT_TES             int not null DEFAULT 0  comment '',

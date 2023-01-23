@@ -146,6 +146,9 @@ router.group([auth.authChecker], async router => {
                     res.render('hal_aplikasi/rekomendasi/hal_rekomendasi', {
                         user: req.user,
                         sidebar: 'rekomendasi',
+                        calonKar: await controller_bagian.getListCalonKar(req.user.idBagian),
+                        listNilai: await controller_bagian.getListNilai(req.user.idBagian),
+                        kriteria_asc: await controller_bagian.getBagianKriteria(req.user.idKaryawan),
                         rekomendasi: rekomendasi
                     });
                 };

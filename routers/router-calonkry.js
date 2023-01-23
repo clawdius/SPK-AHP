@@ -51,7 +51,7 @@ router.route('/profil')
             detail: await controller_calonkry.getDetailCalon(req.user.idCalon)
         })
     })
-    .post(uploader.fields([{ name: 'foto_ktp' }, { name: 'foto_ijazah' }]), async function(req, res) {
+    .post(uploader.fields([{ name: 'foto_ktp' }, { name: 'foto_ijazah' }, { name: 'cv' }]), async function(req, res) {
         await controller_calonkry.updateDataCalon(req.body, req.user.idCalon);
         res.redirect('/home');
     })

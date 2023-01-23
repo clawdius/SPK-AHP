@@ -96,7 +96,7 @@ router.route('/registercalon')
             thn_max: controller_global.findYear()
         })
     })
-    .post(uploader.fields([{ name: 'foto_ktp' }, { name: 'foto_ijazah' }]), async function(req, res) {
+    .post(uploader.fields([{ name: 'foto_ktp' }, { name: 'foto_ijazah' }, { name: 'cv' }]), async function(req, res) {
         insertedId = await controller_register.daftarBaru(req.body);
         passport.authenticate('calon-local')(req, res, function() {
             res.redirect('/logincalon');

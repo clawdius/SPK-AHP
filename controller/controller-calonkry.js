@@ -16,6 +16,8 @@ async function updateDataCalon(data, IDCALON) {
         fs.unlinkSync('./assets/asset-app/KTP-' + data.NIKLama + '.jpg');
     };
 
+    let peng_kerja = data.peng_kerja == '' ? "-" : data.peng_kerja;
+
     let dataRefactored = [
         data.namaCalon,
         data.NIK,
@@ -29,6 +31,7 @@ async function updateDataCalon(data, IDCALON) {
         data.ipkCalon,
         data.lulusCalon,
         '+62' + data.noTelp,
+        peng_kerja
     ];
 
     let query = "UPDATE MASTER_CALON_KARYAWAN SET " +
@@ -44,7 +47,8 @@ async function updateDataCalon(data, IDCALON) {
         "IPK = ?, " +
         "THN_LULUS = ?, " +
         "STAT_KELENGKAPAN = 0, " +
-        "NO_TELP = ? " +
+        "NO_TELP = ?, " +
+        "PENG_KERJA = ? " +
         "WHERE ID_CALON = " + IDCALON
 
     let res = await db.promise().query(query, dataRefactored)

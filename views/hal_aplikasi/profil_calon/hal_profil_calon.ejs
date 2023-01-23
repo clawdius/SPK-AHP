@@ -85,6 +85,21 @@
                     </div>
 
                     <div class="form-outline mb-4">
+                        <label class="form-label ms-1" for="noTelp">Pengalaman Kerja</label>
+                        <textarea name="peng_kerja" class="form-control" id="exampleFormControlTextarea1" rows="3"><%= detail.PENG_KERJA %></textarea>
+                    </div>
+
+                    <div class="form-outline mb-4 row" id="div_cvCalon">
+                        <label class="form-label ms-1" for="cv">CV</label>
+                        <div class="col-8">
+                            <input class="form-control" name="cv" type="file" onchange="fileCheck(this);" id="formFile" accept="image/png, image/jpeg" required>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#exampleModal_CV">Foto CV</button>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
                         <label class="form-label ms-1" for="noTelp">No. Telp</label>
                         <div class="input-group">
                             <span class="input-group-text" id="inputGroup-sizing-default">+62</span>
@@ -131,6 +146,24 @@
                 </div>
                 <div class="modal-body">
                     <img src="/assets/asset-app/IJ-<%= detail.FILE_NIK %>.jpg" style="width: 100%; height: 50%;" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ijazah -->
+    <div class="modal fade" id="exampleModal_CV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Foto CV Karyawan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/assets/asset-app/CV-<%= detail.FILE_NIK %>.jpg" style="width: 100%; height: 50%;" alt="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Tutup</button>

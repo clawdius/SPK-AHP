@@ -3,6 +3,8 @@ require('express')
 
 async function daftarBaru(data) {
 
+    let peng_kerja = data.peng_kerja == '' ? "-" : data.peng_kerja;
+
     let dataRefactored = [
         data.namaCalon,
         data.NIK,
@@ -17,12 +19,13 @@ async function daftarBaru(data) {
         data.lulusCalon,
         data.email,
         data.password,
-        '+62'+data.noTelp
+        '+62' + data.noTelp,
+        peng_kerja
     ]
 
     let query = "INSERT INTO MASTER_CALON_KARYAWAN " +
-        "(NAMA_CALON, FILE_NIK, JENIS_KEL, TEM_LAHIR, TGL_LAHIR, JENJANG_PEND, NAMA_SEK, FAKULTAS, JURUSAN_STUDI, IPK, THN_LULUS, STAT_MBR, STAT_KELENGKAPAN, EMAIL, PASSWORD, NO_TELP) " +
-        "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)"
+        "(NAMA_CALON, FILE_NIK, JENIS_KEL, TEM_LAHIR, TGL_LAHIR, JENJANG_PEND, NAMA_SEK, FAKULTAS, JURUSAN_STUDI, IPK, THN_LULUS, STAT_MBR, STAT_KELENGKAPAN, EMAIL, PASSWORD, NO_TELP, PENG_KERJA) " +
+        "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?, ?)"
 
     let res = await db.promise().query(query, dataRefactored)
 
