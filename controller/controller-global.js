@@ -28,7 +28,9 @@ async function hitungRekomendasi(nilai, bobot) {
     let user = [];
     let lambda_max = 0;
     let ci = 0;
+    let proses = [];
 
+    console.log("------");
     //memasukkan kriteria kedalam array
     for (let i = 0; i < bobot.length; i++) {
         id_kriteria.push(bobot[i].ID_KRITERIA);
@@ -56,7 +58,7 @@ async function hitungRekomendasi(nilai, bobot) {
             }
         }
     }
-    // console.log("Perbandingan", perbandingan);
+    console.log("Perbandingan", perbandingan);
 
     //Penjumlahan hasil pembobotan per-kolom
     for (let i = 0; i < perbandingan.length; i++) {
@@ -66,7 +68,7 @@ async function hitungRekomendasi(nilai, bobot) {
         }
         penjumlahan_perbandingan.push([hasil]);
     }
-    // console.log("Penjumlahan Perbandingan", penjumlahan_perbandingan);
+    console.log("Penjumlahan Perbandingan", penjumlahan_perbandingan);
 
     //perhitungan normalisasi
     for (let i = 0; i < perbandingan.length; i++) {
@@ -78,7 +80,7 @@ async function hitungRekomendasi(nilai, bobot) {
             }
         }
     }
-    // console.log("Pembagian perbandingan", pembagian_perbandingan);
+    console.log("Pembagian perbandingan", pembagian_perbandingan);
 
     //rata-rata normalisasi
     for (let i = 0; i < pembagian_perbandingan.length; i++) {
@@ -93,7 +95,8 @@ async function hitungRekomendasi(nilai, bobot) {
             rata_rata_kriteria.push([hasil]);
         }
     }
-    // console.log("Rata2 Kriteria", rata_rata_kriteria);
+    console.log("Rata2 Kriteria", rata_rata_kriteria);
+
 
     //menyesuaikan format matrix mathjs
     let mA = [];
@@ -115,7 +118,7 @@ async function hitungRekomendasi(nilai, bobot) {
     for (let i = 0; i < a3[0].length; i++) {
         a3[0][i] = +(a3[0][i]).toFixed(2);
     }
-    // console.log("A3", a3);
+    console.log("A3", a3);
     //end perkalian matrix dengan mathjs
 
     //pembagian matrix (A4)
@@ -127,7 +130,7 @@ async function hitungRekomendasi(nilai, bobot) {
             a4.push([+(a3[0][i] / rata_rata_kriteria[0][i]).toFixed(2)]);
         }
     }
-    // console.log("A4", a4);
+    console.log("A4", a4);
     //end pembagian matrix (A4)
 
     //cari lambda max
@@ -135,12 +138,12 @@ async function hitungRekomendasi(nilai, bobot) {
         lambda_max += a4[0][i];
     }
     lambda_max = +(lambda_max / a4[0].length).toFixed(2);
-    // console.log('Lbd_Max: ' + lambda_max);
+    console.log('Lbd_Max: ' + lambda_max);
     //end cari lambda max
 
     //cari CI
     ci = +((lambda_max - id_kriteria.length) / (id_kriteria.length - 1)).toFixed(2);
-    // console.log('CI: ' + ci);
+    console.log('CI: ' + ci);
     //end cari CI
 
     //cari RI
@@ -154,12 +157,12 @@ async function hitungRekomendasi(nilai, bobot) {
         1.56, 1.58
     ];
     let ri = rc_table[(id_kriteria.length) - 1];
-    // console.log('RI: ' + ri);
+    console.log('RI: ' + ri);
     //end cari RI
 
     //cari CR
     cr = ci / ri;
-    // console.log('CR: ' + ci + '/' + ri + ' = ' + cr);
+    console.log('CR: ' + ci + '/' + ri + ' = ' + cr);
     //end cari CR
 
     //perhitungan nilai
@@ -199,6 +202,7 @@ async function hitungRekomendasi(nilai, bobot) {
     }
 
     console.log("Nilai Temp Update", nilaiTemp);
+    let normalisasi = nilaiTemp;
     //end cari nilai normalisasi
 
     //end perhitungan nilai
@@ -235,12 +239,14 @@ async function hitungRekomendasi(nilai, bobot) {
         nilai_jumlah[user[i]] = +(jml.toFixed(2));
     }
     console.log('Nilai Jumlah', nilai_jumlah);
+    
     let sort = Object.entries(nilai_jumlah).sort((a, b) => b[1] - a[1]);
 
     let clean = []
     for (i = 0; i < sort.length; i++) {
         clean.push(sort[i][0]);
     }
+    console.log('Sorted', clean);
 
     let query = "SELECT * FROM MASTER_CALON_KARYAWAN " +
         "WHERE ID_CALON IN (?) " +
@@ -248,7 +254,30 @@ async function hitungRekomendasi(nilai, bobot) {
 
     let res = await db.promise().query(query, [clean, clean])
 
-    return [res[0], nilai_jumlah];
+    //buat tampilan perhitungan
+    proses.push({
+        'Perbandingan': perbandingan, 
+        'penjumlahan_Perbandingan': penjumlahan_perbandingan,
+        'pembagian_Perbandingan': pembagian_perbandingan,
+        'rata2_Kriteria': rata_rata_kriteria,
+        'A1': mA,
+        'A2': mB,
+        'A3': a3,
+        'A4': a4,
+        'lambda_Max': lambda_max,
+        'CI': ci,
+        'RI': ri,
+        'CR': cr,
+        'nilai_Temp': nilaiTemp,
+        'juml_nilai_Temp': jmlnilaiTemp,
+        'normalisasi_Nilai': normalisasi,
+        'nilai_Kali_A2': nilai_kali,
+        'nilai_Jumlah': nilai_jumlah
+    });
+    //end -- buat tampilan perhitungan
+    console.log(proses[0]);
+
+    return [res[0], nilai_jumlah, proses];
 }
 
 function uniq_fast(a) {
