@@ -57,7 +57,7 @@ async function getAvailableLowongan() {
     let query = "SELECT * FROM MASTER_REKRUTMEN MR " +
         "JOIN MASTER_BAGIAN MB ON MR.ID_BAGIAN = MB.ID_BAGIAN " +
         "WHERE STAT_REKRUTMEN = 1 " +
-        "AND TGL_SELESAI >= now()";
+        "AND TGL_SELESAI >= now() AND TGL_MULAI <= now()";
 
     let res = await db.promise().query(query)
 

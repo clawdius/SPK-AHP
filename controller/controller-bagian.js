@@ -169,7 +169,10 @@ async function submitNilai(data, idRekrut) {
         dataRefactored.push([data.idAktivitas[i], data.idkrit[i], data.nilaikrit[i]])
     };
 
-    let query = "INSERT INTO NILAI_CALON_KARYAWAN VALUES ?";
+    console.log(dataRefactored);
+    console.log(idRekrut);
+
+    let query = "INSERT INTO NILAI_CALON_KARYAWAN(ID_AKTIVITAS, ID_KRITERIA, NILAI) VALUES ?;";
 
     let queryUpdate = "UPDATE MASTER_CALON_KARYAWAN " +
         "SET STAT_TES = 1 WHERE ID_CALON IN " +
@@ -177,9 +180,11 @@ async function submitNilai(data, idRekrut) {
         "FROM AKTIVITAS_REKRUTMEN  " +
         "WHERE ID_REKRUTMEN = ?);";
 
-    await db.promise().query(queryUpdate, idRekrut);
+    let res2 = await db.promise().query(queryUpdate, idRekrut);
 
     let res = await db.promise().query(query, [dataRefactored]);
+
+    console.log(res);
 
     return res;
 }

@@ -172,6 +172,8 @@ router.group([auth.authChecker], async router => {
             try {
                 await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
 
+                // console.log(await controller_bagian.getBagianKriteria(req.user.idKaryawan));
+
                 if (await controller_bagian.finishedSubmit(req.user.idBagian) == 'allowed') {
                     res.render('hal_aplikasi/entrynilai/hal_entrynilai', {
                         user: req.user,
@@ -207,6 +209,7 @@ router.group([auth.authChecker], async router => {
                 await controller_bagian.submitNilai(req.body, idRekrut);
                 res.redirect('/entrynilai');
             } catch (e) {
+                console.log(e);
                 res.redirect('/entrynilai');
             }
         })

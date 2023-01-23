@@ -95,7 +95,7 @@ body {
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: left;
-     object-position: left; }
+  object-position: -280px 0px; }
 
 .footer-link {
   position: absolute;
