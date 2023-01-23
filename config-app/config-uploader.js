@@ -9,6 +9,8 @@ const store = multer.diskStorage({
             cb(null, 'IJ-' + req.body.NIK + '.jpg')
         } else if (file.fieldname == 'cv') {
             cb(null, 'CV-' + req.body.NIK + '.jpg')
+        } else if (file.fieldname == 'skck') {
+            cb(null, 'SKCK-' + req.body.NIK + '.jpg')
         }
     },
     destination: function(req, file, cb) {
