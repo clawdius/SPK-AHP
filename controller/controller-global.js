@@ -276,7 +276,7 @@ async function hitungRekomendasi(nilai, bobot) {
         'nilai_Jumlah': nilai_jumlah
     });
     //end -- buat tampilan perhitungan
-    console.log(proses[0]);
+    // console.log(proses[0]);
 
     return [res[0], nilai_jumlah, proses];
 }
