@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="/assets/css/setting-default.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-icons.css">
+<link rel="stylesheet" href="/css/bootstrap-table.min.css">
+<script src="/js/jquery.min.js"></script>
+
+<style type="text/css" media="print">
+    @page {
+        size: portrait;
+    }
+</style>
+<script>
+    function setdate(value) {
+        var date = new Date(value);
+
+        options = {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        };
+
+        var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
+
+        return DateFormatted;
+    }
+
+    function setdateTTD(value) {
+        var date = new Date(value);
+
+        options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        };
+
+        var DateFormatted = new Intl.DateTimeFormat('id', options).format(date);
+
+        return DateFormatted;
+    }
+</script>
+
+<body style="padding: 36px;">
+    <div style="min-height: 75%">
+        <div class="mb-4 d-flex justify-content-center">
+            <img src="/assets/img/kop.jpg" style="width: 95%">
+        </div>
+        <h6 id="h_periode" class="mb-3"></h6>
+        <script>
+            let start = setdate("<%= tgl.START %>");
+            let end = setdate("<%= tgl.END %>");
+            document.getElementById('h_periode').innerHTML = 'Periode Perekrutan: ' + start + ' - ' + end;
+        </script>
+        <% let cl = 0; for(let i = 0; i < idRek.length;i++){ %>
+
+            <div class="pb-2 mt-3">Bagian:
+                <%= idRek[i]['NAMA_BAGIAN'] %>
+            </div>
+            <div class="pb-2 tgl_rek"></div>
+            <div class="pb-2">Jumlah Pelamar:
+                <%= idRek[i]['JML'] %> Peserta
+            </div>
+            <script>
+                tgl_rek = setdate("<%= idRek[i]['TGL_MULAI'] %>");
+                document.getElementsByClassName('tgl_rek')[<%= i %>].innerHTML = 'Tgl Perekrutan: ' + tgl_rek;
+            </script>
+            <table class="table table-striped table-hover table-bordered mt-3 mb-5" data-locale="id-ID">
+                <thead>
+                    <tr>
+                        <th scope="col" data-width="50">No</th>
+                        <th scope="col">Nama Calon</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Tanggal Daftar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% let j = 0; for(data of listCalon){ %>
+                        <% if(idRek[i]['ID_REKRUTMEN'] == data.ID_REKRUTMEN){ %>
+                            <tr>
+                                <td>
+                                    <%= j+1 %>
+                                </td>
+                                <td>
+                                    <%= data.NAMA_CALON %>
+                                </td>
+                                <td>
+                                    <%= data.EMAIL %>
+                                </td>
+                                <td class="daftarFormatted">
+                                    <script>
+                                        document.getElementsByClassName('daftarFormatted')[<%= cl %>].innerHTML = setdate("<%= data.TGL_DAFTAR %>");
+                                    </script>
+                                </td>
+                            </tr>
+                            <% j++; cl++;} %>
+                                <% } %>
+                </tbody>
+            </table>
+            <%}%>
+    </div>
+    <div class="d-flex flex-column text-center mt-4" style="width: 35%">
+        <div>Surabaya,
+            <span id="now"></span>
+            <script defer>
+                let now = setdateTTD(new Date());
+                document.getElementById('now').innerHTML = now;
+            </script>
+        </div>
+        <div>
+            <img src="<%= src %>">
+        </div>
+        <div>
+            <%= user.nama %>
+        </div>
+    </div>
+</body>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script>
+    $(document).ready(function() {
+        window.onafterprint = window.close;
+        window.print();
+    });
+</script>

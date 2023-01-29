@@ -78,8 +78,20 @@ router.group([auth.authChecker], async router => {
             res.render('hal_aplikasi/laporan/hal_laporan', {
                 user: req.user,
                 sidebar: 'laporan',
-                listLap: await controller_rekrutmen.getLaporanFinished()
+                listLap: await controller_rekrutmen.getLaporanFinished(),
+                date: await controller_rekrutmen.getdateHistory()
             });
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            qr.toDataURL(`${req.user.idKaryawan} | ${req.user.nama} | ${req.user.namaBag}`, async(err, src) => {
+                res.render('hal_aplikasi/laporan/print_laporanRange', {
+                    user: req.user,
+                    tgl: { START: req.body.start, END: req.body.end },
+                    idRek: await controller_rekrutmen.getIDRek(req.body.start, req.body.end),
+                    listCalon: await controller_rekrutmen.getDetailLaporanRange(await controller_rekrutmen.getIDRek(req.body.start, req.body.end)),
+                    src
+                })
+            })
         });
 
     router.route('/laporan/getlaporan')

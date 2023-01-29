@@ -90,14 +90,60 @@ async function getLaporanFinished() {
     return res[0];
 }
 
+async function getdateHistory() {
+    let query = "SELECT MIN(TGL_MULAI) AS MIN, MAX(TGL_SELESAI) AS MAX " +
+        "FROM `master_rekrutmen`";
+
+    let res = await db.promise().query(query);
+
+    return res[0];
+}
+
 async function getDetailLaporan(idLap) {
     let query = "SELECT * FROM AKTIVITAS_REKRUTMEN AR " +
         "JOIN MASTER_CALON_KARYAWAN MCK ON AR.ID_CALON = MCK.ID_CALON " +
-        "WHERE AR.ID_REKRUTMEN = ?"
+        "WHERE AR.ID_REKRUTMEN = ?";
 
-    let res = await db.promise().query(query, idLap)
+    let res = await db.promise().query(query, idLap);
 
     return res[0];
+}
+
+async function getDetailLaporanRange(idRek) {
+    let query = "SELECT MCK.NAMA_CALON, MCK.EMAIL, AR.TGL_DAFTAR, AR.ID_REKRUTMEN, MR.TGL_MULAI FROM AKTIVITAS_REKRUTMEN AR " +
+        "JOIN MASTER_CALON_KARYAWAN MCK ON AR.ID_CALON = MCK.ID_CALON " +
+        "JOIN MASTER_REKRUTMEN MR ON MR.ID_REKRUTMEN = AR.ID_REKRUTMEN " +
+        "WHERE AR.ID_REKRUTMEN IN (?) " +
+        "ORDER BY AR.ID_REKRUTMEN, MCK.NAMA_CALON";
+
+    let id = [];
+    for (var i = 0; i < idRek.length; i++) {
+        id.push(idRek[i]['ID_REKRUTMEN']);
+    }
+
+    let res = await db.promise().query(query, [id]);
+
+    return res[0];
+}
+
+async function getIDRek(start, end) {
+    let rek_available = "SELECT MR.ID_REKRUTMEN, MR.ID_BAGIAN, MB.NAMA_BAGIAN, MR.TGL_MULAI, COUNT(AR.ID_CALON) AS JML FROM MASTER_REKRUTMEN MR " +
+        "JOIN MASTER_BAGIAN MB ON MB.ID_BAGIAN = MR.ID_BAGIAN " +
+        "JOIN AKTIVITAS_REKRUTMEN AR ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
+        "WHERE MR.TGL_MULAI >= ? AND MR.TGL_SELESAI <= ? " +
+        "GROUP BY MR.ID_REKRUTMEN";
+
+    let rek_res = await db.promise().query(rek_available, [start, end]);
+
+    // console.log(rek_res[0]);
+
+    // let query = "SELECT * FROM AKTIVITAS_REKRUTMEN AR " +
+    //     "JOIN MASTER_CALON_KARYAWAN MCK ON AR.ID_CALON = MCK.ID_CALON " +
+    //     "WHERE AR.ID_REKRUTMEN = ?";
+
+    // let res = await db.promise().query(query, idLap);
+
+    return rek_res[0];
 }
 
 
@@ -111,5 +157,8 @@ module.exports = {
     changeStatusCalonKaryawan,
     changeMBR,
     getLaporanFinished,
-    getDetailLaporan
+    getDetailLaporan,
+    getdateHistory,
+    getIDRek,
+    getDetailLaporanRange
 }
