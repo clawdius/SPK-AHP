@@ -83,18 +83,18 @@ async function tambahRekrutmen(data) {
 async function getLaporanFinished() {
     let query = "SELECT MR.*, MB.NAMA_BAGIAN FROM MASTER_REKRUTMEN MR " +
         "JOIN MASTER_BAGIAN MB ON MR.ID_BAGIAN = MB.ID_BAGIAN " +
-        "WHERE STAT_REKRUTMEN = 2";
+        "WHERE STAT_REKRUTMEN = ?";
 
-    let res = await db.promise().query(query);
+    let res = await db.promise().query(query, 2);
 
     return res[0];
 }
 
 async function getdateHistory() {
     let query = "SELECT MIN(TGL_MULAI) AS MIN, MAX(TGL_SELESAI) AS MAX " +
-        "FROM `master_rekrutmen`";
+        "FROM `master_rekrutmen` WHERE STAT_REKRUTMEN = ?";
 
-    let res = await db.promise().query(query);
+    let res = await db.promise().query(query, 2);
 
     return res[0];
 }
@@ -130,10 +130,10 @@ async function getIDRek(start, end) {
     let rek_available = "SELECT MR.ID_REKRUTMEN, MR.ID_BAGIAN, MB.NAMA_BAGIAN, MR.TGL_MULAI, COUNT(AR.ID_CALON) AS JML FROM MASTER_REKRUTMEN MR " +
         "JOIN MASTER_BAGIAN MB ON MB.ID_BAGIAN = MR.ID_BAGIAN " +
         "JOIN AKTIVITAS_REKRUTMEN AR ON AR.ID_REKRUTMEN = MR.ID_REKRUTMEN " +
-        "WHERE MR.TGL_MULAI >= ? AND MR.TGL_SELESAI <= ? " +
+        "WHERE MR.TGL_MULAI >= ? AND MR.TGL_SELESAI <= ? AND MR.STAT_REKRUTMEN = ? " +
         "GROUP BY MR.ID_REKRUTMEN";
 
-    let rek_res = await db.promise().query(rek_available, [start, end]);
+    let rek_res = await db.promise().query(rek_available, [start, end, 2]);
 
     // console.log(rek_res[0]);
 

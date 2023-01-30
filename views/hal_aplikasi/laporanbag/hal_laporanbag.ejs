@@ -3,7 +3,22 @@
     <div class="card h-100">
         <h3 class="card-header">Laporan riwayat rekrutmen</h3>
         <div class="card-body">
-            <label for="riwayat" class="form-label">Riwayat rekrutmen</label>
+            <form method="post" target="_blank">
+                <div class="row d-flex align-items-end">
+                    <div class="col-3">
+                        <label for="start" class="form-label">Tgl Awal</label>
+                        <input type="date" min="<%= date[0].MIN %>" max="<%= date[0].MAX %>" onchange="next_end(this.value)" class="form-control" id="start" name="start" required>
+                    </div>
+                    <div class="col-3">
+                        <label for="start" class="form-label">Tgl Akhir</label>
+                        <input type="date" max="<%= date[0].MAX %>" onchange="next_submit()" class="form-control" name="end" id="end" readonly required>
+                    </div>
+                    <div class="col-6">
+                        <input type="submit" id="submit_print" class="btn btn-success w-100" name="submit_print" value="Print Laporan" disabled>
+                    </div>
+                </div>
+            </form>
+            <label for="riwayat" class="form-label mt-4">Riwayat rekrutmen</label>
             <select name="riwayat" id="riwayat" class="form-select" onchange="hitungrekomendasi(this)">
                 <option value="" style="display: none;">Pilih riwayat rekrutmen</option>
                 <% let i = 0;for(data of listPer){ %>
@@ -20,6 +35,33 @@
         </div>
     </div>
     <script>
+        function next_end(val) {
+            document.getElementById("end").readOnly = false;
+
+            if (val != '') {
+                var endDate = new Date(val);
+                endDate.setDate(endDate.getDate() + 1);
+
+                var ye = new Intl.DateTimeFormat('id', {
+                    year: 'numeric'
+                }).format(endDate);
+                var mo = new Intl.DateTimeFormat('id', {
+                    month: '2-digit'
+                }).format(endDate);
+                var da = new Intl.DateTimeFormat('id', {
+                    day: '2-digit'
+                }).format(endDate);
+
+                var endDateFormatted = ye + '-' + mo + '-' + da;
+
+                document.getElementById('end').min = endDateFormatted;
+            }
+        }
+
+        function next_submit() {
+            document.getElementById('submit_print').disabled = false;
+        }
+
         function hitungrekomendasi(element) {
             const url = "/laporanbag/getriwayat";
             const idRek = element.value;

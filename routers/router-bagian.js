@@ -228,7 +228,39 @@ router.group([auth.authChecker], async router => {
             res.render('hal_aplikasi/laporanbag/hal_laporanbag', {
                 user: req.user,
                 sidebar: 'laporan',
-                listPer: await controller_bagian.getListRekrutmen(req.user.idKaryawan)
+                listPer: await controller_bagian.getListRekrutmen(req.user.idKaryawan),
+                date: await controller_bagian.getDate(req.user.idKaryawan)
+            })
+        })
+        .post(auth.roleCheck(await allowed()), async function(req, res) {
+            qr.toDataURL(`${req.user.idKaryawan} | ${req.user.nama} | ${req.user.namaBag}`, async(err, src) => {
+                let skorKriteria = await controller_bagian.getLaporanPeriodeRange(req.user.idKaryawan, req.body.start, req.body.end);
+                let nilai_arr = [];
+                let bobot_arr = [];
+                let hasil_arr = [];
+                for(let i = 0; i < skorKriteria[2].length; i++) {
+                    nilai_arr = [];
+                    bobot_arr = [];
+                    for (let nilai = 0; nilai < skorKriteria[0].length; nilai++) {
+                        if(skorKriteria[2][i] == skorKriteria[0][nilai]['ID_REKRUTMEN']){
+                            nilai_arr.push(skorKriteria[0][nilai]);
+                        }
+                    }
+                    for (let bobot = 0; bobot < skorKriteria[1].length; bobot++) {
+                        if(skorKriteria[2][i] == skorKriteria[1][bobot]['ID_REKRUTMEN']){
+                            bobot_arr.push(skorKriteria[1][bobot]);
+                        }
+                    }
+                    hasil_arr.push(await controller_global.hitungRekomendasi(nilai_arr, bobot_arr));
+                }
+                let bagian = await controller_bagian.getInclBagian(skorKriteria[2]);
+                res.render('hal_aplikasi/laporanbag/print_laporanRange', {
+                    user: req.user,
+                    tgl: { START: req.body.start, END: req.body.end },
+                    rank: hasil_arr,
+                    bagian: bagian,
+                    src
+                })
             })
         });
 
