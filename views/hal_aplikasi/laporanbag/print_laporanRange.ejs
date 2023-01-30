@@ -54,52 +54,55 @@
             document.getElementById('h_periode').innerHTML = 'Periode Perekrutan: ' + start + ' - ' + end;
         </script>
         <% for(let k = 0; k < rank.length; k++){ %>
-            <div class="pb-2 mt-4">Bagian:
-                <%= bagian[k]['NAMA_BAGIAN'] %>
-            </div>
-            <div class="pb-2 tgl_rek"></div>
-            <div class="pb-2">Jumlah Pelamar:
-                <%= bagian[k]['JML'] %> Peserta
-            </div>
-            <script>
-                tgl_rek = setdate("<%= bagian[k]['TGL_MULAI'] %>");
-                document.getElementsByClassName('tgl_rek')[<%= k %>].innerHTML = 'Tgl Perekrutan: ' + tgl_rek;
-            </script>
-            <table class="table table-hover table-bordered" data-locale="id-ID">
-                <thead>
-                    <tr>
-                        <th scope="col" data-width="50">No</th>
-                        <th scope="col">Nama Calon</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Nilai Total</th>
-                        <!-- <th scope="col" class="text-center">Status MBR</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <% let i = 0; for(data of rank[k][0]){ %>
-                        <tr>
-                            <td>
-                                <%= i+1 %>
-                            </td>
-                            <td>
-                                <%= data.NAMA_CALON %>
-                            </td>
-                            <td>
-                                <%= data.EMAIL %>
-                            </td>
-                            <td>
-                                <%= +(rank[k][1][data.ID_CALON]).toFixed(2) %>
-                            </td>
-                            <!-- <td class="table-<%= data.STAT_MBR == 0 ? 'success':'danger'%> text-center">
+            <% if(k>0) {%>
+                <p style="page-break-before: always;"></p>
+                <%}%>
+                    <div class="pb-2 mt-4">Bagian:
+                        <%= bagian[k]['NAMA_BAGIAN'] %>
+                    </div>
+                    <div class="pb-2 tgl_rek"></div>
+                    <div class="pb-2">Jumlah Pelamar:
+                        <%= bagian[k]['JML'] %> Peserta
+                    </div>
+                    <script>
+                        tgl_rek = setdate("<%= bagian[k]['TGL_MULAI'] %>");
+                        document.getElementsByClassName('tgl_rek')[<%= k %>].innerHTML = 'Tgl Perekrutan: ' + tgl_rek;
+                    </script>
+                    <table class="table table-hover table-bordered" data-locale="id-ID">
+                        <thead>
+                            <tr>
+                                <th scope="col" data-width="50">No</th>
+                                <th scope="col">Nama Calon</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Nilai Total</th>
+                                <!-- <th scope="col" class="text-center">Status MBR</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let i = 0; for(data of rank[k][0]){ %>
+                                <tr>
+                                    <td>
+                                        <%= i+1 %>
+                                    </td>
+                                    <td>
+                                        <%= data.NAMA_CALON %>
+                                    </td>
+                                    <td>
+                                        <%= data.EMAIL %>
+                                    </td>
+                                    <td>
+                                        <%= +(rank[k][1][data.ID_CALON]).toFixed(2) %>
+                                    </td>
+                                    <!-- <td class="table-<%= data.STAT_MBR == 0 ? 'success':'danger'%> text-center">
                                 <%= (data.STAT_MBR == 0)? 'Tidak Berpenghasilan Kecil' : 'Berpenghasilan Kecil' %>
                             </td> -->
-                        </tr>
-                        <%i++;}%>
-                </tbody>
-            </table>
-        <%}%>
+                                </tr>
+                                <%i++;}%>
+                        </tbody>
+                    </table>
+                    <%}%>
     </div>
-    <div class="d-flex flex-column text-center" style="width: 35%">
+    <div class="d-flex flex-column text-center mt-4" style="width: 35%">
         <div>Surabaya,
             <span id="now"></span>
             <script defer>
