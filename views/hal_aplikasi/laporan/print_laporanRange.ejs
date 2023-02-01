@@ -9,6 +9,17 @@
     @page {
         size: portrait;
     }
+    @media screen {
+        div.divFooter {
+            display: none;
+        }
+    }
+    @media print {
+        div.divFooter {
+            position: fixed;
+            bottom: 0;
+        }
+    }
 </style>
 <script>
     function setdate(value) {
@@ -60,15 +71,15 @@
                 </div>
                 <%}%>
                     <div class="pb-2 mt-3">Bagian:
-                        <%= idRek[i]['NAMA_BAGIAN'] %>
+                        <span style="font-weight: 500;"><%= idRek[i]['NAMA_BAGIAN'] %></span>
                     </div>
                     <div class="pb-2 tgl_rek"></div>
                     <div class="pb-2">Jumlah Pelamar:
-                        <%= idRek[i]['JML'] %> Peserta
+                        <span style="font-weight: 500;"><%= idRek[i]['JML'] %> Peserta</span>
                     </div>
                     <script>
                         tgl_rek = setdate("<%= idRek[i]['TGL_MULAI'] %>");
-                        document.getElementsByClassName('tgl_rek')[<%= i %>].innerHTML = 'Tgl Perekrutan: ' + tgl_rek;
+                        document.getElementsByClassName('tgl_rek')[<%= i %>].innerHTML = 'Tgl Perekrutan: <span style="font-weight: 500;">' + tgl_rek + '</span>';
                     </script>
                     <table class="table table-hover table-bordered mt-3 mb-5" data-locale="id-ID">
                         <thead>
@@ -102,14 +113,13 @@
                                         <% } %>
                         </tbody>
                     </table>
-                    <%}%>
     </div>
-    <div class="d-flex flex-column text-center mt-4" style="width: 35%">
+    <div class="d-flex flex-column text-center divFooter" style="width: 35%">
         <div>Surabaya,
-            <span id="now"></span>
+            <span id="now<%=cl%>"></span>
             <script defer>
-                let now = setdateTTD(new Date());
-                document.getElementById('now').innerHTML = now;
+                now = setdateTTD(new Date());
+                document.getElementById('now<%=cl%>').innerHTML = now;
             </script>
         </div>
         <div>
@@ -119,6 +129,7 @@
             <%= user.nama %>
         </div>
     </div>
+    <%}%>
 </body>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>

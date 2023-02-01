@@ -9,6 +9,17 @@
     @page {
         size: portrait;
     }
+    @media screen {
+        div.divFooter {
+            display: none;
+        }
+    }
+    @media print {
+        div.divFooter {
+            position: fixed;
+            bottom: 0;
+        }
+    }
 </style>
 
 <script>
@@ -61,15 +72,15 @@
                 </div>
                 <%}%>
                     <div class="pb-2 mt-4">Bagian:
-                        <%= bagian[k]['NAMA_BAGIAN'] %>
+                        <span style="font-weight: 500;"><%= bagian[k]['NAMA_BAGIAN'] %></span>
                     </div>
                     <div class="pb-2 tgl_rek"></div>
                     <div class="pb-2">Jumlah Pelamar:
-                        <%= bagian[k]['JML'] %> Peserta
+                        <span style="font-weight: 500;"><%= bagian[k]['JML'] %> Peserta</span>
                     </div>
                     <script>
                         tgl_rek = setdate("<%= bagian[k]['TGL_MULAI'] %>");
-                        document.getElementsByClassName('tgl_rek')[<%= k %>].innerHTML = 'Tgl Perekrutan: ' + tgl_rek;
+                        document.getElementsByClassName('tgl_rek')[<%= k %>].innerHTML = 'Tgl Perekrutan: <span style="font-weight: 500;">' + tgl_rek + '</span>';
                     </script>
                     <table class="table table-hover table-bordered" data-locale="id-ID">
                         <thead>
@@ -103,14 +114,16 @@
                                 <%i++;}%>
                         </tbody>
                     </table>
-                    <%}%>
+                    <div class="mt-4">
+                        Berdasarkan hasil perhitungan, maka kandidat yang memiliki nilai total tertinggi adalah <span style="font-weight: 500;"><%= rank[k][0][0]['NAMA_CALON'] %></span> dengan perolehan skor <span style="font-weight: 500;"><%= +(rank[k][1][rank[k][0][0]['ID_CALON']]).toFixed(2) %></span>.
+                    </div>
     </div>
-    <div class="d-flex flex-column text-center mt-4" style="width: 35%">
+    <div class="d-flex flex-column text-center divFooter" style="width: 35%;">
         <div>Surabaya,
-            <span id="now"></span>
+            <span id="now-<%=k%>"></span>
             <script defer>
-                let now = setdateTTD(new Date());
-                document.getElementById('now').innerHTML = now;
+                now = setdateTTD(new Date());
+                document.getElementById('now-<%=k%>').innerHTML = now;
             </script>
         </div>
         <div>
@@ -120,6 +133,7 @@
             <%= user.nama %>
         </div>
     </div>
+    <%}%>
 </body>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
