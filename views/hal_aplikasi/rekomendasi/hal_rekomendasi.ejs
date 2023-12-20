@@ -217,7 +217,7 @@
                                 </td>
                                 <% for(kriteria of kriteria_asc) { %>
                                     <td>
-                                        <%= listNilai[c-1].NILAI %>
+                                        <%= listNilai[c-1]?.NILAI || 0 %>
                                     </td>
                                     <% c++;} %>
                             </tr>

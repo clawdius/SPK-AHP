@@ -219,7 +219,8 @@ router.group([auth.authChecker], async router => {
 
     router.route('/entrynilai/updatenilai')
         .post(auth.roleCheck(await allowed()), async function(req, res) {
-            await controller_bagian.updateNilai(req.body);
+            let idRekrut = await controller_bagian.getActiveRekrutmen(req.user.idKaryawan);
+            await controller_bagian.updateNilai(req.body, idRekrut);
             res.redirect('/entrynilai');
         })
 
