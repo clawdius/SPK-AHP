@@ -40,7 +40,7 @@
                                             <% for(kriteria of bKriteria) { %>
                                                 <td>
                                                     <input type="hidden" name="idkrit[]" value="<%= kriteria.ID_KRITERIA %>">
-                                                    <input type="number" name="nilaikrit[]" class="form-control" min="0" placeholder="0" value="<%= listNilai[j-1].NILAI %>" required>
+                                                    <input type="number" name="nilaikrit[]" class="form-control" min="0" placeholder="0" value="<%= listNilai[j-1]?.NILAI || 0 %>" required>
                                                     <input type="hidden" name="idAktivitas[]" value="<%= karyawan.ID_AKTIVITAS %>">
                                                 </td>
 

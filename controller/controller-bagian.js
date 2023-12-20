@@ -121,6 +121,7 @@ async function getListCalonKar(idBag) {
         "ON AR.ID_CALON = MCK.ID_CALON " +
         "WHERE MR.ID_BAGIAN = ? " +
         "AND MR.STAT_REKRUTMEN = 1 " +
+        // "AND EXISTS (SELECT 1 FROM NILAI_CALON_KARYAWAN NCK WHERE NCK.ID_AKTIVITAS = AR.ID_AKTIVITAS) " +
         "ORDER BY MCK.NAMA_CALON";
 
     let res = await db.promise().query(query, idBag);
@@ -189,10 +190,19 @@ async function submitNilai(data, idRekrut) {
     return res;
 }
 
-async function updateNilai(data) {
+async function updateNilai(data, idRekrut) {
 
-    let query = "UPDATE nilai_calon_karyawan SET NILAI = ? " +
-        "WHERE ID_KRITERIA = ? AND ID_AKTIVITAS = ?";
+    let query = "INSERT INTO nilai_calon_karyawan (NILAI, ID_KRITERIA, ID_AKTIVITAS) " +
+        "VALUES (?, ?, ?) " +
+        "ON DUPLICATE KEY UPDATE NILAI = VALUES(NILAI)";
+
+    let queryUpdate = "UPDATE MASTER_CALON_KARYAWAN " +
+        "SET STAT_TES = 1 WHERE ID_CALON IN " +
+        "(SELECT ID_CALON " +
+        "FROM AKTIVITAS_REKRUTMEN  " +
+        "WHERE ID_REKRUTMEN = ?);";
+
+    let res2 = await db.promise().query(queryUpdate, idRekrut);
 
     for (i = 0; i < data.idkrit.length; i++) {
         res = await db.promise().query(query, [data.nilaikrit[i], data.idkrit[i], data.idAktivitas[i]]);
