@@ -53,6 +53,19 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to get URL parameters by name
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Get the value of the 'message' parameter
+            const errorMessage = urlParams.get('message');
+
+            // Check if an error message exists and display it
+            if (errorMessage === 'notAllowed') {
+                alert("Tidak bisa membatalkan, anda sudah memiliki nilai pada lowongan ini");
+            }
+        });
+        
         function pilihLowongan(value) {
             let conf = confirm('Apakah anda yakin ingin memilih lowongan ini?');
             if (conf) {
