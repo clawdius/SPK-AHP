@@ -37,8 +37,12 @@ router.route('/pilihlowongan/:idRekrut')
 
 router.route('/batalpilihlowongan/:idAktivitas')
     .get(async function(req, res) {
-        await controller_calonkry.cancelLowongan(req.user.idCalon, req.params.idAktivitas);
-        res.redirect('/home');
+        try {
+            await controller_calonkry.cancelLowongan(req.user.idCalon, req.params.idAktivitas);
+            res.redirect('/home');
+        } catch (error) {
+            res.redirect('/home?message=notAllowed');
+        }
     })
 
 router.route('/profil')
